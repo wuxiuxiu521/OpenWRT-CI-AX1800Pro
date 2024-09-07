@@ -64,7 +64,7 @@ echo "CONFIG_PACKAGE_curl=y" >> ./.config
 echo "CONFIG_PACKAGE_luci-app-cpufreq=y" >> ./.config
 
 
-# 测试！！！！！！！！！！！！！！！
+# 测试！！！！！！！！！！！！！！！依旧缺失 iptables ip6tables libip4tc2 libip6tc2 libiptext0 libiptext6-0 
 echo "CONFIG_PACKAGE_iptables=y" >> ./.config
 echo "CONFIG_PACKAGE_iptables-mod-extra=y" >> ./.config
 echo "CONFIG_PACKAGE_ip6tables=y" >> ./.config
