@@ -113,6 +113,9 @@ jobs:
 
       - name: Install Turbo ACC
         run: |
+          echo "当前所在路径: $(pwd)"
+          ls -al
+
           git clone https://github.com/chenmozhijin/turboacc
           curl -sSL https://raw.githubusercontent.com/chenmozhijin/turboacc/luci/add_turboacc.sh -o add_turboacc.sh
           bash add_turboacc.sh
