@@ -67,8 +67,8 @@ echo "CONFIG_PACKAGE_luci-app-cpufreq=y" >> ./.config
 echo "CONFIG_PACKAGE_luci-i18n-dockerman-zh-cn=y" >> ./.config
 
 
-# 测试！！！！！！！！！！！！！！！依旧缺失 iptables ip6tables libip4tc2 libip6tc2 libiptext0 libiptext6-0 
-# echo "CONFIG_PACKAGE_iptables=y" >> ./.config
+# 测试！！！！！！！！！！！！！！！原仓库依旧缺失 iptables ip6tables libip4tc2 libip6tc2 libiptext0 libiptext6-0 
+echo "CONFIG_PACKAGE_iptables=y" >> ./.config
 # echo "CONFIG_PACKAGE_iptables-mod-extra=y" >> ./.config
 # echo "CONFIG_PACKAGE_ip6tables=y" >> ./.config
 # echo "CONFIG_PACKAGE_kmod-ipt-physdev=y" >> ./.config
