@@ -68,7 +68,7 @@ echo "CONFIG_PACKAGE_luci-app-wrtbwmon=y" >> ./.config
 # echo "CONFIG_PACKAGE_luci-app-turboacc=y" >> ./.config
 
 # docker
-echo "CONFIG_PACKAGE_luci-i18n-dockerman-zh-cn=y" >> ./.config
+echo "CONFIG_PACKAGE_luci-app-dockerman=y" >> ./.config
 
 
 # 测试！！！！！！！！！！！！！！！原仓库依旧缺失 iptables ip6tables libip4tc2 libip6tc2 libiptext0 libiptext6-0 
