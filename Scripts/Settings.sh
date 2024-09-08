@@ -64,6 +64,8 @@ echo "CONFIG_PACKAGE_curl=y" >> ./.config
 echo "CONFIG_PACKAGE_luci-app-cpufreq=y" >> ./.config
 # 图形化流量监控
 echo "CONFIG_PACKAGE_luci-app-wrtbwmon=y" >> ./.config
+# bbr加速+turboacc
+echo "CONFIG_PACKAGE_luci-app-turboacc=y" >> ./.config
 
 # docker
 echo "CONFIG_PACKAGE_luci-i18n-dockerman-zh-cn=y" >> ./.config
