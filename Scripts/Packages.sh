@@ -49,6 +49,12 @@ UPDATE_PACKAGE "luci-app-gecoosac" "lwb1978/openwrt-gecoosac" "main"
 # 添加lucky仓库 用kiddin9的源
 # git clone  https://github.com/gdy666/luci-app-lucky.git package/lucky
 
+# 使用最新的Go、添加最新版alist网盘
+rm -rf feeds/packages/lang/golang
+git clone https://github.com/sbwml/packages_lang_golang -b 22.x feeds/packages/lang/golang
+
+git clone https://github.com/sbwml/luci-app-alist package/alist
+
 if [[ $WRT_REPO == *"openwrt-6.x"* ]]; then
 	UPDATE_PACKAGE "qmi-wwan" "immortalwrt/wwan-packages" "master" "pkg"
 fi
