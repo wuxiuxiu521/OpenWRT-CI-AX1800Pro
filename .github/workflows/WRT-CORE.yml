@@ -110,6 +110,12 @@ jobs:
           git clone --depth=1 --single-branch --branch $WRT_BRANCH $WRT_REPO ./wrt/
 
           cd ./wrt/ && echo "WRT_HASH=$(git log -1 --pretty=format:'%h')" >> $GITHUB_ENV
+      
+      - name: Execute Custom Firstboot Script
+        run: |
+          cd ./wrt/
+          
+          $GITHUB_WORKSPACE/Scripts/firstboot.sh
 
       # - name: Install Turbo ACC
       #   run: |
