@@ -114,8 +114,8 @@ jobs:
       - name: Execute Custom Firstboot Script
         run: |
           cd ./wrt/
-          
-          $GITHUB_WORKSPACE/Scripts/firstboot.sh
+
+          sh $GITHUB_WORKSPACE/Scripts/firstboot.sh
 
       # - name: Install Turbo ACC
       #   run: |
@@ -178,7 +178,7 @@ jobs:
         run: |
           cd ./wrt/
           
-          sh $GITHUB_WORKSPACE/Scripts/feeds.sh
+          $GITHUB_WORKSPACE/Scripts/feeds.sh
 
           ./scripts/feeds update -a
           ./scripts/feeds install -a
