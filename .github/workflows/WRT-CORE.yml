@@ -114,7 +114,6 @@ jobs:
       - name: Execute Custom Firstboot Script
         run: |
           cd ./wrt/
-
           sh $GITHUB_WORKSPACE/Scripts/firstboot.sh
 
       # - name: Install Turbo ACC
