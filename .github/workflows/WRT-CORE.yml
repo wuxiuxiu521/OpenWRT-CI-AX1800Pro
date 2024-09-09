@@ -111,16 +111,20 @@ jobs:
 
           cd ./wrt/ && echo "WRT_HASH=$(git log -1 --pretty=format:'%h')" >> $GITHUB_ENV
 
-      # - name: Install Turbo ACC
-      #   run: |
-      #     # echo "当前所在路径: $(pwd)"
-      #     # ls -al
-      #     # tree
-      #     cd ./wrt
+      - name: Install Turbo ACC
+        run: |
+          # echo "当前所在路径: $(pwd)"
+          # ls -al
+          # tree
+          cd ./wrt
 
-      #     git clone https://github.com/chenmozhijin/turboacc
-      #     curl -sSL https://raw.githubusercontent.com/chenmozhijin/turboacc/luci/add_turboacc.sh -o add_turboacc.sh
-      #     bash add_turboacc.sh
+          # 带sfe 这将会下载luci-app-turboacc、nft-fullcone、shortcut-fe 替换firewall4、libnftnl、nftables并打上952、613、953补丁。
+          curl -sSL https://raw.githubusercontent.com/chenmozhijin/turboacc/luci/add_turboacc.sh -o add_turboacc.sh && bash add_turboacc.sh
+
+          # 不带sfe 这将会下载luci-app-turboacc、nft-fullcone 替换firewall4、libnftnl、nftables并打上952补丁。
+          # curl -sSL https://raw.githubusercontent.com/chenmozhijin/turboacc/luci/add_turboacc.sh -o add_turboacc.sh
+          
+          bash add_turboacc.sh
 
       - name: Check Scripts
         run: |
