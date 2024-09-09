@@ -67,19 +67,19 @@ echo "CONFIG_PACKAGE_luci-app-wrtbwmon=y" >> ./.config
 # bbr加速+turboacc
 # echo "CONFIG_PACKAGE_luci-app-turboacc=y" >> ./.config
 
-# docker
-# echo "CONFIG_PACKAGE_luci-app-dockerman=y" >> ./.config
+# docker(只能集成)
+echo "CONFIG_PACKAGE_luci-app-dockerman=y" >> ./.config
 
 
-# 测试！！！！！！！！！！！！！！！原仓库依旧缺失 iptables ip6tables libip4tc2 libip6tc2 libiptext0 libiptext6-0 
-echo "CONFIG_PACKAGE_iptables=y" >> ./.config
-echo "CONFIG_PACKAGE_iptables-mod-extra=y" >> ./.config
-echo "CONFIG_PACKAGE_ip6tables=y" >> ./.config
-echo "CONFIG_PACKAGE_kmod-ipt-physdev=y" >> ./.config
-echo "CONFIG_PACKAGE_kmod-nf-ipvs=y" >> ./.config
-echo "CONFIG_PACKAGE_kmod-veth=y" >> ./.config
-echo "CONFIG_PACKAGE_libip4tc2=y" >> ./.config
-echo "CONFIG_PACKAGE_libip6tc2=y" >> ./.config
-echo "CONFIG_PACKAGE_libiptext0=y" >> ./.config
-echo "CONFIG_PACKAGE_libiptext6-0=y" >> ./.config
-echo "CONFIG_PACKAGE_kmod-ipt-fullconenat=y" >> ./.config
+# 测试！！！！！！！！！！！！！！！原仓库依旧缺失 iptables ip6tables libip4tc2 libip6tc2 libiptext0 libiptext6-0 修改后依旧缺失 ip6tables libip4tc2 libip6tc2 只能集成docker
+# echo "CONFIG_PACKAGE_iptables=y" >> ./.config
+# echo "CONFIG_PACKAGE_iptables-mod-extra=y" >> ./.config
+# echo "CONFIG_PACKAGE_ip6tables=y" >> ./.config
+# echo "CONFIG_PACKAGE_kmod-ipt-physdev=y" >> ./.config
+# echo "CONFIG_PACKAGE_kmod-nf-ipvs=y" >> ./.config
+# echo "CONFIG_PACKAGE_kmod-veth=y" >> ./.config
+# echo "CONFIG_PACKAGE_libip4tc2=y" >> ./.config
+# echo "CONFIG_PACKAGE_libip6tc2=y" >> ./.config
+# echo "CONFIG_PACKAGE_libiptext0=y" >> ./.config
+# echo "CONFIG_PACKAGE_libiptext6-0=y" >> ./.config
+# echo "CONFIG_PACKAGE_kmod-ipt-fullconenat=y" >> ./.config
