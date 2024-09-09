@@ -66,7 +66,8 @@ echo "CONFIG_PACKAGE_luci-app-cpufreq=y" >> ./.config
 echo "CONFIG_PACKAGE_luci-app-wrtbwmon=y" >> ./.config
 # bbr加速+turboacc
 # echo "CONFIG_PACKAGE_luci-app-turboacc=y" >> ./.config
-
+# BBR 拥塞控制算法
+echo "CONFIG_PACKAGE_kmod-tcp-bbr=y" >> ./.config
 # docker(只能集成)
 echo "CONFIG_PACKAGE_luci-app-dockerman=y" >> ./.config
 
