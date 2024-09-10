@@ -52,7 +52,7 @@ echo "CONFIG_PACKAGE_luci-app-alpha-config=n" >> ./.config
 echo "CONFIG_PACKAGE_openssh-sftp-server=y" >> ./.config
 # 解析、查询、操作和格式化 JSON 数据
 echo "CONFIG_PACKAGE_jq=y" >> ./.config
-简单明了的系统资源占用查看工具
+# 简单明了的系统资源占用查看工具
 echo "CONFIG_PACKAGE_btop=y" >> ./.config
 # 多网盘存储
 echo "CONFIG_PACKAGE_luci-app-alist=y" >> ./.config
