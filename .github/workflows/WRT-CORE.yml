@@ -258,6 +258,8 @@ jobs:
             请注意选择你需要的设备固件！
             不要问，刷就完事了！
 
+            修改成原来的官方主题 集成docker bbr openssh-sftp-server alist lucky
+
             MTK和QCA全系带开源硬件加速，别问了！
 
             源码：${{env.WRT_REPO}}
