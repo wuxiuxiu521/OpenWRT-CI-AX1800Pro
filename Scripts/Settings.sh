@@ -70,25 +70,25 @@ echo "CONFIG_PACKAGE_luci-app-dockerman=y" >> ./.config
 
 # XDP 一种高级数据处理技术，旨在提高网络数据包处理的效率和性能。它允许在网络数据包进入内核的更早阶段进行处理，从而减少延迟和提高吞吐量。
 # 基本 XDP 支持
-echo "CONFIG_XDP=y" >> ./.config
-# XDP Sockets
-echo "CONFIG_XDP_SOCKETS=y" >> ./.config
-# BPF 子系统支持（XDP 是 BPF 的一部分）
-echo "CONFIG_BPF=y" >> ./.config
-echo "CONFIG_BPF_SYSCALL=y" >> ./.config
-# BPF 相关选项（为了全面支持 XDP）
-echo "CONFIG_NET_CLS_BPF=y" >> ./.config
-echo "CONFIG_NET_ACT_BPF=y" >> ./.config
-echo "CONFIG_BPF_JIT=y" >> ./.config
-echo "CONFIG_HAVE_EBPF_JIT=y" >> ./.config
-echo "CONFIG_BPF_EVENTS=y" >> ./.config
-echo "CONFIG_BPF_STREAM_PARSER=y" >> ./.config
-# eBPF 和 JIT 编译器支持
-echo "CONFIG_HAVE_BPF_JIT=y" >> ./.config
-echo "CONFIG_BPF_JIT_ALWAYS_ON=y" >> ./.config
-# 内核调试信息（可选）: 如果需要调试，可以选择启用内核调试和相关日志支持
-echo "CONFIG_DEBUG_INFO=n" >> ./.config
-echo "CONFIG_DEBUG_INFO_REDUCED=n" >> ./.config
+# echo "CONFIG_XDP=y" >> ./.config
+# # XDP Sockets
+# echo "CONFIG_XDP_SOCKETS=y" >> ./.config
+# # BPF 子系统支持（XDP 是 BPF 的一部分）
+# echo "CONFIG_BPF=y" >> ./.config
+# echo "CONFIG_BPF_SYSCALL=y" >> ./.config
+# # BPF 相关选项（为了全面支持 XDP）
+# echo "CONFIG_NET_CLS_BPF=y" >> ./.config
+# echo "CONFIG_NET_ACT_BPF=y" >> ./.config
+# echo "CONFIG_BPF_JIT=y" >> ./.config
+# echo "CONFIG_HAVE_EBPF_JIT=y" >> ./.config
+# echo "CONFIG_BPF_EVENTS=y" >> ./.config
+# echo "CONFIG_BPF_STREAM_PARSER=y" >> ./.config
+# # eBPF 和 JIT 编译器支持
+# echo "CONFIG_HAVE_BPF_JIT=y" >> ./.config
+# echo "CONFIG_BPF_JIT_ALWAYS_ON=y" >> ./.config
+# # 内核调试信息（可选）: 如果需要调试，可以选择启用内核调试和相关日志支持
+# echo "CONFIG_DEBUG_INFO=n" >> ./.config
+# echo "CONFIG_DEBUG_INFO_REDUCED=n" >> ./.config
 
 # 测试！！！！！！！！！！！！！！！原仓库依旧缺失 iptables ip6tables libip4tc2 libip6tc2 libiptext0 libiptext6-0 修改后依旧缺失 ip6tables libip4tc2 libip6tc2 只能集成docker
 # echo "CONFIG_PACKAGE_iptables=y" >> ./.config
