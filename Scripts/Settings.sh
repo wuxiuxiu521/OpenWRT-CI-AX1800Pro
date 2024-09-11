@@ -92,10 +92,10 @@ echo "CONFIG_BPF_TOOLCHAIN_NONE=n" >> ./.config
 # 禁用减少的内核调试信息
 echo "CONFIG_KERNEL_DEBUG_INFO_REDUCED=n" >> ./.config
 
-sed -i '/define KernelPackage\/xdp-sockets-diag/,/endef/ { \
-            s/DEPENDS:=@KERNEL_XDP_SOCKETS//; \
-            s/KCONFIG:=CONFIG_XDP_SOCKETS_DIAG/KCONFIG:= \\\n\tCONFIG_XDP_SOCKETS=y \\\n\tCONFIG_XDP_SOCKETS_DIAG/; \
-          }' package/kernel/linux/modules/netsupport.mk
+sed -i '/define KernelPackage\/xdp-sockets-diag/,/endef/ { 
+    s/DEPENDS:=@KERNEL_XDP_SOCKETS//; 
+    s/KCONFIG:=CONFIG_XDP_SOCKETS_DIAG/KCONFIG:= \\\nCONFIG_XDP_SOCKETS=y \\\nCONFIG_XDP_SOCKETS_DIAG/; 
+  }' package/kernel/linux/modules/netsupport.mk
 
 
 # XDP 一种高级数据处理技术，旨在提高网络数据包处理的效率和性能。它允许在网络数据包进入内核的更早阶段进行处理，从而减少延迟和提高吞吐量。
