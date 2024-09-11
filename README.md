@@ -116,3 +116,20 @@ Config——自定义配置
    make V=s -j$(nproc)
    ```
    
+# 以下是该仓库对上游进行的调整
+QCA-ALL.yml
+仅编译 IPQ60XX-WIFI-YES 去除 (IPQ60XX-WIFI-NO, IPQ807X-WIFI-YES, IPQ807X-WIFI-NO)
+
+IPQ60XX-WIFI-YES.txt
+仅保留AX1800Pro编译 去除其他设备固件编译支持
+
+Packages.sh
+去除luci-theme-argon的替换更新 去除主题luci-theme-design的替换更新 去除主题luci-theme-kucat的替换更新 去除主题luci-theme-alpha的替换更新 去除主题配置luci-app-alpha-config的替换更新
+去除htop 去除 iperf3 去除wolplus 去除tailscale
+使用不良0 的clashapi homeproxy 无法显示clashapi一栏需要开启无痕 去除(tailscale)
+添加openssh-sftp-server 添加btop 使用BBR拥塞控制算法 添加luci CPU 性能优化调节设置 
+
+QCA-ALL.yml
+修改 默认主机名 AX1800Pro 默认WIFI名 ImmortalWrt 默认地址 192.168.6.1
+
+添加文件feed.sh 追加kiddin源 暂未使用
