@@ -53,6 +53,9 @@ git clone https://github.com/sbwml/packages_lang_golang -b 22.x feeds/packages/l
 # 下载最新版alist
 git clone https://github.com/sbwml/luci-app-alist package/alist
 
+# daed
+git clone https://github.com/QiuSimons/luci-app-daed package/dae
+
 if [[ $WRT_REPO == *"openwrt-6.x"* ]]; then
 	UPDATE_PACKAGE "qmi-wwan" "immortalwrt/wwan-packages" "master" "pkg"
 fi
