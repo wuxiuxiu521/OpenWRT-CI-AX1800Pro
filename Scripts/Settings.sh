@@ -58,7 +58,7 @@ echo "CONFIG_PACKAGE_luci-app-lucky=y" >> ./.config
 # 网络通信工具
 echo "CONFIG_PACKAGE_curl=y" >> ./.config
 # CPU 性能优化调节设置
-echo "CONFIG_PACKAGE_luci-app-cpufreq=y" >> ./.config
+# echo "CONFIG_PACKAGE_luci-app-cpufreq=y" >> ./.config
 # 图形化流量监控
 echo "CONFIG_PACKAGE_luci-app-wrtbwmon=y" >> ./.config
 # bbr加速+turboacc
