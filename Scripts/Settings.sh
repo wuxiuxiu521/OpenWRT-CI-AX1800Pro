@@ -100,7 +100,7 @@ sed -i '/define KernelPackage\/xdp-sockets-diag/,/endef/ {
 # 将 KERNEL_SIZE 的值由 6144kK (6MB)替换为 32768k (32MB) 失败
 # sed -i '/define Device\/jdcloud_ax1800-pro/,/endef/s/KERNEL_SIZE := [0-9]*k/KERNEL_SIZE := 32768k/' target/linux/qualcommax/image/ipq60xx.mk
 # 8M
-sed -i '/define Device\/jdcloud_ax1800-pro/,/endef/s/KERNEL_SIZE := [0-9]*k/KERNEL_SIZE := 8192k/' target/linux/qualcommax/image/ipq60xx.mk
+# sed -i '/define Device\/jdcloud_ax1800-pro/,/endef/s/KERNEL_SIZE := [0-9]*k/KERNEL_SIZE := 8192k/' target/linux/qualcommax/image/ipq60xx.mk
 
 # XDP 一种高级数据处理技术，旨在提高网络数据包处理的效率和性能。它允许在网络数据包进入内核的更早阶段进行处理，从而减少延迟和提高吞吐量。
 # 基本 XDP 支持
