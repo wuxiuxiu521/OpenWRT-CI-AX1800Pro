@@ -68,34 +68,34 @@ echo "CONFIG_PACKAGE_kmod-tcp-bbr=y" >> ./.config
 # docker(只能集成)
 echo "CONFIG_PACKAGE_luci-app-dockerman=y" >> ./.config
 
-# luci-app-daed
-echo "CONFIG_PACKAGE_luci-app-daed=y" >> ./.config
-# 启用开发选项
-echo "CONFIG_DEVEL=y" >> ./.config
-# 启用eBPF支持的主机编译工具链
-echo "CONFIG_BPF_TOOLCHAIN_HOST=y" >> ./.config
-# 启用BPF事件
-echo "CONFIG_KERNEL_BPF_EVENTS=y" >> ./.config
-# 启用cgroup BPF支持
-echo "CONFIG_KERNEL_CGROUP_BPF=y" >> ./.config
-# 启用内核调试信息
-echo "CONFIG_KERNEL_DEBUG_INFO=y" >> ./.config
-# 启用BTF格式的内核调试信息
-echo "CONFIG_KERNEL_DEBUG_INFO_BTF=y" >> ./.config
-# 启用XDP套接字支持
-echo "CONFIG_XDP_SOCKETS=y" >> ./.config
-# 启用XDP套接字诊断
-echo "CONFIG_XDP_SOCKETS_DIAG=y" >> ./.config
-# 这些配置项应保持注释状态（即不启用），以避免与 daed 冲突：
-# 禁用不需要的eBPF编译工具链选项
-echo "CONFIG_BPF_TOOLCHAIN_NONE=n" >> ./.config
-# 禁用减少的内核调试信息
-echo "CONFIG_KERNEL_DEBUG_INFO_REDUCED=n" >> ./.config
+# # luci-app-daed
+# echo "CONFIG_PACKAGE_luci-app-daed=y" >> ./.config
+# # 启用开发选项
+# echo "CONFIG_DEVEL=y" >> ./.config
+# # 启用eBPF支持的主机编译工具链
+# echo "CONFIG_BPF_TOOLCHAIN_HOST=y" >> ./.config
+# # 启用BPF事件
+# echo "CONFIG_KERNEL_BPF_EVENTS=y" >> ./.config
+# # 启用cgroup BPF支持
+# echo "CONFIG_KERNEL_CGROUP_BPF=y" >> ./.config
+# # 启用内核调试信息
+# echo "CONFIG_KERNEL_DEBUG_INFO=y" >> ./.config
+# # 启用BTF格式的内核调试信息
+# echo "CONFIG_KERNEL_DEBUG_INFO_BTF=y" >> ./.config
+# # 启用XDP套接字支持
+# echo "CONFIG_XDP_SOCKETS=y" >> ./.config
+# # 启用XDP套接字诊断
+# echo "CONFIG_XDP_SOCKETS_DIAG=y" >> ./.config
+# # 这些配置项应保持注释状态（即不启用），以避免与 daed 冲突：
+# # 禁用不需要的eBPF编译工具链选项
+# echo "CONFIG_BPF_TOOLCHAIN_NONE=n" >> ./.config
+# # 禁用减少的内核调试信息
+# echo "CONFIG_KERNEL_DEBUG_INFO_REDUCED=n" >> ./.config
 
-sed -i '/define KernelPackage\/xdp-sockets-diag/,/endef/ { 
-    s/DEPENDS:=@KERNEL_XDP_SOCKETS//; 
-    s/KCONFIG:=CONFIG_XDP_SOCKETS_DIAG/KCONFIG:= \\\nCONFIG_XDP_SOCKETS=y \\\nCONFIG_XDP_SOCKETS_DIAG/; 
-  }' package/kernel/linux/modules/netsupport.mk
+# sed -i '/define KernelPackage\/xdp-sockets-diag/,/endef/ { 
+#     s/DEPENDS:=@KERNEL_XDP_SOCKETS//; 
+#     s/KCONFIG:=CONFIG_XDP_SOCKETS_DIAG/KCONFIG:= \\\nCONFIG_XDP_SOCKETS=y \\\nCONFIG_XDP_SOCKETS_DIAG/; 
+#   }' package/kernel/linux/modules/netsupport.mk
 
 # 将 KERNEL_SIZE 的值由 6144kK (6MB)替换为 32768k (32MB) 失败
 # sed -i '/define Device\/jdcloud_ax1800-pro/,/endef/s/KERNEL_SIZE := [0-9]*k/KERNEL_SIZE := 32768k/' target/linux/qualcommax/image/ipq60xx.mk
