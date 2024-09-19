@@ -58,6 +58,8 @@ echo "CONFIG_PACKAGE_curl=y" >> ./.config
 # echo "CONFIG_PACKAGE_luci-app-cpufreq=y" >> ./.config
 # 图形化流量监控
 echo "CONFIG_PACKAGE_luci-app-wrtbwmon=y" >> ./.config
+# 效率比lucky高的STUN
+echo "CONFIG_PACKAGE_luci-app-natter2" >> ./.config
 # bbr加速+turboacc
 # echo "CONFIG_PACKAGE_luci-app-turboacc=y" >> ./.config
 # BBR 拥塞控制算法
