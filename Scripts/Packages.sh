@@ -21,20 +21,33 @@ UPDATE_PACKAGE() {
 }
 
 #UPDATE_PACKAGE "包名" "项目地址" "项目分支" "pkg/name，可选，pkg为从大杂烩中单独提取包名插件；name为重命名为包名"
-UPDATE_PACKAGE "argon" "jerrykuku/luci-theme-argon" "master"
-UPDATE_PACKAGE "kucat" "sirpdboy/luci-theme-kucat" "js"
+# UPDATE_PACKAGE "argon" "jerrykuku/luci-theme-argon" "master"
+# UPDATE_PACKAGE "kucat" "sirpdboy/luci-theme-kucat" "js"
 
-UPDATE_PACKAGE "homeproxy" "VIKINGYFY/homeproxy" "main"
+# UPDATE_PACKAGE "homeproxy" "VIKINGYFY/homeproxy" "main"
+# 使用不良0的带clashapi的homeproxy 无法显示需要开启无痕
+UPDATE_PACKAGE "homeproxy" "bulianglin/homeproxy" "master"
+
 UPDATE_PACKAGE "mihomo" "morytyann/OpenWrt-mihomo" "main"
 UPDATE_PACKAGE "nekoclash" "Thaolga/luci-app-nekoclash" "main"
 UPDATE_PACKAGE "openclash" "vernesong/OpenClash" "dev" "pkg"
 UPDATE_PACKAGE "passwall" "xiaorouji/openwrt-passwall" "main" "pkg"
 UPDATE_PACKAGE "ssr-plus" "fw876/helloworld" "master"
 
-UPDATE_PACKAGE "luci-app-advancedplus" "VIKINGYFY/luci-app-advancedplus" "main"
+# UPDATE_PACKAGE "luci-app-advancedplus" "VIKINGYFY/luci-app-advancedplus" "main"
 UPDATE_PACKAGE "luci-app-gecoosac" "lwb1978/openwrt-gecoosac" "main"
-UPDATE_PACKAGE "luci-app-tailscale" "asvow/luci-app-tailscale" "main"
-UPDATE_PACKAGE "luci-app-wolplus" "VIKINGYFY/luci-app-wolplus" "main"
+# UPDATE_PACKAGE "luci-app-tailscale" "asvow/luci-app-tailscale" "main"
+# UPDATE_PACKAGE "luci-app-wolplus" "VIKINGYFY/luci-app-wolplus" "main"
+
+# 替换golang成最新版的golang
+rm -rf feeds/packages/lang/golang
+git clone https://github.com/sbwml/packages_lang_golang -b 22.x feeds/packages/lang/golang
+
+# 下载最新版alist
+git clone https://github.com/sbwml/luci-app-alist package/alist
+
+# daed
+# git clone https://github.com/QiuSimons/luci-app-daed package/dae
 
 if [[ $WRT_REPO == *"openwrt-6.x"* ]]; then
 	UPDATE_PACKAGE "qmi-wwan" "immortalwrt/wwan-packages" "master" "pkg"
