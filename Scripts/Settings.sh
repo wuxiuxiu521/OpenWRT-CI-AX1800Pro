@@ -60,6 +60,8 @@ echo "CONFIG_PACKAGE_curl=y" >> ./.config
 echo "CONFIG_PACKAGE_luci-app-wrtbwmon=y" >> ./.config
 # 效率比lucky高的STUN
 echo "CONFIG_PACKAGE_luci-app-natter2" >> ./.config
+# 上面的需要这个依赖 后台输出
+echo "CONFIG_PACKAGE_coreutils-nohup" >> ./.config
 # bbr加速+turboacc
 # echo "CONFIG_PACKAGE_luci-app-turboacc=y" >> ./.config
 # BBR 拥塞控制算法
