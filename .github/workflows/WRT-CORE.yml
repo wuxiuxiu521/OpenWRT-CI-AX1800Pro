@@ -151,7 +151,7 @@ jobs:
         run: |
           cd ./wrt/
 
-          $GITHUB_WORKSPACE/Scripts/feed.sh
+          $GITHUB_WORKSPACE/Scripts/feeds.sh
 
           ./scripts/feeds update -a
           ./scripts/feeds install -a
