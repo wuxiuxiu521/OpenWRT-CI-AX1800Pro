@@ -73,7 +73,7 @@ Config——自定义配置
 5. 第一次编译 一步到位
 
    ```bash
-   make download -j$(nproc) && make -j$(nproc)
+   make V=s download -j$(nproc) && make -j$(nproc)
    
    ```
 
