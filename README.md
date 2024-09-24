@@ -212,7 +212,7 @@ cd Python-2.7.18
 ## 4.编译并安装 Python 2：
 ```bash
 sudo ./configure --enable-optimizations
-sudo make altinstall
+sudo make-j$(nproc) altinstall
 ```
 make altinstall 会避免覆盖系统中的默认 python3 可执行文件。
 ## 5.验证安装：
