@@ -186,3 +186,37 @@ Scripts/Settings.sh
 内置kiddin9源luci-app-wrtbwmon 图形化流量监控
 内置 kmod-tcp-bbr BBR 拥塞控制算法替换Cubic(单车变摩托)
 内置 luci-app-dockerman docker上游源问题docker只能编译进去
+
+# tips
+在 Ubuntu 24.04 上，Python 2 已不再默认提供支持。如果你只需要安装 Python 2，并希望避免复杂的操作，最简单的方式是通过以下步骤手动安装：
+
+1. 手动安装 Python 2
+可以从官方 Python 源码编译并安装 Python 2.7，这样不依赖 PPA 或不稳定的源。
+
+步骤：
+## 1.更新系统并安装依赖： 运行以下命令来更新系统并安装编译 Python 所需的依赖：
+```bash
+sudo apt update
+sudo apt install build-essential libssl-dev libbz2-dev libreadline-dev libsqlite3-dev zlib1g-dev libncurses5-dev libncursesw5-dev libffi-dev liblzma-dev
+```
+## 2.下载 Python 2.7 源代码： 从官方 Python 网站下载 Python 2.7 的源代码：
+```bash
+cd /usr/src
+sudo wget https://www.python.org/ftp/python/2.7.18/Python-2.7.18.tgz
+```
+## 3.解压源代码：
+```bash
+sudo tar xzf Python-2.7.18.tgz
+cd Python-2.7.18
+```
+## 4.编译并安装 Python 2：
+```bash
+sudo ./configure --enable-optimizations
+sudo make altinstall
+```
+make altinstall 会避免覆盖系统中的默认 python3 可执行文件。
+## 5.验证安装：
+你可以使用以下命令确认 Python 2 已成功安装：
+```bash
+python2.7 --version
+```
