@@ -57,4 +57,4 @@ echo "CONFIG_PACKAGE_curl=y" >> ./.config
 echo "CONFIG_PACKAGE_kmod-tcp-bbr=y" >> ./.config
 echo "CONFIG_DEFAULT_tcp_bbr=y" >> ./.config
 # docker(只能集成)
-echo "CONFIG_PACKAGE_luci-app-d/ockerman=y" >> ./.config
+echo "CONFIG_PACKAGE_luci-app-dockerman=y" >> ./.config
