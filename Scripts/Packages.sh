@@ -50,6 +50,9 @@ UPDATE_PACKAGE "luci-app-wolplus" "VIKINGYFY/packages" "main" "pkg"
 rm -rf feeds/packages/lang/golang
 git clone https://github.com/sbwml/packages_lang_golang -b 22.x feeds/packages/lang/golang
 
+# 下载最新版alist
+git clone https://github.com/sbwml/luci-app-alist package/alist
+
 if [[ $WRT_REPO != *"immortalwrt"* ]]; then
 	UPDATE_PACKAGE "qmi-wwan" "immortalwrt/wwan-packages" "master" "pkg"
 fi
