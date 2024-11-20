@@ -34,7 +34,7 @@ if [[ $WRT_TARGET == *"IPQ"* ]]; then
 fi
 
 # 想要剔除的
-echo "CONFIG_PACKAGE_htop=n" >> ./.config
+# echo "CONFIG_PACKAGE_htop=n" >> ./.config
 # echo "CONFIG_PACKAGE_iperf3=n" >> ./.config
 echo "CONFIG_PACKAGE_luci-app-wolplus=n" >> ./.config
 echo "CONFIG_PACKAGE_luci-app-tailscale=n" >> ./.config
@@ -48,7 +48,7 @@ echo "CONFIG_PACKAGE_jq=y" >> ./.config
 # 简单明了的系统资源占用查看工具
 echo "CONFIG_PACKAGE_btop=y" >> ./.config
 # 多网盘存储
-# echo "CONFIG_PACKAGE_luci-app-alist=y" >> ./.config
+echo "CONFIG_PACKAGE_luci-app-alist=y" >> ./.config
 # 强大的工具(需要添加源或git clone)
 # echo "CONFIG_PACKAGE_luci-app-lucky=y" >> ./.config
 # 网络通信工具
