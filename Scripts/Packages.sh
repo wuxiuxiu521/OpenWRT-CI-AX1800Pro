@@ -46,11 +46,11 @@ if [[ $WRT_REPO != *"immortalwrt"* ]]; then
 fi
 
 # 替换golang成最新版的golang
-rm -rf feeds/packages/lang/golang
-git clone https://github.com/sbwml/packages_lang_golang -b 22.x feeds/packages/lang/golang
+# rm -rf feeds/packages/lang/golang
+# git clone https://github.com/sbwml/packages_lang_golang -b 22.x feeds/packages/lang/golang
 
 # 下载最新版alist
-git clone https://github.com/sbwml/luci-app-alist package/alist
+# git clone https://github.com/sbwml/luci-app-alist package/alist
 
 #更新软件包版本
 UPDATE_VERSION() {
