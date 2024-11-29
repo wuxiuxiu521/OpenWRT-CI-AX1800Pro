@@ -67,7 +67,7 @@ echo "CONFIG_PACKAGE_curl=y" >> ./.config
 echo "CONFIG_PACKAGE_kmod-tcp-bbr=y" >> ./.config
 echo "CONFIG_DEFAULT_tcp_bbr=y" >> ./.config
 # docker(只能集成)
-# echo "CONFIG_PACKAGE_luci-app-dockerman=y" >> ./.config
+echo "CONFIG_PACKAGE_luci-app-dockerman=y" >> ./.config
 
 # # XDP 一种高级数据处理技术，旨在提高网络数据包处理的效率和性能。它允许在网络数据包进入内核的更早阶段进行处理，从而减少延迟和提高吞吐量。
 # # 基本 XDP 支持
