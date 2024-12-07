@@ -48,7 +48,7 @@ jobs:
       #默认主题
       WRT_THEME: argon
       #默认主机名
-      WRT_NAME: AX1800Pro
+      WRT_NAME: OWRT
       #默认WIFI名
       WRT_WIFI: ImmortalWrt
       #默认地址
