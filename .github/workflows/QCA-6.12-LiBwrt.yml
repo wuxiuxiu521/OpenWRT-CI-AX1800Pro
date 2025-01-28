@@ -3,11 +3,14 @@ name: QCA-6.12-LiBwrt
 
 #CI计划
 on:
-  #自动编译：当Auto-Clean运行完成后
-  workflow_run:
-    workflows: ["Auto-Clean"]
-    types:
-      - completed
+  # #自动编译：当Auto-Clean运行完成后
+  # workflow_run:
+  #   workflows: ["Auto-Clean"]
+  #   types:
+  #     - completed
+  #自动编译：每天早上5点
+  schedule:
+    - cron: 0 21 * * *
   #手动编译
   workflow_dispatch:
     inputs:
