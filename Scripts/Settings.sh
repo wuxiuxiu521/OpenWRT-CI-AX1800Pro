@@ -117,10 +117,10 @@ echo "CONFIG_PACKAGE_luci-app-qbittorrent=y" >> ./.config
 # 添加Homebox内网测速
 # echo "CONFIG_PACKAGE_luci-app-homebox=y" >> ./.config
 # V2rayA
-echo "CONFIG_PACKAGE_luci-app-v2raya=y" >> ./.config
-echo "CONFIG_PACKAGE_v2ray-core=y" >> ./.config
-echo "CONFIG_PACKAGE_v2ray-geoip=y" >> ./.config
-echo "CONFIG_PACKAGE_v2ray-geosite=y" >> ./.config
+# echo "CONFIG_PACKAGE_luci-app-v2raya=y" >> ./.config
+# echo "CONFIG_PACKAGE_v2ray-core=y" >> ./.config
+# echo "CONFIG_PACKAGE_v2ray-geoip=y" >> ./.config
+# echo "CONFIG_PACKAGE_v2ray-geosite=y" >> ./.config
 # NSS的sqm
 echo "CONFIG_PACKAGE_luci-app-sqm=y" >> ./.config
 echo "CONFIG_PACKAGE_sqm-scripts-nss=y" >> ./.config
