@@ -68,7 +68,7 @@ jobs:
     name: ${{inputs.WRT_SOURCE}}
     runs-on: ubuntu-22.04
     steps:
-      - name: Free Disk Space
+      - name: Free Disk Space(清理磁盘空间)
         uses: FirelightFlagboy/gh-runner-free-disk-space@main
         with:
           android: true
@@ -79,10 +79,10 @@ jobs:
           swap-storage: true
           tool-cache: true
 
-      - name: Checkout Projects
+      - name: Checkout Projects(结算项目)
         uses: actions/checkout@main
 
-      - name: Initialization Environment
+      - name: Initialization Environment(初始化环境)
         env:
           DEBIAN_FRONTEND: noninteractive
         run: |
@@ -97,7 +97,7 @@ jobs:
           sudo -E timedatectl set-timezone "Asia/Shanghai"
           sudo chown $USER:$GROUPS $GITHUB_WORKSPACE
 
-      - name: Initialization Values
+      - name: Initialization Values(初始化变量)
         run: |
           export WRT_DATE=$(TZ=UTC-8 date +"%y.%m.%d_%H.%M.%S")
           export WRT_CI=$(basename $GITHUB_WORKSPACE)
@@ -114,18 +114,18 @@ jobs:
           echo "WRT_VER=$WRT_VER" >> $GITHUB_ENV
           echo "WRT_TYPE=$WRT_TYPE" >> $GITHUB_ENV
 
-      - name: Clone Code
+      - name: Clone Code(拉取源码)
         working-directory: ./
         run: |
           git clone --depth=1 --single-branch --branch $WRT_BRANCH $WRT_REPO ./wrt/
 
           cd ./wrt/ && echo "WRT_HASH=$(git log -1 --pretty=format:'%h')" >> $GITHUB_ENV
 
-      - name: Check Scripts
+      - name: Check Scripts(检查代码)
         run: |
           find ./ -maxdepth 3 -type f -iregex ".*\(txt\|sh\)$" -exec dos2unix {} \; -exec chmod +x {} \;
 
-      - name: Check Caches
+      - name: Check Caches(检查缓存)
         id: check-cache
         if: env.WRT_TEST != 'true'
         uses: actions/cache@main
@@ -151,21 +151,21 @@ jobs:
           echo "toolchain skiped done!"
           gh cache delete ${{ env.WRT_ARCH }}-${{env.WRT_TARGET}}-${{ env.CI_NAME }}
 
-      - name: Update Feeds
+      - name: Update Feeds(更新软件包)
         run: |
           cd ./wrt/
 
           ./scripts/feeds update -a
           ./scripts/feeds install -a
 
-      - name: Custom Packages
+      - name: Custom Packages(自定义软件包)
         run: |
           cd ./wrt/package/
 
           $GITHUB_WORKSPACE/Scripts/Packages.sh
           $GITHUB_WORKSPACE/Scripts/Handles.sh
 
-      - name: Custom Settings
+      - name: Custom Settings(自定义设置)
         run: |
           . $GITHUB_WORKSPACE/Scripts/function.sh
           cd ./wrt/
@@ -176,21 +176,21 @@ jobs:
 
           make defconfig -j$(nproc)
 
-      - name: Download Packages
+      - name: Download Packages(下载软件包)
         if: env.WRT_TEST != 'true'
         run: |
           cd ./wrt/
 
           make download -j$(nproc)
 
-      - name: Compile Firmware
+      - name: Compile Firmware(编译固件)
         if: env.WRT_TEST != 'true'
         run: |
           cd ./wrt/
 
           make -j$(nproc) || make -j1 V=s
 
-      - name: Machine Information
+      - name: Machine Information(机器信息)
         run: |
           cd ./wrt/
 
@@ -202,7 +202,7 @@ jobs:
           du -h --max-depth=1
           echo "======================="
 
-      - name: Package Firmware
+      - name: Package Firmware(打包固件)
         run: |
           cd ./wrt/ && mkdir ./upload/
 
@@ -230,7 +230,7 @@ jobs:
 
           echo "WRT_KVER=${KVER:-none}" >> $GITHUB_ENV
 
-      - name: Release Firmware
+      - name: Release Firmware(发布固件)
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{env.CI_NAME}}-${{env.WRT_TARGET}}_${{env.WRT_DATE}}
