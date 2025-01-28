@@ -32,7 +32,8 @@ jobs:
       fail-fast: false
       #max-parallel: 3
       matrix:
-        TARGET: [IPQ807X-NOWIFI, IPQ807X-WIFI,IPQ60XX-NOWIFI, IPQ60XX-WIFI]
+        # TARGET: [IPQ807X-NOWIFI, IPQ807X-WIFI,IPQ60XX-NOWIFI, IPQ60XX-WIFI]
+        TARGET: [IPQ60XX-WIFI]
         SOURCE: [LiBwrt/openwrt-6.x]
         BRANCH: [kernel-6.12]
 
