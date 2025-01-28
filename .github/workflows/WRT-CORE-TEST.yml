@@ -69,7 +69,7 @@ jobs:
     name: ${{inputs.WRT_SOURCE}}
     runs-on: ubuntu-24.04
     steps:
-      - name: Free Disk Space
+      - name: Free Disk Space(清理磁盘空间)
         uses: FirelightFlagboy/gh-runner-free-disk-space@main
         with:
           android: true
@@ -80,16 +80,16 @@ jobs:
           swap-storage: true
           tool-cache: true
 
-      - name: Free disk space
+      - name: Free disk space(再度清理磁盘空间)
         uses: sbwml/actions@free-disk
         with:
           root-reserve-gb: 4
           swap-size-gb: 4
 
-      - name: Checkout Projects
+      - name: Checkout Projects(结算项目)
         uses: actions/checkout@main
 
-      - name: Initialization Values
+      - name: Initialization Values(初始化变量)
         run: |
           pwd
           export WRT_DATE=$(TZ=UTC-8 date +"%y.%m.%d_%H.%M.%S")
@@ -109,7 +109,7 @@ jobs:
   
           echo $WRT_ARCH
 
-      - name: Clone Code
+      - name: Clone Code(拉取源码)
         working-directory: ./
         run: |
           pwd
@@ -118,11 +118,11 @@ jobs:
 
           cd ./wrt/ && echo "WRT_HASH=$(git log -1 --pretty=format:'%h')" >> $GITHUB_ENV
 
-      - name: Check Scripts
+      - name: Check Scripts(检查代码)
         run: |
           find ./ -maxdepth 3 -type f -iregex ".*\(txt\|sh\)$" -exec dos2unix {} \; -exec chmod +x {} \;
 
-      - name: Custom Settings
+      - name: Custom Settings(自定义设置)
         run: |
           . $GITHUB_WORKSPACE/Scripts/function.sh
           cd ./wrt/
