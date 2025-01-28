@@ -110,6 +110,6 @@ sed -i '/^\[data-page="admin-system-opkg"\] #maincontent>.container {/,/}/ s/fon
 # 拉取Lucky最新版的源码
 git clone https://github.com/sirpdboy/luci-app-lucky.git package/lucky
 
-# # QiuSimons luci-app-daed
-# git clone https://github.com/QiuSimons/luci-app-daed package/dae
-# mkdir -p Package/libcron && wget -O Package/libcron/Makefile https://raw.githubusercontent.com/immortalwrt/packages/refs/heads/master/libs/libcron/Makefile
+# QiuSimons luci-app-daed
+git clone https://github.com/QiuSimons/luci-app-daed package/dae
+mkdir -p Package/libcron && wget -O Package/libcron/Makefile https://raw.githubusercontent.com/immortalwrt/packages/refs/heads/master/libs/libcron/Makefile
