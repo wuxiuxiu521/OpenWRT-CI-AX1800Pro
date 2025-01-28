@@ -121,6 +121,8 @@ jobs:
 
           cd ./wrt/ && echo "WRT_HASH=$(git log -1 --pretty=format:'%h')" >> $GITHUB_ENV
 
+          echo "OPENWRT_PATH=$PWD" >> $GITHUB_ENV
+
       - name: Check Scripts(检查代码)
         run: |
           find ./ -maxdepth 3 -type f -iregex ".*\(txt\|sh\)$" -exec dos2unix {} \; -exec chmod +x {} \;
@@ -135,25 +137,31 @@ jobs:
             ${{ env.WRT_ARCH }}-${{env.WRT_TARGET}}
             ${{ env.WRT_ARCH }}
           path: |
-            ./wrt/.ccache
-            ./wrt/staging_dir/host*
-            ./wrt/staging_dir/tool*
+            # ./wrt/.ccache
+            # ./wrt/staging_dir/host*
+            # ./wrt/staging_dir/tool*
+            $OPENWRT_PATH/.ccache
+            $OPENWRT_PATH/staging_dir/host*
+            $OPENWRT_PATH/staging_dir/tool*
 
       - if: ${{ steps.check-cache.outputs.cache-hit != '' }}
         name: Hit Caches
         continue-on-error: true
         run: |
-          find "./wrt/staging_dir" -type d -name "stamp" -not -path "*target*" | while read -r DIR; do
+          # find "./wrt/staging_dir" -type d -name "stamp" -not -path "*target*" | while read -r DIR; do
+          find "$OPENWRT_PATH/staging_dir" -type d -name "stamp" -not -path "*target*" | while read -r DIR; do
               find "$DIR" -type f -exec touch {} +
           done
 
-          mkdir -p ./wrt/tmp && echo "1" > ./wrt/tmp/.build
+          # mkdir -p ./wrt/tmp && echo "1" > ./wrt/tmp/.build
+          mkdir -p $OPENWRT_PATH/tmp && echo "1" > $OPENWRT_PATH/tmp/.build
           echo "toolchain skiped done!"
           gh cache delete ${{ env.WRT_ARCH }}-${{env.WRT_TARGET}}-${{ env.CI_NAME }}
 
       - name: Update Feeds(更新软件包)
         run: |
-          cd ./wrt/
+          # cd ./wrt/
+          cd $OPENWRT_PATH
 
           ./scripts/feeds update -a
           ./scripts/feeds install -a
@@ -161,6 +169,7 @@ jobs:
       - name: Custom Packages(自定义软件包)
         run: |
           cd ./wrt/package/
+          cd $OPENWRT_PATH/package/
 
           $GITHUB_WORKSPACE/Scripts/Packages.sh
           $GITHUB_WORKSPACE/Scripts/Handles.sh
@@ -168,7 +177,8 @@ jobs:
       - name: Custom Settings(自定义设置)
         run: |
           . $GITHUB_WORKSPACE/Scripts/function.sh
-          cd ./wrt/
+          # cd ./wrt/
+          cd $OPENWRT_PATH/
           
           generate_config && cat .config
           
@@ -179,20 +189,23 @@ jobs:
       - name: Download Packages(下载软件包)
         if: env.WRT_TEST != 'true'
         run: |
-          cd ./wrt/
+          # cd ./wrt/
+          cd $OPENWRT_PATH/
 
           make download -j$(nproc)
 
       - name: Compile Firmware(编译固件)
         if: env.WRT_TEST != 'true'
         run: |
-          cd ./wrt/
+          # cd ./wrt/
+          cd $OPENWRT_PATH/
 
           make -j$(nproc) || make -j1 V=s
 
       - name: Machine Information(机器信息)
         run: |
-          cd ./wrt/
+          # cd ./wrt/
+          cd $OPENWRT_PATH/
 
           echo "======================="
           lscpu | grep -E "name|Core|Thread"
@@ -204,7 +217,8 @@ jobs:
 
       - name: Package Firmware(打包固件)
         run: |
-          cd ./wrt/ && mkdir ./upload/
+          # cd ./wrt/ && mkdir ./upload/
+          cd $OPENWRT_PATH/ && mkdir ./upload/
 
           cp -f ./.config ./upload/Config_"$WRT_TARGET"_"$WRT_VER"_"$WRT_DATE".txt
 
@@ -225,6 +239,13 @@ jobs:
                   mv -f $FILE ./upload/$NEW_FILE                
                 fi
             done
+
+            # mkdir -p $OPENWRT_PATH/pk
+            find $OPENWRT_PATH -name *.ipk
+            # mv -f $OPENWRT_PATH/bin/packages/*/*/*.ipk $OPENWRT_PATH/pk
+            # tar -zcf Packages.tar.gz $OPENWRT_PATH/pk
+            # mv $OPENWRT_PATH/pk/Packages.tar.gz ./upload/
+            
             find ./bin/targets/ -type f -exec mv -f {} ./upload/ \;
           fi
 
@@ -234,7 +255,8 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{env.CI_NAME}}-${{env.WRT_TARGET}}_${{env.WRT_DATE}}
-          files: ./wrt/upload/*.*
+          # files: ./wrt/upload/*.*
+          files: ${{ env.OPENWRT_PATH }}/upload/*.*
           body: |
             这是个平台固件包，内含多个设备！
             请注意选择你需要的设备固件！
