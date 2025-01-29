@@ -125,6 +125,10 @@ jobs:
       - name: Clone Code(拉取源码)
         working-directory: ./
         run: |
+          pwd
+
+          df -hT $GITHUB_WORKSPACE
+        
           git clone --depth=1 --single-branch --branch $WRT_BRANCH $WRT_REPO ./wrt/
 
           cd wrt && echo "WRT_HASH=$(git log -1 --pretty=format:'%h')" >> $GITHUB_ENV
