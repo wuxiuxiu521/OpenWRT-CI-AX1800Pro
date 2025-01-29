@@ -137,7 +137,8 @@ jobs:
 
       - name: Check Scripts(检查代码)
         run: |
-          find ./ -maxdepth 3 -type f -iregex ".*\(txt\|sh\)$" -exec dos2unix {} \; -exec chmod +x {} \;
+          # find ./ -maxdepth 3 -type f -iregex ".*\(txt\|sh\)$" -exec dos2unix {} \; -exec chmod +x {} \;
+          find $OPENWRT_PATH -maxdepth 3 -type f -iregex ".*\(txt\|sh\)$" -exec dos2unix {} \; -exec chmod +x {} \;
 
       - name: Check Caches(检查缓存)
         id: check-cache
@@ -232,15 +233,18 @@ jobs:
           # cd ./wrt/ && mkdir ./upload/
           cd $OPENWRT_PATH/ && mkdir ./upload/
 
-          cp -f ./.config ./upload/Config_"$WRT_TARGET"_"$WRT_VER"_"$WRT_DATE".txt
+          # cp -f ./.config ./upload/Config_"$WRT_TARGET"_"$WRT_VER"_"$WRT_DATE".txt
+          cp -f $OPENWRT_PATH/.config $OPENWRT_PATH/upload/Config_"$WRT_TARGET"_"$WRT_VER"_"$WRT_DATE".txt
 
           if [[ $WRT_TEST != 'true' ]]; then
             KVER=$(find ./bin/targets/ -type f -name "*.manifest" -exec grep -oP '^kernel - \K[\d\.]+' {} \;)
 
-            find ./bin/targets/ -iregex ".*\(buildinfo\|json\|manifest\|sha256sums\|packages\)$" -exec rm -rf {} +
+            # find ./bin/targets/ -iregex ".*\(buildinfo\|json\|manifest\|sha256sums\|packages\)$" -exec rm -rf {} +
+            find $OPENWRT_PATH/bin/targets/ -iregex ".*\(buildinfo\|json\|manifest\|sha256sums\|packages\)$" -exec rm -rf {} +
 
             TYPE=$(echo $WRT_ARCH | cut -d'_' -f1)
-            for FILE in $(find ./bin/targets/ -type f -iname "*$TYPE*.*") ; do
+            # for FILE in $(find ./bin/targets/ -type f -iname "*$TYPE*.*") ; do
+            for FILE in $(find $OPENWRT_PATH/bin/targets/ -type f -iname "*$TYPE*.*") ; do
                 if [[ "$FILE" == *"initramfs"* ]]; then
                   rm -f "$FILE"
                   echo "delete $FILE"
@@ -248,7 +252,8 @@ jobs:
                   EXT=$(basename $FILE | cut -d '.' -f 2-)
                   NAME=$(basename $FILE | cut -d '.' -f 1 | grep -io "\($TYPE\).*")
                   NEW_FILE="$WRT_TARGET"_"$NAME"_"$WRT_DATE"."$EXT"
-                  mv -f $FILE ./upload/$NEW_FILE                
+                  # mv -f $FILE ./upload/$NEW_FILE                
+                  mv -f $FILE $OPENWRT_PATH/upload/$NEW_FILE                
                 fi
             done
 
@@ -258,7 +263,8 @@ jobs:
             # tar -zcf Packages.tar.gz $OPENWRT_PATH/pk
             # mv $OPENWRT_PATH/pk/Packages.tar.gz ./upload/
             
-            find ./bin/targets/ -type f -exec mv -f {} ./upload/ \;
+            # find ./bin/targets/ -type f -exec mv -f {} ./upload/ \;
+            find $OPENWRT_PATH/bin/targets/ -type f -exec mv -f {} $OPENWRT_PATH/upload/ \;
           fi
 
           echo "WRT_KVER=${KVER:-none}" >> $GITHUB_ENV
