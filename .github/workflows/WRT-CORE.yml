@@ -180,7 +180,7 @@ jobs:
 
       - name: Custom Packages(自定义软件包)
         run: |
-          cd ./wrt/package/
+          # cd ./wrt/package/
           cd $OPENWRT_PATH/package/
 
           $GITHUB_WORKSPACE/Scripts/Packages.sh
