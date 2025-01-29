@@ -101,7 +101,7 @@ jobs:
       - name: Combine Disks(合并磁盘)
         uses: easimon/maximize-build-space@master
         with:
-          swap-size-mb: 1024
+          swap-size-mb: 4096
           temp-reserve-mb: 100
           root-reserve-mb: 1024
 
@@ -125,9 +125,9 @@ jobs:
       - name: Clone Code(拉取源码)
         working-directory: ./
         run: |
-          git clone --depth=1 --single-branch --branch $WRT_BRANCH $WRT_REPO /wrt/
+          git clone --depth=1 --single-branch --branch $WRT_BRANCH $WRT_REPO ./wrt/
 
-          cd /wrt/ && echo "WRT_HASH=$(git log -1 --pretty=format:'%h')" >> $GITHUB_ENV
+          cd wrt && echo "WRT_HASH=$(git log -1 --pretty=format:'%h')" >> $GITHUB_ENV
 
           echo "OPENWRT_PATH=$PWD" >> $GITHUB_ENV
 
