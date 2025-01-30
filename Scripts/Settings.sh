@@ -96,6 +96,8 @@ echo "CONFIG_PACKAGE_btop=y" >> ./.config
 echo "CONFIG_PACKAGE_luci-app-alist=y" >> ./.config
 # 强大的工具Lucky大吉(需要添加源或git clone)
 echo "CONFIG_PACKAGE_luci-app-lucky=y" >> ./.config
+# 加强版穿透工具Natter2
+echo "CONFIG_PACKAGE_luci-app-natter2=y" >> ./.config
 # 网络通信工具
 echo "CONFIG_PACKAGE_curl=y" >> ./.config
 # BBR 拥塞控制算法(终端侧)
