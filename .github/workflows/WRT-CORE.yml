@@ -98,9 +98,9 @@ jobs:
       - name: Combine Disks(合并磁盘)
         uses: easimon/maximize-build-space@master
         with:
-          swap-size-mb: 4096
+          swap-size-mb: 2048
           temp-reserve-mb: 100
-          root-reserve-mb: 1024
+          root-reserve-mb: 2048
 
       - name: Checkout Projects(结算项目)
         uses: actions/checkout@main
