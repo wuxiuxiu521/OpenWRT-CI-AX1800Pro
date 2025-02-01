@@ -104,7 +104,7 @@ echo "CONFIG_PACKAGE_curl=y" >> ./.config
 # echo "CONFIG_PACKAGE_kmod-tcp-bbr=y" >> ./.config
 # echo "CONFIG_DEFAULT_tcp_bbr=y" >> ./.config
 # 磁盘管理
-#echo "CONFIG_PACKAGE_luci-app-diskman=y" >> ./.config
+echo "CONFIG_PACKAGE_luci-app-diskman=y" >> ./.config
 # 其他调整
 # 大鹅
 echo "CONFIG_PACKAGE_luci-app-daed=y" >> ./.config
