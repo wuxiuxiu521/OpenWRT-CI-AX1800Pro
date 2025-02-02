@@ -98,9 +98,9 @@ jobs:
       - name: Combine Disks(合并磁盘)
         uses: easimon/maximize-build-space@master
         with:
-          swap-size-mb: 2048
+          swap-size-mb: 1024
           temp-reserve-mb: 100
-          root-reserve-mb: 2048
+          root-reserve-mb: 1024
 
       - name: Checkout Projects(结算项目)
         uses: actions/checkout@main
@@ -207,7 +207,7 @@ jobs:
           # cd ./wrt/
           cd $OPENWRT_PATH/
 
-          make download -j$(nproc)
+          make download -j$(($(nproc) * 6))
 
       - name: Compile Firmware(编译固件)
         if: env.WRT_TEST != 'true'
@@ -215,7 +215,7 @@ jobs:
           # cd ./wrt/
           cd $OPENWRT_PATH/
 
-          make -j$(($(nproc) * 3)) || make -j1 V=s
+          make -j$(($(nproc) * 12)) || make -j1 V=s
 
       - name: Machine Information(机器信息)
         run: |
