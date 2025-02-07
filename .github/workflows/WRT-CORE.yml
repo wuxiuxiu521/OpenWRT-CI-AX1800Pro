@@ -188,7 +188,10 @@ jobs:
       - name: Custom Packages(自定义替换软件包)
         run: |
           # cd ./wrt/package/
-          cd $OPENWRT_PATH/../package
+          cd $OPENWRT_PATH
+
+          chmod +x $GITHUB_WORKSPACE/Scripts/Packages.sh
+          chmod +x $GITHUB_WORKSPACE/Scripts/Handles.sh
 
           $GITHUB_WORKSPACE/Scripts/Packages.sh
           $GITHUB_WORKSPACE/Scripts/Handles.sh
