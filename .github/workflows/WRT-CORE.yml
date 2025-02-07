@@ -98,6 +98,13 @@ jobs:
           sudo -E systemctl daemon-reload
           sudo -E timedatectl set-timezone "Asia/Shanghai"
 
+      - name: Combine Disks(合并磁盘)
+        uses: easimon/maximize-build-space@master
+        with:
+          swap-size-mb: 1024
+          temp-reserve-mb: 100
+          root-reserve-mb: 1024
+
       - name: Initialization Values(初始化变量)
         run: |
           export WRT_DATE=$(TZ=UTC-8 date +"%y.%m.%d_%H.%M.%S")
@@ -112,12 +119,24 @@ jobs:
 
       - name: Clone Code(拉取源码)
         run: |
+
+          pwd
+
+          df -hT $GITHUB_WORKSPACE
+        
           git clone --depth=1 --single-branch --branch $WRT_BRANCH $WRT_REPO ./wrt/
+
+          # cd wrt && echo "WRT_HASH=$(git log -1 --pretty=format:'%h')" >> $GITHUB_ENV
 
           cd ./wrt/ && echo "WRT_HASH=$(git log -1 --pretty=format:'%h')" >> $GITHUB_ENV
 
+          echo "OPENWRT_PATH=$PWD" >> $GITHUB_ENV
+
       - name: Check Scripts(检查代码)
         run: |
+
+          cd $OPENWRT_PATH
+        
           find ./ -maxdepth 3 -type f -iregex ".*\(txt\|sh\)$" -exec dos2unix {} \; -exec chmod +x {} \;
 
       - name: Check Caches(检查缓存)
@@ -128,6 +147,7 @@ jobs:
           key: ${{env.WRT_TARGET}}-${{env.WRT_VER}}-${{env.WRT_HASH}}
           restore-keys: ${{env.WRT_TARGET}}-${{env.WRT_VER}}
           path: |
+            cd $OPENWRT_PATH/..
             ./wrt/.ccache
             ./wrt/staging_dir/host*
             ./wrt/staging_dir/tool*
@@ -135,6 +155,7 @@ jobs:
       - name: Update Caches(更新缓存)
         if: env.WRT_TEST != 'true'
         run: |
+          cd $OPENWRT_PATH/..
           if [ -d "./wrt/staging_dir" ]; then
             find "./wrt/staging_dir" -type d -name "stamp" -not -path "*target*" | while read -r DIR; do
               find "$DIR" -type f -exec touch {} +
@@ -158,21 +179,24 @@ jobs:
 
       - name: Update Feeds(更新依赖源)
         run: |
-          cd ./wrt/
+          # cd ./wrt/
+          cd $OPENWRT_PATH
 
           ./scripts/feeds update -a
           ./scripts/feeds install -a
 
       - name: Custom Packages(自定义替换软件包)
         run: |
-          cd ./wrt/package/
+          # cd ./wrt/package/
+          cd $OPENWRT_PATH/package
 
           $GITHUB_WORKSPACE/Scripts/Packages.sh
           $GITHUB_WORKSPACE/Scripts/Handles.sh
 
       - name: Custom Settings(自定义设置)
         run: |
-          cd ./wrt/
+          # cd ./wrt/
+          cd $OPENWRT_PATH
 
           cat $GITHUB_WORKSPACE/Config/$WRT_TARGET.txt $GITHUB_WORKSPACE/Config/GENERAL.txt >> .config
 
@@ -183,20 +207,23 @@ jobs:
       - name: Download Packages(下载依赖)
         if: env.WRT_TEST != 'true'
         run: |
-          cd ./wrt/
+          # cd ./wrt/
+          cd $OPENWRT_PATH
 
           make download -j$(nproc)
 
       - name: Compile Firmware(编译固件)
         if: env.WRT_TEST != 'true'
         run: |
-          cd ./wrt/
+          # cd ./wrt/
+          cd $OPENWRT_PATH
 
           make -j$(nproc) || make -j1 V=s
 
       - name: Machine Information(设备信息)
         run: |
-          cd ./wrt/
+          # cd ./wrt/
+          cd $OPENWRT_PATH
 
           echo "======================="
           lscpu | grep -E "name|Core|Thread"
@@ -209,6 +236,7 @@ jobs:
       - name: Package Firmware(打包固件)
         run: |
           cd ./wrt/ && mkdir ./upload/
+          cd $OPENWRT_PATH && mkdir ./upload/
 
           cp -f ./.config ./upload/Config_"$WRT_TARGET"_"$WRT_VER"_"$WRT_DATE".txt
 
@@ -235,7 +263,8 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{env.WRT_TARGET}}_${{env.WRT_VER}}_${{env.WRT_DATE}}
-          files: ./wrt/upload/*.*
+          # files: ./wrt/upload/*.*
+          files: ${{ env.OPENWRT_PATH }}/upload/*.*
           body: |
             这是个平台固件包，内含多个设备！
             请注意选择你需要的设备固件！
