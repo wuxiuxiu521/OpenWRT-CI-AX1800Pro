@@ -63,6 +63,17 @@ jobs:
       - name: Checkout Projects
         uses: actions/checkout@main
 
+      - name: Free Disk Space
+        uses: FirelightFlagboy/gh-runner-free-disk-space@main
+        with:
+          android: true
+          dotnet: true
+          haskell: true
+          docker-images: true
+          large-packages: true
+          swap-storage: true
+          tool-cache: true
+
       - name: Initialization Environment
         env:
           DEBIAN_FRONTEND: noninteractive
@@ -78,16 +89,12 @@ jobs:
           sudo -E systemctl daemon-reload
           sudo -E timedatectl set-timezone "Asia/Shanghai"
 
-      - name: Free Disk Space
-        uses: FirelightFlagboy/gh-runner-free-disk-space@main
+      - name: Combine Disks(合并磁盘)
+        uses: easimon/maximize-build-space@master
         with:
-          android: true
-          dotnet: true
-          haskell: true
-          docker-images: true
-          large-packages: true
-          swap-storage: true
-          tool-cache: true
+          swap-size-mb: 2048
+          temp-reserve-mb: 100
+          root-reserve-mb: 2048
 
       - name: Initialization Values
         run: |
