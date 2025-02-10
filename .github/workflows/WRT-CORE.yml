@@ -113,18 +113,18 @@ jobs:
           pwd
         
           df -hT $GITHUB_WORKSPACE
-        
+
+          echo "OPENWRT_PATH=$PWD" >> $GITHUB_ENV
+          
           git clone --depth=1 --single-branch --branch $WRT_BRANCH $WRT_REPO ./wrt/
 
           cd wrt && echo "WRT_HASH=$(git log -1 --pretty=format:'%h')" >> $GITHUB_ENV
 
           echo "WRT_HASH: $WRT_HASH"
-
-          echo "OPENWRT_PATH=$PWD" >> $GITHUB_ENV
           
           echo "OPENWRT_PATH: $OPENWRT_PATH"
 
-          tree $OPENWRT_PATH
+          # tree $OPENWRT_PATH
 
           # GitHub Action 移除国内下载源
           PROJECT_MIRRORS_FILE="./scripts/projectsmirrors.json"
@@ -139,51 +139,36 @@ jobs:
         
           find ./ -maxdepth 3 -type f -iregex ".*\(txt\|sh\)$" -exec dos2unix {} \; -exec chmod +x {} \;
 
-      # - name: Check Caches
-      #   id: check-cache
-      #   if: env.WRT_TEST != 'true'
-      #   uses: actions/cache@main
-      #   with:
-      #     key: ${{env.WRT_TARGET}}-${{env.WRT_VER}}-${{env.WRT_HASH}}
-      #     restore-keys: ${{env.WRT_TARGET}}-${{env.WRT_VER}}
-      #     path: |
-      #       cd $OPENWRT_PATH/..
-          
-      #       ./wrt/.ccache
-      #       ./wrt/staging_dir/host*
-      #       ./wrt/staging_dir/tool*
-
       - name: Check Caches
         id: check-cache
+        if: env.WRT_TEST != 'true'
         uses: actions/cache@main
         with:
           key: ${{env.WRT_TARGET}}-${{env.WRT_VER}}-${{env.WRT_HASH}}
+          restore-keys: ${{env.WRT_TARGET}}-${{env.WRT_VER}}
           path: |
-
-            ${{ env.GITHUB_WORKSPACE }}/wrt/.ccache
-            ${{ env.GITHUB_WORKSPACE }}/wrt/staging_dir/host*
-            ${{ env.GITHUB_WORKSPACE }}/wrt/staging_dir/tool*
+            cd $OPENWRT_PATH
+          
+            ./wrt/.ccache
+            ./wrt/staging_dir/host*
+            ./wrt/staging_dir/tool*
 
       - name: Update Caches
         if: env.WRT_TEST != 'true'
         run: |
 
-          cd $OPENWRT_PATH/..
+          cd $OPENWRT_PATH
           
-          # if [ -d "./wrt/staging_dir" ]; then
-          #   find "./wrt/staging_dir" -type d -name "stamp" -not -path "*target*" | while read -r DIR; do
-          #     find "$DIR" -type f -exec touch {} +
-          #   done
+          if [ -d "./wrt/staging_dir" ]; then
+            find "./wrt/staging_dir" -type d -name "stamp" -not -path "*target*" | while read -r DIR; do
+              find "$DIR" -type f -exec touch {} +
+            done
 
-          #   mkdir -p ./wrt/tmp && echo "1" > ./wrt/tmp/.build
+            mkdir -p ./wrt/tmp && echo "1" > ./wrt/tmp/.build
 
-          #   echo "toolchain skiped done!"
-          # else
-          #   echo "caches missed!"
-          # fi
-
-          if [ -d "$GITHUB_WORKSPACE/wrt/staging_dir" ]; then
-            find "$GITHUB_WORKSPACE/wrt/staging_dir" -type d -name "stamp" | xargs -I {} touch {}
+            echo "toolchain skiped done!"
+          else
+            echo "caches missed!"
           fi
 
           if ${{steps.check-cache.outputs.cache-hit != 'true'}}; then
@@ -199,7 +184,7 @@ jobs:
         run: |
           # cd ./wrt/
 
-          cd $OPENWRT_PATH
+          cd $OPENWRT_PATH/wrt/
 
           ./scripts/feeds update -a
           ./scripts/feeds install -a
@@ -208,9 +193,9 @@ jobs:
         run: |
           # cd ./wrt/package/
 
-          cd $OPENWRT_PATH/package
+          cd $OPENWRT_PATH/wrt/package
 
-          find $OPENWRT_PATH -name Packages.sh
+          # find $OPENWRT_PATH -name Packages.sh
 
           $GITHUB_WORKSPACE/Scripts/Packages.sh
           $GITHUB_WORKSPACE/Scripts/Handles.sh
@@ -219,7 +204,7 @@ jobs:
         run: |
           # cd ./wrt/
 
-          cd $OPENWRT_PATH
+          cd $OPENWRT_PATH/wrt
 
           cat $GITHUB_WORKSPACE/Config/$WRT_TARGET.txt $GITHUB_WORKSPACE/Config/GENERAL.txt >> .config
 
@@ -232,7 +217,7 @@ jobs:
         run: |
           # cd ./wrt/
 
-          cd $OPENWRT_PATH
+          cd $OPENWRT_PATH/wrt
 
           make download -j$(nproc)
 
@@ -241,7 +226,7 @@ jobs:
         run: |
           # cd ./wrt/
 
-          cd $OPENWRT_PATH
+          cd $OPENWRT_PATH/wrt
 
           make -j$(nproc) || make -j1 V=s
 
@@ -249,7 +234,7 @@ jobs:
         run: |
           # cd ./wrt/
 
-          cd $OPENWRT_PATH
+          cd $OPENWRT_PATH/wrt
 
           echo "======================="
           lscpu | grep -E "name|Core|Thread"
@@ -263,7 +248,7 @@ jobs:
         run: |
           # cd ./wrt/ && mkdir ./upload/
 
-          cd $OPENWRT_PATH && mkdir ./upload/
+          cd $OPENWRT_PATH/wrt && mkdir ./upload/
 
           cp -f ./.config ./upload/Config_"$WRT_TARGET"_"$WRT_VER"_"$WRT_DATE".txt
 
@@ -284,7 +269,7 @@ jobs:
             find ./bin/targets/ -type f -exec mv -f {} ./upload/ \;
           fi
 
-          rm -rf $OPENWRT_PATH/upload/*.itb
+          rm -rf $OPENWRT_PATH/wrt/upload/*.itb
 
           echo "WRT_KVER=${KVER:-none}" >> $GITHUB_ENV
 
@@ -293,7 +278,7 @@ jobs:
         with:
           tag_name: ${{env.WRT_TARGET}}_${{env.WRT_VER}}_${{env.WRT_DATE}}
           # files: ./wrt/upload/*.*
-          files: ${{ env.OPENWRT_PATH }}/upload/*.*
+          files: ${{ env.OPENWRT_PATH }}/wrt/upload/*.*
           body: |
             这是个平台固件包，内含多个设备！
             请注意选择你需要的设备固件！
