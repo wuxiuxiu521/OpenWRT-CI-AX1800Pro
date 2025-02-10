@@ -245,7 +245,7 @@ jobs:
         run: |
           # cd ./wrt/ && mkdir ./upload/
 
-          cd $OPENWRT_PATH mkdir ./upload/
+          cd $OPENWRT_PATH && mkdir ./upload/
 
           cp -f ./.config ./upload/Config_"$WRT_TARGET"_"$WRT_VER"_"$WRT_DATE".txt
 
