@@ -159,7 +159,7 @@ echo "CONFIG_PACKAGE_MAC80211_NSS_REDIRECT=y" >> ./.config
 # QuickStart
 # echo "CONFIG_PACKAGE_luci-app-quickstart=y" >> ./.config
 # filebrowser-go
-# echo "CONFIG_PACKAGE_luci-app-filebrowser-go=y" >> ./.config
+echo "CONFIG_PACKAGE_luci-app-filebrowser-go=y" >> ./.config
 # 图形化web UI luci-app-uhttpd	
 echo "CONFIG_PACKAGE_luci-app-uhttpd=y" >> ./.config
 # 多播
