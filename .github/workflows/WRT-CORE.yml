@@ -122,9 +122,9 @@ jobs:
 
           echo "OPENWRT_PATH=$PWD" >> $GITHUB_ENV
           
-          echo "GITHUB_ENV: $GITHUB_ENV"
+          echo "OPENWRT_PATH: $OPENWRT_PATH"
 
-          tree $GITHUB_ENV
+          tree $OPENWRT_PATH
 
           # GitHub Action 移除国内下载源
           PROJECT_MIRRORS_FILE="./scripts/projectsmirrors.json"
