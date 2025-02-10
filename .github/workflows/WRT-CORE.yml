@@ -159,9 +159,10 @@ jobs:
         with:
           key: ${{env.WRT_TARGET}}-${{env.WRT_VER}}-${{env.WRT_HASH}}
           path: |
-            ${{ env.GITHUB_WORKSPACE }}/.ccache
-            ${{ env.GITHUB_WORKSPACE }}/staging_dir/host*
-            ${{ env.GITHUB_WORKSPACE }}/staging_dir/tool*
+
+            ${{ env.GITHUB_WORKSPACE }}/wrt/.ccache
+            ${{ env.GITHUB_WORKSPACE }}/wrt/staging_dir/host*
+            ${{ env.GITHUB_WORKSPACE }}/wrt/staging_dir/tool*
 
       - name: Update Caches
         if: env.WRT_TEST != 'true'
