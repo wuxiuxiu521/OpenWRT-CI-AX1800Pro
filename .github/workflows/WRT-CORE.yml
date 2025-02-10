@@ -87,6 +87,8 @@ jobs:
           sudo -E systemctl daemon-reload
           sudo -E timedatectl set-timezone "Asia/Shanghai"
 
+          echo "OPENWRT_PATH=$PWD" >> $GITHUB_ENV
+
       - name: Combine Disks(合并磁盘)
         uses: easimon/maximize-build-space@master
         with:
@@ -115,6 +117,7 @@ jobs:
       #   with:
       #     ccache: false
       #     mixkey: ${{ env.SOURCE_REPO }}-${{ env.REPO_BRANCH }}-${{ env.DEVICE_TARGET }}-${{ env.DEVICE_SUBTARGET }}
+      #     mixkey: ${{env.WRT_TARGET}}-${{env.WRT_VER}}-${{env.WRT_HASH}}
       #     prefix: ${{ env.OPENWRT_PATH }}
 
       - name: Clone Code
@@ -122,8 +125,6 @@ jobs:
           pwd
         
           df -hT $GITHUB_WORKSPACE
-
-          echo "OPENWRT_PATH=$PWD" >> $GITHUB_ENV
           
           git clone --depth=1 --single-branch --branch $WRT_BRANCH $WRT_REPO ./wrt/
 
