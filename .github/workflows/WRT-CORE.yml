@@ -63,17 +63,6 @@ jobs:
       - name: Checkout Projects
         uses: actions/checkout@main
 
-      - name: Free Disk Space
-        uses: FirelightFlagboy/gh-runner-free-disk-space@main
-        with:
-          android: true
-          dotnet: true
-          haskell: true
-          docker-images: true
-          large-packages: true
-          swap-storage: true
-          tool-cache: true
-
       - name: Initialization Environment
         env:
           DEBIAN_FRONTEND: noninteractive
@@ -89,6 +78,17 @@ jobs:
           sudo -E systemctl daemon-reload
           sudo -E timedatectl set-timezone "Asia/Shanghai"
 
+      - name: Free Disk Space
+        uses: FirelightFlagboy/gh-runner-free-disk-space@main
+        with:
+          android: true
+          dotnet: true
+          haskell: true
+          docker-images: true
+          large-packages: true
+          swap-storage: true
+          tool-cache: true
+
       - name: Initialization Values
         run: |
           export WRT_DATE=$(TZ=UTC-8 date +"%y.%m.%d_%H.%M.%S")
@@ -103,6 +103,8 @@ jobs:
 
       - name: Clone Code
         run: |
+          echo pwd
+        
           df -hT $GITHUB_WORKSPACE
         
           git clone --depth=1 --single-branch --branch $WRT_BRANCH $WRT_REPO ./wrt/
