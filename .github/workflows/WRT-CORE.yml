@@ -134,21 +134,34 @@ jobs:
 
       - name: Check Scripts
         run: |
+
+          cd $OPENWRT_PATH
+        
           find ./ -maxdepth 3 -type f -iregex ".*\(txt\|sh\)$" -exec dos2unix {} \; -exec chmod +x {} \;
+
+      # - name: Check Caches
+      #   id: check-cache
+      #   if: env.WRT_TEST != 'true'
+      #   uses: actions/cache@main
+      #   with:
+      #     key: ${{env.WRT_TARGET}}-${{env.WRT_VER}}-${{env.WRT_HASH}}
+      #     restore-keys: ${{env.WRT_TARGET}}-${{env.WRT_VER}}
+      #     path: |
+      #       cd $OPENWRT_PATH/..
+          
+      #       ./wrt/.ccache
+      #       ./wrt/staging_dir/host*
+      #       ./wrt/staging_dir/tool*
 
       - name: Check Caches
         id: check-cache
-        if: env.WRT_TEST != 'true'
         uses: actions/cache@main
         with:
           key: ${{env.WRT_TARGET}}-${{env.WRT_VER}}-${{env.WRT_HASH}}
-          restore-keys: ${{env.WRT_TARGET}}-${{env.WRT_VER}}
           path: |
-            cd $OPENWRT_PATH/..
-          
-            ./wrt/.ccache
-            ./wrt/staging_dir/host*
-            ./wrt/staging_dir/tool*
+            ${{ env.GITHUB_WORKSPACE }}/.ccache
+            ${{ env.GITHUB_WORKSPACE }}/staging_dir/host*
+            ${{ env.GITHUB_WORKSPACE }}/staging_dir/tool*
 
       - name: Update Caches
         if: env.WRT_TEST != 'true'
@@ -156,16 +169,20 @@ jobs:
 
           cd $OPENWRT_PATH/..
           
-          if [ -d "./wrt/staging_dir" ]; then
-            find "./wrt/staging_dir" -type d -name "stamp" -not -path "*target*" | while read -r DIR; do
-              find "$DIR" -type f -exec touch {} +
-            done
+          # if [ -d "./wrt/staging_dir" ]; then
+          #   find "./wrt/staging_dir" -type d -name "stamp" -not -path "*target*" | while read -r DIR; do
+          #     find "$DIR" -type f -exec touch {} +
+          #   done
 
-            mkdir -p ./wrt/tmp && echo "1" > ./wrt/tmp/.build
+          #   mkdir -p ./wrt/tmp && echo "1" > ./wrt/tmp/.build
 
-            echo "toolchain skiped done!"
-          else
-            echo "caches missed!"
+          #   echo "toolchain skiped done!"
+          # else
+          #   echo "caches missed!"
+          # fi
+
+          if [ -d "$GITHUB_WORKSPACE/wrt/staging_dir" ]; then
+            find "$GITHUB_WORKSPACE/wrt/staging_dir" -type d -name "stamp" | xargs -I {} touch {}
           fi
 
           if ${{steps.check-cache.outputs.cache-hit != 'true'}}; then
