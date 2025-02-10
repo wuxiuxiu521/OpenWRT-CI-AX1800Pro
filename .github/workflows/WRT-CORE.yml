@@ -112,6 +112,10 @@ jobs:
           echo $WRT_HASH
 
           echo "OPENWRT_PATH=$PWD" >> $GITHUB_ENV
+          
+          echo $GITHUB_ENV
+
+          tree $GITHUB_ENV
 
           # GitHub Action 移除国内下载源
           PROJECT_MIRRORS_FILE="./scripts/projectsmirrors.json"
