@@ -181,7 +181,7 @@ jobs:
         run: |
           # cd ./wrt/
 
-          cd $OPENWRT_PATH/..
+          cd $OPENWRT_PATH
 
           ./scripts/feeds update -a
           ./scripts/feeds install -a
