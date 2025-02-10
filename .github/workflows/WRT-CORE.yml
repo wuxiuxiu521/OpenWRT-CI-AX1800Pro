@@ -60,9 +60,6 @@ jobs:
     name: ${{inputs.WRT_SOURCE}}
     runs-on: ubuntu-22.04
     steps:
-      - name: Checkout Projects
-        uses: actions/checkout@main
-
       - name: Free Disk Space
         uses: FirelightFlagboy/gh-runner-free-disk-space@main
         with:
@@ -95,6 +92,9 @@ jobs:
           swap-size-mb: 2048
           temp-reserve-mb: 100
           root-reserve-mb: 2048
+
+      - name: Checkout Projects(拉取云编译仓库)
+        uses: actions/checkout@main
 
       - name: Initialization Values
         run: |
