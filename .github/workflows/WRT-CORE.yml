@@ -54,6 +54,7 @@ env:
   WRT_BRANCH: ${{inputs.WRT_BRANCH}}
   WRT_PACKAGE: ${{inputs.WRT_PACKAGE}}
   WRT_TEST: ${{inputs.WRT_TEST}}
+  # CACHE_TOOLCHAIN: true
 
 jobs:
   core:
@@ -107,6 +108,14 @@ jobs:
           echo "WRT_CI=$WRT_CI" >> $GITHUB_ENV
           echo "WRT_VER=$WRT_VER" >> $GITHUB_ENV
           echo "WRT_TYPE=$WRT_TYPE" >> $GITHUB_ENV
+
+      # - name: Cache Toolchain(缓存工具链)
+      #   if: env.CACHE_TOOLCHAIN == 'true'
+      #   uses: HiGarfield/cachewrtbuild@main
+      #   with:
+      #     ccache: false
+      #     mixkey: ${{ env.SOURCE_REPO }}-${{ env.REPO_BRANCH }}-${{ env.DEVICE_TARGET }}-${{ env.DEVICE_SUBTARGET }}
+      #     prefix: ${{ env.OPENWRT_PATH }}
 
       - name: Clone Code
         run: |
