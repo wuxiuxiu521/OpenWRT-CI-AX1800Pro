@@ -44,12 +44,12 @@ fi
 
 #高通平台调整
 if [[ $WRT_TARGET == *"IPQ"* ]]; then
-	#取消nss相关feed
-	echo "CONFIG_FEED_nss_packages=n" >> ./.config
-	echo "CONFIG_FEED_sqm_scripts_nss=n" >> ./.config
-	#设置NSS版本
-	echo "CONFIG_NSS_FIRMWARE_VERSION_11_4=n" >> ./.config
-	echo "CONFIG_NSS_FIRMWARE_VERSION_12_2=y" >> ./.config
+	#取消相关feed
+	echo "CONFIG_FEED__packages=n" >> ./.config
+	echo "CONFIG_FEED_sqm_scripts_=n" >> ./.config
+	#设置版本
+	echo "CONFIG__FIRMWARE_VERSION_11_4=n" >> ./.config
+	echo "CONFIG__FIRMWARE_VERSION_12_2=y" >> ./.config
 fi
 
 #编译器优化
@@ -111,7 +111,7 @@ echo "CONFIG_PACKAGE_luci-app-mihomo=n" >> ./.config
 # echo "CONFIG_OPKG_USE_CURL=y" >> ./.config
 # echo "# CONFIG_USE_APK is not set" >> ./.config
 # 可以让FinalShell查看文件列表并且ssh连上不会自动断开
-echo "CONFIG_PACKAGE_openssh-sftp-server=y" >> ./.config
+echo "CONFIG_PACKAGE_opeh-sftp-server=y" >> ./.config
 # 解析、查询、操作和格式化 JSON 数据
 echo "CONFIG_PACKAGE_jq=y" >> ./.config
 # base64 修改码云上的内容 需要用到
@@ -135,7 +135,7 @@ echo "CONFIG_PACKAGE_luci-app-daed=y" >> ./.config
 # 大鹅-next
 # echo "CONFIG_PACKAGE_luci-app-daed-next=y" >> ./.config
 # 连上ssh不会断开并且显示文件管理
-echo "CONFIG_PACKAGE_openssh-sftp-server"=y
+echo "CONFIG_PACKAGE_opeh-sftp-server"=y
 # docker只能集成
 echo "CONFIG_PACKAGE_luci-app-dockerman=y" >> ./.config
 # qBittorrent
@@ -147,13 +147,13 @@ echo "CONFIG_PACKAGE_luci-app-v2raya=y" >> ./.config
 echo "CONFIG_PACKAGE_v2ray-core=y" >> ./.config
 echo "CONFIG_PACKAGE_v2ray-geoip=y" >> ./.config
 echo "CONFIG_PACKAGE_v2ray-geosite=y" >> ./.config
-# NSS的sqm
+# 的sqm
 echo "CONFIG_PACKAGE_luci-app-sqm=y" >> ./.config
 echo "CONFIG_PACKAGE_sqm-scripts-nss=y" >> ./.config
 # NSS MASH
-echo "CONFIG_ATH11K_NSS_MESH=y" >> ./.config
+# echo "CONFIG_ATH11K_NSS_MESH=y" >> ./.config
 # 不知道什么 加上去
-echo "CONFIG_PACKAGE_MAC80211_NSS_REDIRECT=y" >> ./.config
+# echo "CONFIG_PACKAGE_MAC80211_NSS_REDIRECT=y" >> ./.config
 # istore 编译报错
 # echo "CONFIG_PACKAGE_luci-app-istorex=y" >> ./.config
 # QuickStart
