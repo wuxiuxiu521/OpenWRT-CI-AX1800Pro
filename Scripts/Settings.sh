@@ -58,6 +58,9 @@ if [[ $WRT_TARGET != *"X86"* ]]; then
 	echo "CONFIG_TARGET_OPTIMIZATION=\"-O3 -pipe -march=armv8-a+crypto+crc -mcpu=cortex-a53+crypto+crc -mtune=cortex-a53\"" >> ./.config
 fi
 
+#修复dropbear
+sed -i "/Interface/d" ./package/network/services/dropbear/files/dropbear.config
+
 # eBPF
 echo "CONFIG_DEVEL=y" >> ./.config
 echo "CONFIG_BPF_TOOLCHAIN_HOST=y" >> ./.config
