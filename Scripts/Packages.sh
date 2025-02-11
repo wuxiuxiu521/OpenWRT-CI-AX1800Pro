@@ -20,6 +20,16 @@ UPDATE_PACKAGE() {
 	fi
 }
 
+# Git稀疏克隆，只克隆指定目录到本地
+function git_sparse_clone() {
+  branch="$1" repourl="$2" && shift 2
+  git clone --depth=1 -b $branch --single-branch --filter=blob:none --sparse $repourl
+  repodir=$(echo $repourl | awk -F '/' '{print $(NF)}')
+  cd $repodir && git sparse-checkout set $@
+  mv -f $@ ../package
+  cd .. && rm -rf $repodir
+}
+
 #UPDATE_PACKAGE "包名" "项目地址" "项目分支" "pkg/name，可选，pkg为从大杂烩中单独提取包名插件；name为重命名为包名"
 # UPDATE_PACKAGE "argon" "sbwml/luci-theme-argon" "openwrt-24.10"
 
@@ -95,3 +105,5 @@ mkdir -p Package/libcron && wget -O Package/libcron/Makefile https://raw.githubu
 
 # # luci-app-daed-next
 git clone https://github.com/sbwml/luci-app-daed-next package/daed-next
+
+git_sparse_clone main https://github.com/kenzok8/small-package luci-app-natter2
