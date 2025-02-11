@@ -164,3 +164,9 @@ echo "CONFIG_PACKAGE_luci-app-filebrowser-go=y" >> ./.config
 echo "CONFIG_PACKAGE_luci-app-uhttpd=y" >> ./.config
 # 多播
 # echo "CONFIG_PACKAGE_luci-app-syncdial=y" >> ./.config
+# MosDNS
+echo "CONFIG_PACKAGE_luci-app-mosdns=y" >> ./.config
+# Natter2
+echo "CONFIG_PACKAGE_luci-app-natter2=y" >> ./.config
+# 文件管理器
+echo "CONFIG_PACKAGE_luci-app-filemanager=y" >> ./.config
