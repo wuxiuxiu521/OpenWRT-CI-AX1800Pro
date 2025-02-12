@@ -62,7 +62,7 @@ fi
 sed -i "s/Interface/DirectInterface/" ./package/network/services/dropbear/files/dropbear.config
 
 #coremark修复
-sed -i 's/mkdir \$(PKG_BUILD_DIR)\/\$(ARCH)/mkdir -p \$(PKG_BUILD_DIR)\/\$(ARCH)/g' ../feeds/packages/utils/coremark/Makefile
+# sed -i 's/mkdir \$(PKG_BUILD_DIR)\/\$(ARCH)/mkdir -p \$(PKG_BUILD_DIR)\/\$(ARCH)/g' ../feeds/packages/utils/coremark/Makefile
 
 # eBPF
 echo "CONFIG_DEVEL=y" >> ./.config
@@ -166,7 +166,7 @@ echo "CONFIG_PACKAGE_luci-app-uhttpd=y" >> ./.config
 # echo "CONFIG_PACKAGE_luci-app-syncdial=y" >> ./.config
 # MosDNS
 echo "CONFIG_PACKAGE_luci-app-mosdns=y" >> ./.config
-# Natter2
-echo "CONFIG_PACKAGE_luci-app-natter2=y" >> ./.config
+# Natter2 报错
+# echo "CONFIG_PACKAGE_luci-app-natter2=y" >> ./.config
 # 文件管理器
 echo "CONFIG_PACKAGE_luci-app-filemanager=y" >> ./.config
