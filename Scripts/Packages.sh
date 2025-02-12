@@ -105,6 +105,6 @@ git clone https://github.com/QiuSimons/luci-app-daed package/dae
 mkdir -p Package/libcron && wget -O Package/libcron/Makefile https://raw.githubusercontent.com/immortalwrt/packages/refs/heads/master/libs/libcron/Makefile
 
 # # luci-app-daed-next
-git clone https://github.com/sbwml/luci-app-daed-next package/daed-next
+# git clone https://github.com/sbwml/luci-app-daed-next package/daed-next
 
-git_sparse_clone main https://github.com/kenzok8/small-package luci-app-natter2 natter2
+git_sparse_clone main https://github.com/kenzok8/small-package luci-app-natter2 natter2 daed-next luci-app-daed-next
