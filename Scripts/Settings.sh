@@ -133,7 +133,7 @@ echo "CONFIG_PACKAGE_luci-app-diskman=y" >> ./.config
 # 大鹅
 echo "CONFIG_PACKAGE_luci-app-daed=y" >> ./.config
 # 大鹅-next
-# echo "CONFIG_PACKAGE_luci-app-daed-next=y" >> ./.config
+echo "CONFIG_PACKAGE_luci-app-daed-next=y" >> ./.config
 # 连上ssh不会断开并且显示文件管理
 echo "CONFIG_PACKAGE_opeh-sftp-server"=y
 # docker只能集成
@@ -170,5 +170,5 @@ echo "CONFIG_PACKAGE_luci-app-mosdns=y" >> ./.config
 # echo "CONFIG_PACKAGE_luci-app-natter2=y" >> ./.config
 # 文件管理器
 echo "CONFIG_PACKAGE_luci-app-filemanager=y" >> ./.config
-# 不要coremark 避免多线程编译报错
+# 不要coremark 避免多线程编译报错(已解决)
 # echo "CONFIG_PACKAGE_coremark=n" >> ./.config
