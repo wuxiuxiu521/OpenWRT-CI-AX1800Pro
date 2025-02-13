@@ -137,7 +137,7 @@ echo "CONFIG_PACKAGE_luci-app-diskman=y" >> ./.config
 # 大鹅
 echo "CONFIG_PACKAGE_luci-app-daed=y" >> ./.config
 # 大鹅-next
-echo "CONFIG_PACKAGE_luci-app-daed-next=y" >> ./.config
+# echo "CONFIG_PACKAGE_luci-app-daed-next=y" >> ./.config
 # 连上ssh不会断开并且显示文件管理
 echo "CONFIG_PACKAGE_opeh-sftp-server"=y
 # docker只能集成
@@ -151,7 +151,7 @@ echo "CONFIG_PACKAGE_luci-app-v2raya=y" >> ./.config
 echo "CONFIG_PACKAGE_v2ray-core=y" >> ./.config
 echo "CONFIG_PACKAGE_v2ray-geoip=y" >> ./.config
 echo "CONFIG_PACKAGE_v2ray-geosite=y" >> ./.config
-# 的sqm
+# NSS的sqm
 echo "CONFIG_PACKAGE_luci-app-sqm=y" >> ./.config
 echo "CONFIG_PACKAGE_sqm-scripts-nss=y" >> ./.config
 # NSS MASH
