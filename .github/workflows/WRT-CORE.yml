@@ -206,7 +206,7 @@ jobs:
       - name: Check Caches(检查缓存)
         id: check-cache
         if: env.WRT_TEST != 'true'
-        uses: actions/cache@v2
+        uses: actions/cache@main
         with:
           key: ${{env.WRT_TARGET}}-${{env.WRT_VER}}-${{env.WRT_HASH}}
           restore-keys: ${{env.WRT_TARGET}}-${{env.WRT_VER}}
