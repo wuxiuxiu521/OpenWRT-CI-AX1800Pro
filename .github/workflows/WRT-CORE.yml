@@ -208,18 +208,15 @@ jobs:
         if: env.WRT_TEST != 'true'
         uses: actions/cache@main
         with:
-          key: ${{env.WRT_TARGET}}-${{env.WRT_VER}}-${{env.WRT_HASH}}
-          restore-keys: ${{env.WRT_TARGET}}-${{env.WRT_VER}}
-          path: |
-            $OPENWRT_PATH/wrt/.ccache
-            $OPENWRT_PATH/wrt/staging_dir/host*
-            $OPENWRT_PATH/wrt/staging_dir/tool*
+          key: ${{ env.WRT_TARGET }}-${{ env.WRT_VER }}-${{ env.WRT_HASH }}
+          restore-keys: ${{ env.WRT_TARGET }}-${{ env.WRT_VER }}
+          path: $OPENWRT_PATH/wrt/.ccache,$OPENWRT_PATH/wrt/staging_dir/host*, $OPENWRT_PATH/wrt/staging_dir/tool*
     
       - name: Update Caches(更新缓存)
         if: env.WRT_TEST != 'true'
         run: |
           cd $OPENWRT_PATH
-      
+          
           if [ -d "./wrt/staging_dir" ]; then
             find "./wrt/staging_dir" -type d -name "stamp" -not -path "*target*" | while read -r DIR; do
               find "$DIR" -type f -exec touch {} +
@@ -233,15 +230,14 @@ jobs:
           fi
       
           # Only run cache cleanup if cache was not hit
-          if: steps.check-cache.outputs.cache-hit != 'true'
-          run: |
+          if [ "${{ steps.check-cache.outputs.cache-hit }}" != 'true' ]; then
             CACHE_LIST=$(gh cache list --key "$WRT_TARGET-$WRT_VER" | cut -f 1)
             for CACHE_KEY in $CACHE_LIST; do
                gh cache delete $CACHE_KEY
             done
       
             echo "caches cleanup done!"
-
+          fi
 
       - name: Update Feeds(更新软件包)
         run: |
