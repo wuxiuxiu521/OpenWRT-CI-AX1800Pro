@@ -182,14 +182,14 @@ jobs:
       #       echo "caches missed!"
       #     fi
 
-          if ${{steps.check-cache.outputs.cache-hit != 'true'}}; then
-            CACHE_LIST=$(gh cache list --key "$WRT_TARGET-$WRT_VER" | cut -f 1)
-            for CACHE_KEY in $CACHE_LIST; do
-               gh cache delete $CACHE_KEY
-            done
+      #     if ${{steps.check-cache.outputs.cache-hit != 'true'}}; then
+      #       CACHE_LIST=$(gh cache list --key "$WRT_TARGET-$WRT_VER" | cut -f 1)
+      #       for CACHE_KEY in $CACHE_LIST; do
+      #          gh cache delete $CACHE_KEY
+      #       done
 
-            echo "caches cleanup done!"
-          fi
+      #       echo "caches cleanup done!"
+      #     fi
 
       - name: Update Feeds(更新软件包)
         run: |
