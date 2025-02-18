@@ -129,8 +129,8 @@ echo "CONFIG_PACKAGE_luci-app-lucky=y" >> ./.config
 # 网络通信工具
 echo "CONFIG_PACKAGE_curl=y" >> ./.config
 # BBR 拥塞控制算法(终端侧)
-# echo "CONFIG_PACKAGE_kmod-tcp-bbr=y" >> ./.config
-# echo "CONFIG_DEFAULT_tcp_bbr=y" >> ./.config
+echo "CONFIG_PACKAGE_kmod-tcp-bbr=y" >> ./.config
+echo "CONFIG_DEFAULT_tcp_bbr=y" >> ./.config
 # 磁盘管理
 echo "CONFIG_PACKAGE_luci-app-diskman=y" >> ./.config
 # 其他调整
@@ -171,8 +171,8 @@ echo "CONFIG_PACKAGE_luci-app-uhttpd=y" >> ./.config
 # MosDNS
 echo "CONFIG_PACKAGE_luci-app-mosdns=y" >> ./.config
 # Natter2 报错
-echo "CONFIG_PACKAGE_luci-app-natter2=y" >> ./.config
+# echo "CONFIG_PACKAGE_luci-app-natter2=y" >> ./.config
 # 文件管理器
 echo "CONFIG_PACKAGE_luci-app-filemanager=y" >> ./.config
 # 不要coremark 避免多线程编译报错(已解决)
-echo "CONFIG_PACKAGE_coremark=n" >> ./.config
+# echo "CONFIG_PACKAGE_coremark=n" >> ./.config
