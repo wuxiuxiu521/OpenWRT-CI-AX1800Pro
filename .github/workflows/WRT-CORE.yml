@@ -310,6 +310,7 @@ jobs:
           # files: ./wrt/upload/*.*
           files: ${{ env.OPENWRT_PATH }}/wrt/upload/*.*
           body: |
+            带docker
             这是个平台固件包，内含多个设备！
             请注意选择你需要的设备固件！
             不要问，刷就完事了！
