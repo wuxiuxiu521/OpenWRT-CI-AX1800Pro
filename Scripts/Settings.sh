@@ -115,7 +115,7 @@ echo "CONFIG_PACKAGE_luci-app-mihomo=n" >> ./.config
 # echo "CONFIG_OPKG_USE_CURL=y" >> ./.config
 # echo "# CONFIG_USE_APK is not set" >> ./.config
 # 可以让FinalShell查看文件列表并且ssh连上不会自动断开
-echo "CONFIG_PACKAGE_opeh-sftp-server=y" >> ./.config
+echo "CONFIG_PACKAGE_openssh-sftp-server=y" >> ./.config
 # 解析、查询、操作和格式化 JSON 数据
 echo "CONFIG_PACKAGE_jq=y" >> ./.config
 # base64 修改码云上的内容 需要用到
