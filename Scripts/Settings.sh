@@ -46,10 +46,11 @@ fi
 if [[ $WRT_TARGET == *"IPQ"* ]]; then
 	#取消相关feed
 	echo "CONFIG_FEED__packages=n" >> ./.config
-	echo "CONFIG_FEED_sqm_scripts_=n" >> ./.config
+	# echo "CONFIG_FEED_sqm_scripts_=n" >> ./.config
 	#设置版本
 	echo "CONFIG__FIRMWARE_VERSION_11_4=n" >> ./.config
-	echo "CONFIG__FIRMWARE_VERSION_12_2=y" >> ./.config
+	# echo "CONFIG__FIRMWARE_VERSION_12_2=y" >> ./.config
+	echo "CONFIG__FIRMWARE_VERSION_12_5=y" >> ./.config
 fi
 
 #编译器优化
@@ -174,8 +175,8 @@ echo "CONFIG_PACKAGE_luci-app-mosdns=y" >> ./.config
 # echo "CONFIG_PACKAGE_luci-app-natter2=y" >> ./.config
 # 文件管理器
 echo "CONFIG_PACKAGE_luci-app-filemanager=y" >> ./.config
-# 不要coremark 避免多线程编译报错(已解决)
-# echo "CONFIG_PACKAGE_coremark=n" >> ./.config
+# 不要coremark 避免多线程编译报错
+echo "CONFIG_PACKAGE_coremark=n" >> ./.config
 # 基于Golang的多协议转发工具
 echo "CONFIG_PACKAGE_luci-app-gost=y" >> ./.config
 # Go语言解析
