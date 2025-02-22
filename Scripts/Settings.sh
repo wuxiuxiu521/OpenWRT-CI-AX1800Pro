@@ -179,4 +179,4 @@ echo "CONFIG_PACKAGE_luci-app-filemanager=y" >> ./.config
 # 基于Golang的多协议转发工具
 echo "CONFIG_PACKAGE_luci-app-gost=y" >> ./.config
 # Go语言解析
-echo "CONFIG_PACKAGE_golang=y" >> ./.config
+# echo "CONFIG_PACKAGE_golang=y" >> ./.config
