@@ -83,3 +83,5 @@ echo "CONFIG_PACKAGE_curl=y" >> ./.config
 # echo "CONFIG_DEFAULT_tcp_bbr=y" >> ./.config
 # docker(只能集成)
 echo "CONFIG_PACKAGE_luci-app-dockerman=y" >> ./.config
+# qBittorrent
+echo "CONFIG_PACKAGE_luci-app-qbittorrent=y" >> ./.config
