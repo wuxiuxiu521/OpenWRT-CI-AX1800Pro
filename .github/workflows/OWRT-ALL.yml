@@ -4,10 +4,13 @@ name: OWRT-ALL
 #CI计划
 on:
   #自动编译：当Auto-Clean运行完成后
-  workflow_run:
-    workflows: ["Auto-Clean"]
-    types:
-      - completed
+  # workflow_run:
+  #   workflows: ["Auto-Clean"]
+  #   types:
+  #     - completed
+  # 每天早上5点编译
+  schedule:
+    - cron: 0 20 * * *
   #手动编译
   workflow_dispatch:
     inputs:
@@ -32,7 +35,8 @@ jobs:
       fail-fast: false
       #max-parallel: 3
       matrix:
-        CONFIG: [MEDIATEK, ROCKCHIP, X86]
+        # CONFIG: [MEDIATEK, ROCKCHIP, X86]
+        CONFIG: [X86]
         SOURCE: [VIKINGYFY/immortalwrt]
         BRANCH: [owrt]
 
