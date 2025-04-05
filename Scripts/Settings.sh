@@ -222,3 +222,5 @@ echo "CONFIG_PACKAGE_luci-app-haproxy-tcp=y" >> ./.config
 echo "CONFIG_PACKAGE_luci-app-adguardhome=y" >> ./.config
 # cloudflre速度筛选器
 echo "CONFIG_PACKAGE_luci-app-cloudflarespeedtest=y" >> ./.config
+# OpenClash
+echo "CONFIG_PACKAGE_luci-app-openclash=y" >> ./.config
