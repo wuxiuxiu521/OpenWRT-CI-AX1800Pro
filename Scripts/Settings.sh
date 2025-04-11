@@ -77,8 +77,8 @@ if [[ $WRT_TARGET == *"X86"* ]]; then
   	# AMD Ryzen（Zen 及更新）适用于 AMD Ryzen（Zen、Zen 2、Zen 3、Zen 4）针对 Zen 3 架构优化（如果是 Zen 2，改为 znver2，Zen 4 用 znver4）优化 AVX2 代码
    	# echo "CONFIG_TARGET_OPTIMIZATION=\"-O2 -pipe -march=znver3 -mtune=znver3 -mfpmath=sse -msse4.2 -mavx2 -mfma -mprefer-vector-width=256\"" >> ./.config
 
-	这个变量决定了 根文件系统（RootFS）分区的大小 默认是256M
-    	echo "CONFIG_TARGET_ROOTFS_PARTSIZE=1024" >> .config
+	这个变量决定了 根文件系统（RootFS）分区的大小 默认是256M 单位MB
+    	echo "CONFIG_TARGET_ROOTFS_PARTSIZE=20480" >> .config
 
 	# 这个变量决定了内核分区的大小，通常是 16MB 或 32MB
       	echo "CONFIG_TARGET_KERNEL_PARTSIZE=16" >> .config
