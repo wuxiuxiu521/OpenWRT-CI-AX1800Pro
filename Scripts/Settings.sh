@@ -102,6 +102,9 @@ echo "CONFIG_KERNEL_DEBUG_INFO_BTF=y" >> ./.config
 echo "# CONFIG_KERNEL_DEBUG_INFO_REDUCED is not set" >> ./.config
 echo "CONFIG_KERNEL_XDP_SOCKETS=y" >> ./.config
 
+# BPFtool 支持 eBPF 程序 反汇编（disassembly）
+echo "CONFIG_PACKAGE_bpftool-full=y" >> ./.config
+
 # echo "CONFIG_BPF=y" >> ./target/linux/qualcommax/config-6.6
 # echo "CONFIG_BPF_SYSCALL=y" >> ./target/linux/qualcommax/config-6.6
 # echo "CONFIG_BPF_JIT=y" >> ./target/linux/qualcommax/config-6.6
