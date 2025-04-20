@@ -88,3 +88,5 @@ echo "CONFIG_PACKAGE_luci-app-dockerman=y" >> ./.config
 echo "CONFIG_PACKAGE_luci-app-qbittorrent=y" >> ./.config
 # nfs-kernel-server共享
 echo "CONFIG_PACKAGE_nfs-kernel-server=y" >> ./.config
+# 强大的工具Lucky大吉(需要添加源或git clone)
+echo "CONFIG_PACKAGE_luci-app-lucky=y" >> ./.config
