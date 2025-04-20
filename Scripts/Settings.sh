@@ -86,3 +86,5 @@ echo "CONFIG_PACKAGE_curl=y" >> ./.config
 echo "CONFIG_PACKAGE_luci-app-dockerman=y" >> ./.config
 # qBittorrent
 echo "CONFIG_PACKAGE_luci-app-qbittorrent=y" >> ./.config
+# nfs-kernel-server共享
+echo "CONFIG_PACKAGE_nfs-kernel-server=y" >> ./.config
