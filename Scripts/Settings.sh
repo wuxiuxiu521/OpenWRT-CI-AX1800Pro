@@ -227,3 +227,5 @@ echo "CONFIG_PACKAGE_luci-app-adguardhome=y" >> ./.config
 echo "CONFIG_PACKAGE_luci-app-cloudflarespeedtest=y" >> ./.config
 # OpenClash
 echo "CONFIG_PACKAGE_luci-app-openclash=y" >> ./.config
+# nfs-kernel-server共享
+echo "CONFIG_PACKAGE_nfs-kernel-server=y" >> ./.config
