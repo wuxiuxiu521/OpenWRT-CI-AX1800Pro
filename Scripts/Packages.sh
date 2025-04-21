@@ -92,4 +92,23 @@ UPDATE_VERSION() {
 UPDATE_VERSION "sing-box"
 UPDATE_VERSION "tailscale"
 
+# 拉取Lucky最新版的源码
+git clone https://github.com/sirpdboy/luci-app-lucky.git package/lucky
+# git clone https://github.com/gdy666/luci-app-lucky package/lucky
+
+#删除官方的默认插件
+# rm -rf ../feeds/luci/applications/luci-app-{passwall*,mosdns,dockerman,dae*,bypass*}
+# rm -rf ../feeds/packages/net/{shadowsocks-rust,shadowsocksr-libev,xray*,v2ray*,dae*,sing-box,geoview}
+rm -rf ../feeds/luci/applications/luci-app-{dae*}
+rm -rf ../feeds/packages/net/{dae*}
+
+# QiuSimons luci-app-daed
+git clone https://github.com/QiuSimons/luci-app-daed package/dae
+mkdir -p Package/libcron && wget -O Package/libcron/Makefile https://raw.githubusercontent.com/immortalwrt/packages/refs/heads/master/libs/libcron/Makefile
+
+# # luci-app-daed-next
+# git clone https://github.com/sbwml/luci-app-daed-next package/daed-next
+
 git_sparse_clone main https://github.com/kenzok8/small-package daed-next luci-app-daed-next gost luci-app-gost luci-nginxer luci-app-adguardhome
+
+git_sparse_clone main https://github.com/kiddin9/kwrt-packages natter2 luci-app-natter2 luci-app-cloudflarespeedtest
