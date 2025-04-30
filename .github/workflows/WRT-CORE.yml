@@ -246,6 +246,7 @@ jobs:
 
           if [[ $WRT_TEST != 'true' ]]; then
             echo "WRT_KVER=$(find ./bin/targets/ -type f -name "*.manifest" -exec grep -oP '^kernel - \K[\d\.]+' {} \;)" >> $GITHUB_ENV
+            echo "NSS_FIRMWARE_VERSION=$(grep -oP '^CONFIG_NSS_FIRMWARE_VERSION_\K[\d_]+(?==y)' .config | sed 's/_/./g')" >> $GITHUB_ENV
             # echo "WRT_LIST=$(find ./bin/targets/ -type f -name "*.manifest" -exec grep -oP '^luci-(app|theme)[^ ]*' {} \; | tr '\n' ' ')" >> $GITHUB_ENV
             echo "WRT_LIST=$(find ./bin/targets/ -type f -name '*.manifest' -exec grep -oE '^luci-(app|theme)[^ ]*' {} \; | tr '\n' ' ')" >> $GITHUB_ENV
 
@@ -287,6 +288,8 @@ jobs:
 
             WIFI名称：${{env.WRT_SSID}}
             WIFI密码：${{env.WRT_WORD}}
+
+            NSS版本：${{env.NSS_FIRMWARE_VERSION}}
 
             内核版本：${{env.WRT_KVER}}
             插件列表：${{env.WRT_LIST}}
