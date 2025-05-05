@@ -91,7 +91,7 @@ echo "CONFIG_DEFAULT_tcp_bbr=y" >> ./.config
 echo "CONFIG_PACKAGE_luci-app-dockerman=y" >> ./.config
 # # qBittorrent
 # echo "CONFIG_PACKAGE_luci-app-qbittorrent=y" >> ./.config
-# # nfs-kernel-server共享
-# # echo "CONFIG_PACKAGE_nfs-kernel-server=y" >> ./.config
+# nfs-kernel-server共享
+echo "CONFIG_PACKAGE_nfs-kernel-server=y" >> ./.config
 # # Caddy
 # # echo "CONFIG_PACKAGE_luci-app-caddy=y" >> ./.config
