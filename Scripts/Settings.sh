@@ -185,69 +185,69 @@ echo "CONFIG_PACKAGE_cfdisk=y" >> ./.config
 # 其他调整
 # 大鹅
 echo "CONFIG_PACKAGE_luci-app-daed=y" >> ./.config
-# 大鹅-next
-# echo "CONFIG_PACKAGE_luci-app-daed-next=y" >> ./.config
-# 连上ssh不会断开并且显示文件管理
-echo "CONFIG_PACKAGE_opeh-sftp-server"=y
-# docker只能集成
-echo "CONFIG_PACKAGE_luci-app-dockerman=y" >> ./.config
-# qBittorrent
-# echo "CONFIG_PACKAGE_luci-app-qbittorrent=y" >> ./.config
-# 添加Homebox内网测速
-# echo "CONFIG_PACKAGE_luci-app-homebox=y" >> ./.config
-# V2rayA
-echo "CONFIG_PACKAGE_luci-app-v2raya=y" >> ./.config
-echo "CONFIG_PACKAGE_v2ray-core=y" >> ./.config
-echo "CONFIG_PACKAGE_v2ray-geoip=y" >> ./.config
-echo "CONFIG_PACKAGE_v2ray-geosite=y" >> ./.config
-# NSS的sqm
-# echo "CONFIG_PACKAGE_luci-app-sqm=y" >> ./.config
-# echo "CONFIG_PACKAGE_sqm-scripts-nss=y" >> ./.config
-# NSS MASH
-# echo "CONFIG_ATH11K_NSS_MESH=y" >> ./.config
-# 不知道什么 加上去
-# echo "CONFIG_PACKAGE_MAC80211_NSS_REDIRECT=y" >> ./.config
-# istore 编译报错
-# echo "CONFIG_PACKAGE_luci-app-istorex=y" >> ./.config
-# QuickStart
-# echo "CONFIG_PACKAGE_luci-app-quickstart=y" >> ./.config
-# filebrowser-go
-# echo "CONFIG_PACKAGE_luci-app-filebrowser-go=y" >> ./.config
-# 图形化web UI luci-app-uhttpd	
-echo "CONFIG_PACKAGE_luci-app-uhttpd=y" >> ./.config
-# 多播
-# echo "CONFIG_PACKAGE_luci-app-syncdial=y" >> ./.config
-# MosDNS
-echo "CONFIG_PACKAGE_luci-app-mosdns=y" >> ./.config
-# Natter2 报错
-# echo "CONFIG_PACKAGE_luci-app-natter2=y" >> ./.config
-# 文件管理器
-echo "CONFIG_PACKAGE_luci-app-filemanager=y" >> ./.config
-# 不要coremark 避免多线程编译报错
-# echo "CONFIG_PACKAGE_coremark=n" >> ./.config
-# 基于Golang的多协议转发工具
-echo "CONFIG_PACKAGE_luci-app-gost=y" >> ./.config
-# Go语言解析
-# echo "CONFIG_PACKAGE_golang=y" >> ./.config
-# Git
-echo "CONFIG_PACKAGE_git-http=y" >> ./.config
-# Nginx替换Uhttpd
-echo "CONFIG_PACKAGE_nginx-mod-luci=y" >> ./.config
-# Nginx的图形化界面
-echo "CONFIG_PACKAGE_luci-app-nginx=y" >> ./.config
-# HAProxy 比Nginx更强大的反向代理服务器
-echo "CONFIG_PACKAGE_luci-app-haproxy-tcp=y" >> ./.config
-# Adguardhome去广告
-echo "CONFIG_PACKAGE_luci-app-adguardhome=y" >> ./.config
-# cloudflre速度筛选器
-echo "CONFIG_PACKAGE_luci-app-cloudflarespeedtest=y" >> ./.config
-# OpenClash
-echo "CONFIG_PACKAGE_luci-app-openclash=y" >> ./.config
-# nfs-kernel-server共享
-echo "CONFIG_PACKAGE_nfs-kernel-server=y" >> ./.config
-# Kiddin9 luci-app-nfs
-echo "CONFIG_PACKAGE_luci-app-nfs=y" >> ./.config
-# zoneinfo-asia tzdata（时区数据库）的一部分，只包含亚洲相关的时区数据 zoneinfo-all全部时区（体积较大，不推荐在嵌入设备）
-echo "CONFIG_PACKAGE_zoneinfo-all=y" >> ./.config
-# Caddy
-echo "CONFIG_PACKAGE_luci-app-caddy=y" >> ./.config
+# # 大鹅-next
+# # echo "CONFIG_PACKAGE_luci-app-daed-next=y" >> ./.config
+# # 连上ssh不会断开并且显示文件管理
+# echo "CONFIG_PACKAGE_opeh-sftp-server"=y
+# # docker只能集成
+# echo "CONFIG_PACKAGE_luci-app-dockerman=y" >> ./.config
+# # qBittorrent
+# # echo "CONFIG_PACKAGE_luci-app-qbittorrent=y" >> ./.config
+# # 添加Homebox内网测速
+# # echo "CONFIG_PACKAGE_luci-app-homebox=y" >> ./.config
+# # V2rayA
+# echo "CONFIG_PACKAGE_luci-app-v2raya=y" >> ./.config
+# echo "CONFIG_PACKAGE_v2ray-core=y" >> ./.config
+# echo "CONFIG_PACKAGE_v2ray-geoip=y" >> ./.config
+# echo "CONFIG_PACKAGE_v2ray-geosite=y" >> ./.config
+# # NSS的sqm
+# # echo "CONFIG_PACKAGE_luci-app-sqm=y" >> ./.config
+# # echo "CONFIG_PACKAGE_sqm-scripts-nss=y" >> ./.config
+# # NSS MASH
+# # echo "CONFIG_ATH11K_NSS_MESH=y" >> ./.config
+# # 不知道什么 加上去
+# # echo "CONFIG_PACKAGE_MAC80211_NSS_REDIRECT=y" >> ./.config
+# # istore 编译报错
+# # echo "CONFIG_PACKAGE_luci-app-istorex=y" >> ./.config
+# # QuickStart
+# # echo "CONFIG_PACKAGE_luci-app-quickstart=y" >> ./.config
+# # filebrowser-go
+# # echo "CONFIG_PACKAGE_luci-app-filebrowser-go=y" >> ./.config
+# # 图形化web UI luci-app-uhttpd	
+# echo "CONFIG_PACKAGE_luci-app-uhttpd=y" >> ./.config
+# # 多播
+# # echo "CONFIG_PACKAGE_luci-app-syncdial=y" >> ./.config
+# # MosDNS
+# echo "CONFIG_PACKAGE_luci-app-mosdns=y" >> ./.config
+# # Natter2 报错
+# # echo "CONFIG_PACKAGE_luci-app-natter2=y" >> ./.config
+# # 文件管理器
+# echo "CONFIG_PACKAGE_luci-app-filemanager=y" >> ./.config
+# # 不要coremark 避免多线程编译报错
+# # echo "CONFIG_PACKAGE_coremark=n" >> ./.config
+# # 基于Golang的多协议转发工具
+# echo "CONFIG_PACKAGE_luci-app-gost=y" >> ./.config
+# # Go语言解析
+# # echo "CONFIG_PACKAGE_golang=y" >> ./.config
+# # Git
+# echo "CONFIG_PACKAGE_git-http=y" >> ./.config
+# # Nginx替换Uhttpd
+# echo "CONFIG_PACKAGE_nginx-mod-luci=y" >> ./.config
+# # Nginx的图形化界面
+# echo "CONFIG_PACKAGE_luci-app-nginx=y" >> ./.config
+# # HAProxy 比Nginx更强大的反向代理服务器
+# echo "CONFIG_PACKAGE_luci-app-haproxy-tcp=y" >> ./.config
+# # Adguardhome去广告
+# echo "CONFIG_PACKAGE_luci-app-adguardhome=y" >> ./.config
+# # cloudflre速度筛选器
+# echo "CONFIG_PACKAGE_luci-app-cloudflarespeedtest=y" >> ./.config
+# # OpenClash
+# echo "CONFIG_PACKAGE_luci-app-openclash=y" >> ./.config
+# # nfs-kernel-server共享
+# echo "CONFIG_PACKAGE_nfs-kernel-server=y" >> ./.config
+# # Kiddin9 luci-app-nfs
+# echo "CONFIG_PACKAGE_luci-app-nfs=y" >> ./.config
+# # zoneinfo-asia tzdata（时区数据库）的一部分，只包含亚洲相关的时区数据 zoneinfo-all全部时区（体积较大，不推荐在嵌入设备）
+# echo "CONFIG_PACKAGE_zoneinfo-all=y" >> ./.config
+# # Caddy
+# echo "CONFIG_PACKAGE_luci-app-caddy=y" >> ./.config
