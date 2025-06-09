@@ -209,7 +209,7 @@ fi
 # cat_ebpf_config(".config")
 
 # # BPFtool 支持 eBPF 程序 反汇编（disassembly）
-echo "CONFIG_PACKAGE_bpftool-full=y" >> ./.config
+# echo "CONFIG_PACKAGE_bpftool-full=y" >> ./.config
 
 # #开启内存回收补丁
 # # echo "CONFIG_KERNEL_SKB_RECYCLER=y" >> ./.config
