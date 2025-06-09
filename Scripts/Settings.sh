@@ -102,20 +102,20 @@ fi
 # echo "# CONFIG_KERNEL_DEBUG_INFO_REDUCED is not set" >> ./.config
 # echo "CONFIG_KERNEL_XDP_SOCKETS=y" >> ./.config
 
-# # echo "CONFIG_DEVEL=y" >> ./.config
-# # echo "CONFIG_KERNEL_DEBUG_INFO=y" >> ./.config
-# # echo "CONFIG_KERNEL_DEBUG_INFO_REDUCED=n" >> ./.config
-# # echo "CONFIG_KERNEL_DEBUG_INFO_BTF=y" >> ./.config
-# # echo "CONFIG_KERNEL_CGROUPS=y" >> ./.config
-# # echo "CONFIG_KERNEL_CGROUP_BPF=y" >> ./.config
-# # echo "CONFIG_KERNEL_BPF_EVENTS=y" >> ./.config
-# # echo "CONFIG_BPF_TOOLCHAIN_HOST=y" >> ./.config
-# # echo "CONFIG_KERNEL_XDP_SOCKETS=y" >> ./.config
-# # echo "CONFIG_PACKAGE_kmod-xdp-sockets-diag=y" >> ./.config
-# # echo "CONFIG_BPF_TOOLCHAIN_NONE=n" >> ./.config
+echo "CONFIG_DEVEL=y" >> ./.config
+echo "CONFIG_KERNEL_DEBUG_INFO=y" >> ./.config
+echo "CONFIG_KERNEL_DEBUG_INFO_REDUCED=n" >> ./.config
+echo "CONFIG_KERNEL_DEBUG_INFO_BTF=y" >> ./.config
+echo "CONFIG_KERNEL_CGROUPS=y" >> ./.config
+echo "CONFIG_KERNEL_CGROUP_BPF=y" >> ./.config
+echo "CONFIG_KERNEL_BPF_EVENTS=y" >> ./.config
+echo "CONFIG_BPF_TOOLCHAIN_HOST=y" >> ./.config
+echo "CONFIG_KERNEL_XDP_SOCKETS=y" >> ./.config
+echo "CONFIG_PACKAGE_kmod-xdp-sockets-diag=y" >> ./.config
+echo "CONFIG_BPF_TOOLCHAIN_NONE=n" >> ./.config
 
 # # BPFtool 支持 eBPF 程序 反汇编（disassembly）
-# echo "CONFIG_PACKAGE_bpftool-full=y" >> ./.config
+echo "CONFIG_PACKAGE_bpftool-full=y" >> ./.config
 
 # #开启内存回收补丁
 # # echo "CONFIG_KERNEL_SKB_RECYCLER=y" >> ./.config
@@ -138,16 +138,16 @@ fi
 # # echo "CONFIG_KPROBE_EVENTS=y" >> ./target/linux/qualcommax/config-6.6
 # # echo "CONFIG_BPF_EVENTS=y" >> ./target/linux/qualcommax/config-6.6
 
-# #修改jdc re-ss-01 (亚瑟) 的内核大小为12M
-# sed -i "/^define Device\/jdcloud_re-ss-01/,/^endef/ { /KERNEL_SIZE := 6144k/s//KERNEL_SIZE := 12288k/ }" target/linux/qualcommax/image/ipq60xx.mk
-# #修改jdc re-cs-02 (雅典娜) 的内核大小为12M
-# sed -i "/^define Device\/jdcloud_re-cs-02/,/^endef/ { /KERNEL_SIZE := 6144k/s//KERNEL_SIZE := 12288k/ }" target/linux/qualcommax/image/ipq60xx.mk
-# #修改jdc re-cs-07 (太乙) 的内核大小为12M
-# sed -i "/^define Device\/jdcloud_re-cs-07/,/^endef/ { /KERNEL_SIZE := 6144k/s//KERNEL_SIZE := 12288k/ }" target/linux/qualcommax/image/ipq60xx.mk
-# #修改mr7350 (领势LINKSYS MR7350) 的内核大小为12M
-# sed -i "/^define Device\/linksys_mr7350/,/^endef/ { /KERNEL_SIZE := 6144k/s//KERNEL_SIZE := 12288k/ }" target/linux/qualcommax/image/ipq60xx.mk
-# #修改redmi_ax5-jdcloud(京东云红米AX5) 的内核大小为12M
-# sed -i "/^define Device\/redmi_ax5-jdcloud/,/^endef/ { /KERNEL_SIZE := 6144k/s//KERNEL_SIZE := 12288k/ }" target/linux/qualcommax/image/ipq60xx.mk
+#修改jdc re-ss-01 (亚瑟) 的内核大小为12M
+sed -i "/^define Device\/jdcloud_re-ss-01/,/^endef/ { /KERNEL_SIZE := 6144k/s//KERNEL_SIZE := 12288k/ }" target/linux/qualcommax/image/ipq60xx.mk
+#修改jdc re-cs-02 (雅典娜) 的内核大小为12M
+sed -i "/^define Device\/jdcloud_re-cs-02/,/^endef/ { /KERNEL_SIZE := 6144k/s//KERNEL_SIZE := 12288k/ }" target/linux/qualcommax/image/ipq60xx.mk
+#修改jdc re-cs-07 (太乙) 的内核大小为12M
+sed -i "/^define Device\/jdcloud_re-cs-07/,/^endef/ { /KERNEL_SIZE := 6144k/s//KERNEL_SIZE := 12288k/ }" target/linux/qualcommax/image/ipq60xx.mk
+#修改mr7350 (领势LINKSYS MR7350) 的内核大小为12M
+sed -i "/^define Device\/linksys_mr7350/,/^endef/ { /KERNEL_SIZE := 6144k/s//KERNEL_SIZE := 12288k/ }" target/linux/qualcommax/image/ipq60xx.mk
+#修改redmi_ax5-jdcloud(京东云红米AX5) 的内核大小为12M
+sed -i "/^define Device\/redmi_ax5-jdcloud/,/^endef/ { /KERNEL_SIZE := 6144k/s//KERNEL_SIZE := 12288k/ }" target/linux/qualcommax/image/ipq60xx.mk
 # # 想要剔除的
 # # echo "CONFIG_PACKAGE_htop=n" >> ./.config
 # # echo "CONFIG_PACKAGE_iperf3=n" >> ./.config
