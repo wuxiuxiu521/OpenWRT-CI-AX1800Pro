@@ -83,6 +83,48 @@ fi
 
 # 	# 这个变量决定了内核分区的大小，通常是 16MB 或 32MB
 #       	echo "CONFIG_TARGET_KERNEL_PARTSIZE=16" >> .config
+	# 3965U优化
+# 	cat <<EOF > .config
+# CONFIG_TARGET_x86=y
+# CONFIG_TARGET_x86_64=y
+# CONFIG_TARGET_x86_64_Generic=y
+
+# # 优化架构为 Skylake（3965U）
+# CONFIG_TARGET_OPTIMIZATION="-march=skylake -mtune=skylake -O2 -pipe -fstack-protector-strong -fPIC -fvisibility=hidden"
+
+# # 启用 Link Time Optimization
+# CONFIG_USE_LTO=y
+
+# # 禁用 32 位 ABI
+# # (lib32 非必须，可省略掉)
+# # CONFIG_USE_MKLIBS is not set
+# # CONFIG_TARGET_32BIT is not set
+
+# # 使用高压缩率
+# CONFIG_TARGET_KERNEL_USE_XZ=y
+# CONFIG_TARGET_IMAGES_GZIP=y
+
+# # 显卡支持（i915 固件与驱动）
+# CONFIG_PACKAGE_kmod-drm-i915=y
+# CONFIG_PACKAGE_i915-firmware=y
+# CONFIG_PACKAGE_i915-firmware-dmc=y
+# CONFIG_PACKAGE_i915-firmware-guc=y
+# CONFIG_PACKAGE_i915-firmware-huc=y
+
+# # 启用内核 CPU 调度器：performance 模式建议手动设置或 patch
+# CONFIG_CPU_FREQ_GOV_PERFORMANCE=y
+# CONFIG_DEFAULT_CPU_FREQ_GOV_PERFORMANCE=y
+
+# # 推荐通用网络组件（根据需要再裁剪）
+# CONFIG_PACKAGE_luci=y
+# CONFIG_PACKAGE_luci-app-firewall=y
+# CONFIG_PACKAGE_luci-app-upnp=y
+# CONFIG_PACKAGE_luci-app-ddns=y
+# CONFIG_PACKAGE_luci-app-adblock=y
+# CONFIG_PACKAGE_kmod-igb=y
+# CONFIG_PACKAGE_kmod-usb-net-rtl8152=y
+# EOF
+
 # fi
 
 # #修复dropbear
@@ -121,22 +163,22 @@ echo "CONFIG_PACKAGE_bpftool-full=y" >> ./.config
 # # echo "CONFIG_KERNEL_SKB_RECYCLER=y" >> ./.config
 # # echo "CONFIG_KERNEL_SKB_RECYCLER_MULTI_CPU=y" >> ./.config
 
-# # echo "CONFIG_BPF=y" >> ./target/linux/qualcommax/config-6.6
-# # echo "CONFIG_BPF_SYSCALL=y" >> ./target/linux/qualcommax/config-6.6
-# # echo "CONFIG_BPF_JIT=y" >> ./target/linux/qualcommax/config-6.6
-# # echo "CONFIG_CGROUPS=y" >> ./target/linux/qualcommax/config-6.6
-# # echo "CONFIG_KPROBES=y" >> ./target/linux/qualcommax/config-6.6
-# # echo "CONFIG_NET_INGRESS=y" >> ./target/linux/qualcommax/config-6.6
-# # echo "CONFIG_NET_EGRESS=y" >> ./target/linux/qualcommax/config-6.6
-# # echo "CONFIG_NET_SCH_INGRESS=m" >> ./target/linux/qualcommax/config-6.6
-# # echo "CONFIG_NET_CLS_BPF=m" >> ./target/linux/qualcommax/config-6.6
-# # echo "CONFIG_NET_CLS_ACT=y" >> ./target/linux/qualcommax/config-6.6
-# # echo "CONFIG_BPF_STREAM_PARSER=y" >> ./target/linux/qualcommax/config-6.6
-# # echo "CONFIG_DEBUG_INFO=y" >> ./target/linux/qualcommax/config-6.6
-# # echo "# CONFIG_DEBUG_INFO_REDUCED is not set" >> ./target/linux/qualcommax/config-6.6
-# # echo "CONFIG_DEBUG_INFO_BTF=y" >> ./target/linux/qualcommax/config-6.6
-# # echo "CONFIG_KPROBE_EVENTS=y" >> ./target/linux/qualcommax/config-6.6
-# # echo "CONFIG_BPF_EVENTS=y" >> ./target/linux/qualcommax/config-6.6
+# echo "CONFIG_BPF=y" >> ./target/linux/qualcommax/config-6.6
+# echo "CONFIG_BPF_SYSCALL=y" >> ./target/linux/qualcommax/config-6.6
+# echo "CONFIG_BPF_JIT=y" >> ./target/linux/qualcommax/config-6.6
+# echo "CONFIG_CGROUPS=y" >> ./target/linux/qualcommax/config-6.6
+# echo "CONFIG_KPROBES=y" >> ./target/linux/qualcommax/config-6.6
+# echo "CONFIG_NET_INGRESS=y" >> ./target/linux/qualcommax/config-6.6
+# echo "CONFIG_NET_EGRESS=y" >> ./target/linux/qualcommax/config-6.6
+# echo "CONFIG_NET_SCH_INGRESS=m" >> ./target/linux/qualcommax/config-6.6
+# echo "CONFIG_NET_CLS_BPF=m" >> ./target/linux/qualcommax/config-6.6
+# echo "CONFIG_NET_CLS_ACT=y" >> ./target/linux/qualcommax/config-6.6
+# echo "CONFIG_BPF_STREAM_PARSER=y" >> ./target/linux/qualcommax/config-6.6
+# echo "CONFIG_DEBUG_INFO=y" >> ./target/linux/qualcommax/config-6.6
+# echo "# CONFIG_DEBUG_INFO_REDUCED is not set" >> ./target/linux/qualcommax/config-6.6
+# echo "CONFIG_DEBUG_INFO_BTF=y" >> ./target/linux/qualcommax/config-6.6
+# echo "CONFIG_KPROBE_EVENTS=y" >> ./target/linux/qualcommax/config-6.6
+# echo "CONFIG_BPF_EVENTS=y" >> ./target/linux/qualcommax/config-6.6
 
 #修改jdc re-ss-01 (亚瑟) 的内核大小为12M
 sed -i "/^define Device\/jdcloud_re-ss-01/,/^endef/ { /KERNEL_SIZE := 6144k/s//KERNEL_SIZE := 12288k/ }" target/linux/qualcommax/image/ipq60xx.mk
