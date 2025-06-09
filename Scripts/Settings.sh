@@ -243,22 +243,31 @@ fi
 # #修改redmi_ax5-jdcloud(京东云红米AX5) 的内核大小为12M
 # sed -i "/^define Device\/redmi_ax5-jdcloud/,/^endef/ { /KERNEL_SIZE := 6144k/s//KERNEL_SIZE := 12288k/ }" target/linux/qualcommax/image/ipq60xx.mk
 
-function set_kernel_size() {
-  # 修改 jdc ax1800 pro 等设备的内核大小为 12M
-  image_file='./target/linux/qualcommax/image/ipq60xx.mk'
+# function set_kernel_size() {
+#   # 修改 jdc ax1800 pro 等设备的内核大小为 12M
+#   image_file='./target/linux/qualcommax/image/ipq60xx.mk'
   
-  declare -A devices=(
-    [jdcloud_re-ss-01]=6144k
-    [jdcloud_re-cs-02]=6144k
-    [jdcloud_re-cs-07]=6144k
-    [redmi_ax5-jdcloud]=6144k
-    [linksys_mr]=8192k
-  )
+#   declare -A devices=(
+#     [jdcloud_re-ss-01]=6144k
+#     [jdcloud_re-cs-02]=6144k
+#     [jdcloud_re-cs-07]=6144k
+#     [redmi_ax5-jdcloud]=6144k
+#     [linksys_mr]=8192k
+#   )
 
-  for device in "${!devices[@]}"; do
-    old_size=${devices[$device]}
-    sed -i "/^define Device\/$device/,/^endef/ { /KERNEL_SIZE := $old_size/s//$old_size := 12288k/ }" "$image_file"
-  done
+#   for device in "${!devices[@]}"; do
+#     old_size=${devices[$device]}
+#     sed -i "/^define Device\/$device/,/^endef/ { /KERNEL_SIZE := $old_size/s//$old_size := 12288k/ }" "$image_file"
+#   done
+# }
+function set_kernel_size() {
+  #修改jdc ax1800 pro 的内核大小为12M
+  image_file='./target/linux/qualcommax/image/ipq60xx.mk'
+  sed -i "/^define Device\/jdcloud_re-ss-01/,/^endef/ { /KERNEL_SIZE := 6144k/s//KERNEL_SIZE := 12288k/ }" $image_file
+  sed -i "/^define Device\/jdcloud_re-cs-02/,/^endef/ { /KERNEL_SIZE := 6144k/s//KERNEL_SIZE := 12288k/ }" $image_file
+  sed -i "/^define Device\/jdcloud_re-cs-07/,/^endef/ { /KERNEL_SIZE := 6144k/s//KERNEL_SIZE := 12288k/ }" $image_file
+  sed -i "/^define Device\/redmi_ax5-jdcloud/,/^endef/ { /KERNEL_SIZE := 6144k/s//KERNEL_SIZE := 12288k/ }" $image_file
+  sed -i "/^define Device\/linksys_mr/,/^endef/ { /KERNEL_SIZE := 8192k/s//KERNEL_SIZE := 12288k/ }" $image_file
 }
 set_kernel_size
 
