@@ -118,8 +118,8 @@ echo "CONFIG_KERNEL_XDP_SOCKETS=y" >> ./.config
 echo "CONFIG_PACKAGE_bpftool-full=y" >> ./.config
 
 #开启内存回收补丁
-echo "CONFIG_KERNEL_SKB_RECYCLER=y" >> ./.config
-echo "CONFIG_KERNEL_SKB_RECYCLER_MULTI_CPU=y" >> ./.config
+# echo "CONFIG_KERNEL_SKB_RECYCLER=y" >> ./.config
+# echo "CONFIG_KERNEL_SKB_RECYCLER_MULTI_CPU=y" >> ./.config
 
 # echo "CONFIG_BPF=y" >> ./target/linux/qualcommax/config-6.6
 # echo "CONFIG_BPF_SYSCALL=y" >> ./target/linux/qualcommax/config-6.6
@@ -169,22 +169,22 @@ echo "CONFIG_PACKAGE_coreutils-base64=y" >> ./.config
 echo "CONFIG_PACKAGE_coreutils=y" >> ./.config
 # 简单明了的系统资源占用查看工具
 echo "CONFIG_PACKAGE_btop=y" >> ./.config
-# 多网盘存储
-echo "CONFIG_PACKAGE_luci-app-alist=y" >> ./.config
-# 强大的工具Lucky大吉(需要添加源或git clone)
-echo "CONFIG_PACKAGE_luci-app-lucky=y" >> ./.config
-# 网络通信工具
-echo "CONFIG_PACKAGE_curl=y" >> ./.config
-echo "CONFIG_PACKAGE_tcping=y" >> ./.config
-# BBR 拥塞控制算法(终端侧)
-echo "CONFIG_PACKAGE_kmod-tcp-bbr=y" >> ./.config
-echo "CONFIG_DEFAULT_tcp_bbr=y" >> ./.config
-# 磁盘管理
-echo "CONFIG_PACKAGE_luci-app-diskman=y" >> ./.config
-echo "CONFIG_PACKAGE_cfdisk=y" >> ./.config
-# 其他调整
-# 大鹅
-echo "CONFIG_PACKAGE_luci-app-daed=y" >> ./.config
+# # 多网盘存储
+# echo "CONFIG_PACKAGE_luci-app-alist=y" >> ./.config
+# # 强大的工具Lucky大吉(需要添加源或git clone)
+# echo "CONFIG_PACKAGE_luci-app-lucky=y" >> ./.config
+# # 网络通信工具
+# echo "CONFIG_PACKAGE_curl=y" >> ./.config
+# echo "CONFIG_PACKAGE_tcping=y" >> ./.config
+# # BBR 拥塞控制算法(终端侧)
+# echo "CONFIG_PACKAGE_kmod-tcp-bbr=y" >> ./.config
+# echo "CONFIG_DEFAULT_tcp_bbr=y" >> ./.config
+# # 磁盘管理
+# echo "CONFIG_PACKAGE_luci-app-diskman=y" >> ./.config
+# echo "CONFIG_PACKAGE_cfdisk=y" >> ./.config
+# # 其他调整
+# # 大鹅
+# echo "CONFIG_PACKAGE_luci-app-daed=y" >> ./.config
 # # 大鹅-next
 # # echo "CONFIG_PACKAGE_luci-app-daed-next=y" >> ./.config
 # # 连上ssh不会断开并且显示文件管理
