@@ -156,60 +156,60 @@ fi
 # echo "CONFIG_PACKAGE_kmod-xdp-sockets-diag=y" >> ./.config
 # echo "CONFIG_BPF_TOOLCHAIN_NONE=n" >> ./.config
 
-# function cat_kernel_config() {
-#   if [ -f $1 ]; then
-#     cat >> $1 <<EOF
-# CONFIG_BPF=y
-# CONFIG_BPF_SYSCALL=y
-# CONFIG_BPF_JIT=y
-# CONFIG_CGROUPS=y
-# CONFIG_KPROBES=y
-# CONFIG_NET_INGRESS=y
-# CONFIG_NET_EGRESS=y
-# CONFIG_NET_SCH_INGRESS=m
-# CONFIG_NET_CLS_BPF=m
-# CONFIG_NET_CLS_ACT=y
-# CONFIG_BPF_STREAM_PARSER=y
-# CONFIG_DEBUG_INFO=y
-# # CONFIG_DEBUG_INFO_REDUCED is not set
-# CONFIG_DEBUG_INFO_BTF=y
-# CONFIG_KPROBE_EVENTS=y
-# CONFIG_BPF_EVENTS=y
+function cat_kernel_config() {
+  if [ -f $1 ]; then
+    cat >> $1 <<EOF
+CONFIG_BPF=y
+CONFIG_BPF_SYSCALL=y
+CONFIG_BPF_JIT=y
+CONFIG_CGROUPS=y
+CONFIG_KPROBES=y
+CONFIG_NET_INGRESS=y
+CONFIG_NET_EGRESS=y
+CONFIG_NET_SCH_INGRESS=m
+CONFIG_NET_CLS_BPF=m
+CONFIG_NET_CLS_ACT=y
+CONFIG_BPF_STREAM_PARSER=y
+CONFIG_DEBUG_INFO=y
+# CONFIG_DEBUG_INFO_REDUCED is not set
+CONFIG_DEBUG_INFO_BTF=y
+CONFIG_KPROBE_EVENTS=y
+CONFIG_BPF_EVENTS=y
 
-# CONFIG_SCHED_CLASS_EXT=y
-# CONFIG_PROBE_EVENTS_BTF_ARGS=y
-# CONFIG_IMX_SCMI_MISC_DRV=y
-# CONFIG_ARM64_CONTPTE=y
-# CONFIG_TRANSPARENT_HUGEPAGE=y
-# CONFIG_TRANSPARENT_HUGEPAGE_ALWAYS=y
-# # CONFIG_TRANSPARENT_HUGEPAGE_MADVISE is not set
-# # CONFIG_TRANSPARENT_HUGEPAGE_NEVER is not set
-# EOF
-#     echo "cat_kernel_config to $1 done"
-#   fi
-# }
+CONFIG_SCHED_CLASS_EXT=y
+CONFIG_PROBE_EVENTS_BTF_ARGS=y
+CONFIG_IMX_SCMI_MISC_DRV=y
+CONFIG_ARM64_CONTPTE=y
+CONFIG_TRANSPARENT_HUGEPAGE=y
+CONFIG_TRANSPARENT_HUGEPAGE_ALWAYS=y
+# CONFIG_TRANSPARENT_HUGEPAGE_MADVISE is not set
+# CONFIG_TRANSPARENT_HUGEPAGE_NEVER is not set
+EOF
+    echo "cat_kernel_config to $1 done"
+  fi
+}
 # cat_kernel_config(".config")
 
-# function cat_ebpf_config() {
-# #ebpf相关
-#   cat >> $1 <<EOF
-# #eBPF
-# CONFIG_DEVEL=y
-# CONFIG_KERNEL_DEBUG_INFO=y
-# CONFIG_KERNEL_DEBUG_INFO_REDUCED=n
-# CONFIG_KERNEL_DEBUG_INFO_BTF=y
-# CONFIG_KERNEL_CGROUPS=y
-# CONFIG_KERNEL_CGROUP_BPF=y
-# CONFIG_KERNEL_BPF_EVENTS=y
-# CONFIG_BPF_TOOLCHAIN_HOST=y
-# CONFIG_KERNEL_XDP_SOCKETS=y
-# CONFIG_PACKAGE_kmod-xdp-sockets-diag=y
-# EOF
-# }
-# cat_ebpf_config(".config")
+function cat_ebpf_config() {
+#ebpf相关
+  cat >> $1 <<EOF
+#eBPF
+CONFIG_DEVEL=y
+CONFIG_KERNEL_DEBUG_INFO=y
+CONFIG_KERNEL_DEBUG_INFO_REDUCED=n
+CONFIG_KERNEL_DEBUG_INFO_BTF=y
+CONFIG_KERNEL_CGROUPS=y
+CONFIG_KERNEL_CGROUP_BPF=y
+CONFIG_KERNEL_BPF_EVENTS=y
+CONFIG_BPF_TOOLCHAIN_HOST=y
+CONFIG_KERNEL_XDP_SOCKETS=y
+CONFIG_PACKAGE_kmod-xdp-sockets-diag=y
+EOF
+}
+cat_ebpf_config(".config")
 
-# # BPFtool 支持 eBPF 程序 反汇编（disassembly）
-# echo "CONFIG_PACKAGE_bpftool-full=y" >> ./.config
+# BPFtool 支持 eBPF 程序 反汇编（disassembly）
+echo "CONFIG_PACKAGE_bpftool-full=y" >> ./.config
 
 # #开启内存回收补丁
 # # echo "CONFIG_KERNEL_SKB_RECYCLER=y" >> ./.config
@@ -275,85 +275,85 @@ echo "CONFIG_PACKAGE_coreutils-base64=y" >> ./.config
 echo "CONFIG_PACKAGE_coreutils=y" >> ./.config
 # 简单明了的系统资源占用查看工具
 echo "CONFIG_PACKAGE_btop=y" >> ./.config
-# # 多网盘存储
-# echo "CONFIG_PACKAGE_luci-app-alist=y" >> ./.config
-# # 强大的工具Lucky大吉(需要添加源或git clone)
-# echo "CONFIG_PACKAGE_luci-app-lucky=y" >> ./.config
-# # 网络通信工具
-# echo "CONFIG_PACKAGE_curl=y" >> ./.config
-# echo "CONFIG_PACKAGE_tcping=y" >> ./.config
-# # BBR 拥塞控制算法(终端侧)
-# echo "CONFIG_PACKAGE_kmod-tcp-bbr=y" >> ./.config
-# echo "CONFIG_DEFAULT_tcp_bbr=y" >> ./.config
-# # 磁盘管理
-# echo "CONFIG_PACKAGE_luci-app-diskman=y" >> ./.config
-# echo "CONFIG_PACKAGE_cfdisk=y" >> ./.config
-# # 其他调整
-# # 大鹅
-# echo "CONFIG_PACKAGE_luci-app-daed=y" >> ./.config
-# # 大鹅-next
-# # echo "CONFIG_PACKAGE_luci-app-daed-next=y" >> ./.config
-# # 连上ssh不会断开并且显示文件管理
-# echo "CONFIG_PACKAGE_opeh-sftp-server"=y
-# # docker只能集成
-# echo "CONFIG_PACKAGE_luci-app-dockerman=y" >> ./.config
-# # qBittorrent
-# # echo "CONFIG_PACKAGE_luci-app-qbittorrent=y" >> ./.config
-# # 添加Homebox内网测速
-# # echo "CONFIG_PACKAGE_luci-app-homebox=y" >> ./.config
-# # V2rayA
-# echo "CONFIG_PACKAGE_luci-app-v2raya=y" >> ./.config
-# echo "CONFIG_PACKAGE_v2ray-core=y" >> ./.config
-# echo "CONFIG_PACKAGE_v2ray-geoip=y" >> ./.config
-# echo "CONFIG_PACKAGE_v2ray-geosite=y" >> ./.config
-# # NSS的sqm
-# # echo "CONFIG_PACKAGE_luci-app-sqm=y" >> ./.config
-# # echo "CONFIG_PACKAGE_sqm-scripts-nss=y" >> ./.config
-# # NSS MASH
-# # echo "CONFIG_ATH11K_NSS_MESH=y" >> ./.config
-# # 不知道什么 加上去
-# # echo "CONFIG_PACKAGE_MAC80211_NSS_REDIRECT=y" >> ./.config
-# # istore 编译报错
-# # echo "CONFIG_PACKAGE_luci-app-istorex=y" >> ./.config
-# # QuickStart
-# # echo "CONFIG_PACKAGE_luci-app-quickstart=y" >> ./.config
-# # filebrowser-go
-# # echo "CONFIG_PACKAGE_luci-app-filebrowser-go=y" >> ./.config
-# # 图形化web UI luci-app-uhttpd	
-# echo "CONFIG_PACKAGE_luci-app-uhttpd=y" >> ./.config
-# # 多播
-# # echo "CONFIG_PACKAGE_luci-app-syncdial=y" >> ./.config
-# # MosDNS
-# echo "CONFIG_PACKAGE_luci-app-mosdns=y" >> ./.config
-# # Natter2 报错
-# # echo "CONFIG_PACKAGE_luci-app-natter2=y" >> ./.config
-# # 文件管理器
-# echo "CONFIG_PACKAGE_luci-app-filemanager=y" >> ./.config
-# # 不要coremark 避免多线程编译报错
-# # echo "CONFIG_PACKAGE_coremark=n" >> ./.config
-# # 基于Golang的多协议转发工具
-# echo "CONFIG_PACKAGE_luci-app-gost=y" >> ./.config
-# # Go语言解析
-# # echo "CONFIG_PACKAGE_golang=y" >> ./.config
-# # Git
-# echo "CONFIG_PACKAGE_git-http=y" >> ./.config
-# # Nginx替换Uhttpd
-# echo "CONFIG_PACKAGE_nginx-mod-luci=y" >> ./.config
-# # Nginx的图形化界面
-# echo "CONFIG_PACKAGE_luci-app-nginx=y" >> ./.config
-# # HAProxy 比Nginx更强大的反向代理服务器
-# echo "CONFIG_PACKAGE_luci-app-haproxy-tcp=y" >> ./.config
-# # Adguardhome去广告
-# echo "CONFIG_PACKAGE_luci-app-adguardhome=y" >> ./.config
-# # cloudflre速度筛选器
-# echo "CONFIG_PACKAGE_luci-app-cloudflarespeedtest=y" >> ./.config
-# # OpenClash
-# echo "CONFIG_PACKAGE_luci-app-openclash=y" >> ./.config
-# # nfs-kernel-server共享
-# echo "CONFIG_PACKAGE_nfs-kernel-server=y" >> ./.config
-# # Kiddin9 luci-app-nfs
-# echo "CONFIG_PACKAGE_luci-app-nfs=y" >> ./.config
-# # zoneinfo-asia tzdata（时区数据库）的一部分，只包含亚洲相关的时区数据 zoneinfo-all全部时区（体积较大，不推荐在嵌入设备）
-# echo "CONFIG_PACKAGE_zoneinfo-all=y" >> ./.config
-# # Caddy
-# echo "CONFIG_PACKAGE_luci-app-caddy=y" >> ./.config
+# 多网盘存储
+echo "CONFIG_PACKAGE_luci-app-alist=y" >> ./.config
+# 强大的工具Lucky大吉(需要添加源或git clone)
+echo "CONFIG_PACKAGE_luci-app-lucky=y" >> ./.config
+# 网络通信工具
+echo "CONFIG_PACKAGE_curl=y" >> ./.config
+echo "CONFIG_PACKAGE_tcping=y" >> ./.config
+# BBR 拥塞控制算法(终端侧)
+echo "CONFIG_PACKAGE_kmod-tcp-bbr=y" >> ./.config
+echo "CONFIG_DEFAULT_tcp_bbr=y" >> ./.config
+# 磁盘管理
+echo "CONFIG_PACKAGE_luci-app-diskman=y" >> ./.config
+echo "CONFIG_PACKAGE_cfdisk=y" >> ./.config
+# 其他调整
+# 大鹅
+echo "CONFIG_PACKAGE_luci-app-daed=y" >> ./.config
+# 大鹅-next
+# echo "CONFIG_PACKAGE_luci-app-daed-next=y" >> ./.config
+# 连上ssh不会断开并且显示文件管理
+echo "CONFIG_PACKAGE_opeh-sftp-server"=y
+# docker只能集成
+echo "CONFIG_PACKAGE_luci-app-dockerman=y" >> ./.config
+# qBittorrent
+# echo "CONFIG_PACKAGE_luci-app-qbittorrent=y" >> ./.config
+# 添加Homebox内网测速
+# echo "CONFIG_PACKAGE_luci-app-homebox=y" >> ./.config
+# V2rayA
+echo "CONFIG_PACKAGE_luci-app-v2raya=y" >> ./.config
+echo "CONFIG_PACKAGE_v2ray-core=y" >> ./.config
+echo "CONFIG_PACKAGE_v2ray-geoip=y" >> ./.config
+echo "CONFIG_PACKAGE_v2ray-geosite=y" >> ./.config
+# NSS的sqm
+# echo "CONFIG_PACKAGE_luci-app-sqm=y" >> ./.config
+# echo "CONFIG_PACKAGE_sqm-scripts-nss=y" >> ./.config
+# NSS MASH
+# echo "CONFIG_ATH11K_NSS_MESH=y" >> ./.config
+# 不知道什么 加上去
+# echo "CONFIG_PACKAGE_MAC80211_NSS_REDIRECT=y" >> ./.config
+# istore 编译报错
+# echo "CONFIG_PACKAGE_luci-app-istorex=y" >> ./.config
+# QuickStart
+# echo "CONFIG_PACKAGE_luci-app-quickstart=y" >> ./.config
+# filebrowser-go
+# echo "CONFIG_PACKAGE_luci-app-filebrowser-go=y" >> ./.config
+# 图形化web UI luci-app-uhttpd	
+echo "CONFIG_PACKAGE_luci-app-uhttpd=y" >> ./.config
+# 多播
+# echo "CONFIG_PACKAGE_luci-app-syncdial=y" >> ./.config
+# MosDNS
+echo "CONFIG_PACKAGE_luci-app-mosdns=y" >> ./.config
+# Natter2 报错
+# echo "CONFIG_PACKAGE_luci-app-natter2=y" >> ./.config
+# 文件管理器
+echo "CONFIG_PACKAGE_luci-app-filemanager=y" >> ./.config
+# 不要coremark 避免多线程编译报错
+# echo "CONFIG_PACKAGE_coremark=n" >> ./.config
+# 基于Golang的多协议转发工具
+echo "CONFIG_PACKAGE_luci-app-gost=y" >> ./.config
+# Go语言解析
+# echo "CONFIG_PACKAGE_golang=y" >> ./.config
+# Git
+echo "CONFIG_PACKAGE_git-http=y" >> ./.config
+# Nginx替换Uhttpd
+echo "CONFIG_PACKAGE_nginx-mod-luci=y" >> ./.config
+# Nginx的图形化界面
+echo "CONFIG_PACKAGE_luci-app-nginx=y" >> ./.config
+# HAProxy 比Nginx更强大的反向代理服务器
+echo "CONFIG_PACKAGE_luci-app-haproxy-tcp=y" >> ./.config
+# Adguardhome去广告
+echo "CONFIG_PACKAGE_luci-app-adguardhome=y" >> ./.config
+# cloudflre速度筛选器
+echo "CONFIG_PACKAGE_luci-app-cloudflarespeedtest=y" >> ./.config
+# OpenClash
+echo "CONFIG_PACKAGE_luci-app-openclash=y" >> ./.config
+# nfs-kernel-server共享
+echo "CONFIG_PACKAGE_nfs-kernel-server=y" >> ./.config
+# Kiddin9 luci-app-nfs
+echo "CONFIG_PACKAGE_luci-app-nfs=y" >> ./.config
+# zoneinfo-asia tzdata（时区数据库）的一部分，只包含亚洲相关的时区数据 zoneinfo-all全部时区（体积较大，不推荐在嵌入设备）
+echo "CONFIG_PACKAGE_zoneinfo-all=y" >> ./.config
+# Caddy
+echo "CONFIG_PACKAGE_luci-app-caddy=y" >> ./.config
