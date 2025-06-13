@@ -128,7 +128,7 @@ fi
 # fi
 
 # #修复dropbear
-# sed -i "s/Interface/DirectInterface/" ./package/network/services/dropbear/files/dropbear.config
+sed -i "s/Interface/DirectInterface/" ./package/network/services/dropbear/files/dropbear.config
 
 # #coremark修复
 # # sed -i 's/mkdir \$(PKG_BUILD_DIR)\/\$(ARCH)/mkdir -p \$(PKG_BUILD_DIR)\/\$(ARCH)/g' ../feeds/packages/utils/coremark/Makefile
