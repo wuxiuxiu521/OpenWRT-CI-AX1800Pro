@@ -68,7 +68,7 @@ if [[ $WRT_TARGET != *"X86"* ]]; then
 	# echo "CONFIG_TARGET_OPTIMIZATION=\"-O3 -pipe -march=armv8-a+crypto+crc -mcpu=cortex-a53+crypto+crc -mtune=cortex-a53\"" >> ./.config
 	# echo "CONFIG_TARGET_OPTIMIZATION=\"-O2 -pipe -march=armv8-a+crypto+crc -mcpu=cortex-a53+crypto+crc -mtune=cortex-a53\"" >> ./.config
  	cat <<EOF >> .config
-CONFIG_TARGET_OPTIMIZATION="-O3 \\
+CONFIG_TARGET_OPTIMIZATION="-O2 \\
 -pipe \\
 -fuse-linker-plugin \\
 -flto=auto \\
@@ -76,14 +76,22 @@ CONFIG_TARGET_OPTIMIZATION="-O3 \\
 -fno-stack-protector \\
 -fno-semantic-interposition \\
 -fvisibility=hidden \\
--ffast-math \\
--funsafe-math-optimizations \\
--fno-math-errno \\
 -falign-functions=64 \\
 -falign-jumps=32 \\
 -falign-loops=32 \\
+-mbranch-cost=2 \\
+-mtune=cortex-a53 \\
 -march=armv8-a+crypto+crc \\
--mtune=cortex-a53"
+-fsection-anchors \\
+-fipa-pta \\
+-fipa-ra \\
+-freorder-blocks-algorithm=stc \\
+-fno-math-errno \\
+-freorder-functions \\
+-fsplit-loops \\
+-fsplit-paths \\
+-ftracer \\
+-fprefetch-loop-arrays"
 EOF
 
 
