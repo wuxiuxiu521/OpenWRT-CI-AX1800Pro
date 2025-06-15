@@ -40,19 +40,24 @@ else
     echo "未设置 PPPoE 账号密码，跳过配置"
 fi
 
-# 修改nginx的头限制大小
-uci set nginx.@server[-1].large_client_header_buffers='8 32k'
-uci set nginx.@server[-1].client_max_body_size='128M'
-uci commit nginx
-/etc/init.d/nginx restart
+# 如果 nginx 未安装，跳过
+if [ -x /etc/init.d/nginx ]; then
 
-RC_LOCAL="/etc/rc.local"
-# 如果没有添加过，就添加
-grep -q "large_client_header_buffers" "$RC_LOCAL" || {
-    # 在 exit 0 之前插入命令
-    sed -i '/exit 0/i \
+    # 修改 nginx 的头限制大小
+    uci set nginx.@server[-1].large_client_header_buffers='8 32k'
+    uci set nginx.@server[-1].client_max_body_size='128M'
+    uci commit nginx
+    /etc/init.d/nginx restart
+
+    RC_LOCAL="/etc/rc.local"
+
+    # 如果 rc.local 存在并未添加，则插入命令到 exit 0 之前
+    if [ -f "$RC_LOCAL" ] && ! grep -q "large_client_header_buffers" "$RC_LOCAL"; then
+        sed -i '/exit 0/i \
 uci set nginx.@server[-1].large_client_header_buffers='\''8 32k'\''\n\
 uci set nginx.@server[-1].client_max_body_size='\''128M'\''\n\
 uci commit nginx\n\
 /etc/init.d/nginx restart\n' "$RC_LOCAL"
-}
+    fi
+
+fi
