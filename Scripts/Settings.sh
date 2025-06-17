@@ -305,8 +305,8 @@ echo "CONFIG_PACKAGE_coreutils=y" >> ./.config
 # 简单明了的系统资源占用查看工具
 echo "CONFIG_PACKAGE_btop=y" >> ./.config
 # 多网盘存储
-echo "CONFIG_PACKAGE_luci-app-alist=y" >> ./.config
-# echo "CONFIG_PACKAGE_luci-app-openlist=y" >> ./.config
+# echo "CONFIG_PACKAGE_luci-app-alist=y" >> ./.config
+echo "CONFIG_PACKAGE_luci-app-openlist=y" >> ./.config
 # 强大的工具Lucky大吉(需要添加源或git clone)
 echo "CONFIG_PACKAGE_luci-app-lucky=y" >> ./.config
 # 网络通信工具
