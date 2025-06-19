@@ -387,3 +387,5 @@ echo "CONFIG_PACKAGE_luci-app-nfs=y" >> ./.config
 echo "CONFIG_PACKAGE_zoneinfo-all=y" >> ./.config
 # Caddy
 echo "CONFIG_PACKAGE_luci-app-caddy=y" >> ./.config
+# Openssl
+echo "CONFIG_PACKAGE_openssl-util=y" >> ./.config
