@@ -1,24 +1,40 @@
-name: Auto-Clean
+name: Release-Cleanup
 
 on:
-  # #自动清理：每天早上6点
   # schedule:
-  #   - cron: 0 22 * * *
-  #手动清理
+  #   - cron: '0 20 * * 0'
   workflow_dispatch:
 
 permissions: write-all
 
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 jobs:
-  auto_clean:
+  cleanup:
     runs-on: ubuntu-latest
     steps:
-      - name: Delete old Releases and Workflows
-        uses: ophub/delete-releases-workflows@main
-        with:
-          gh_token: ${{secrets.GITHUB_TOKEN}}
-          delete_releases: true
-          releases_keep_latest: 0
-          delete_tags: true
-          delete_workflows: true
-          workflows_keep_day: 0
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up GitHub CLI
+        uses: actions/setup-github-cli@v1
+
+      - name: Delete older releases
+        run: |
+          # 获取所有 releases 列表，按创建时间排序（最新的在前）
+          releases=$(gh release list --limit 100 | awk '{print $1}')
+          
+          # 跳过第一个（最新的）release，处理其余的
+          skip_first=0
+          for release in $releases; do
+            if [ $skip_first -eq 0 ]; then
+              echo "Skipping latest release: $release"
+              skip_first=1
+            else
+              echo "Deleting release: $release"
+              gh release delete "$release" -y --delete-tag
+            fi
+          done
+          
+          echo "Old releases cleaned up, latest release preserved!"
