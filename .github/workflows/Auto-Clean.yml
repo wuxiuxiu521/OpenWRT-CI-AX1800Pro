@@ -1,8 +1,6 @@
-name: Release-Cleanup
+name: Auto-Clean
 
 on:
-  # schedule:
-  #   - cron: '0 20 * * 0'
   workflow_dispatch:
 
 permissions: write-all
@@ -17,24 +15,29 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up GitHub CLI
-        uses: actions/setup-github-cli@v3
-
-      - name: Delete older releases (keep tags)
+      - name: Install GitHub CLI (手动安装方法)
         run: |
-          # 获取所有 releases 列表，按创建时间排序（最新的在前）
+          curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
+          echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+          sudo apt update
+          sudo apt install gh -y
+          gh --version
+
+      - name: Delete older releases (保留最新的一个)
+        run: |
+          # 获取所有 releases，按创建时间排序（最新的在前）
           releases=$(gh release list --limit 100 | awk '{print $1}')
           
-          # 跳过第一个（最新的）release，处理其余的
-          skip_first=0
+          # 跳过第一个（最新的）release，删除其余的
+          first=true
           for release in $releases; do
-            if [ $skip_first -eq 0 ]; then
-              echo "Skipping latest release: $release"
-              skip_first=1
+            if [ "$first" = true ]; then
+              echo "保留最新的 release: $release"
+              first=false
             else
-              echo "Deleting release: $release (keeping tag)"
-              gh release delete "$release" -y
+              echo "删除旧的 release: $release"
+              gh release delete "$release" -y --delete-tag  # 如果你想保留标签，移除 --delete-tag
             fi
           done
           
-          echo "Old releases cleaned up, tags preserved!"
+          echo "清理完成：保留了最新的 release，删除了 $(echo "$releases" | wc -l) 个旧 release 中的 $(($(echo "$releases" | wc -l) - 1)) 个"
