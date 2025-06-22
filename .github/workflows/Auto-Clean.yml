@@ -18,7 +18,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up GitHub CLI
-        uses: actions/setup-github-cli@v1
+        uses: actions/setup-github-cli@v3
 
       - name: Delete older releases
         run: |
