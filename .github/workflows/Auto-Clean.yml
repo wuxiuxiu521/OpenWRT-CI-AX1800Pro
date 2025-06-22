@@ -20,7 +20,7 @@ jobs:
       - name: Set up GitHub CLI
         uses: actions/setup-github-cli@v3
 
-      - name: Delete older releases
+      - name: Delete older releases (keep tags)
         run: |
           # 获取所有 releases 列表，按创建时间排序（最新的在前）
           releases=$(gh release list --limit 100 | awk '{print $1}')
@@ -32,9 +32,9 @@ jobs:
               echo "Skipping latest release: $release"
               skip_first=1
             else
-              echo "Deleting release: $release"
-              gh release delete "$release" -y --delete-tag
+              echo "Deleting release: $release (keeping tag)"
+              gh release delete "$release" -y
             fi
           done
           
-          echo "Old releases cleaned up, latest release preserved!"
+          echo "Old releases cleaned up, tags preserved!"
