@@ -185,6 +185,18 @@ sed -i "s/Interface/DirectInterface/" ./package/network/services/dropbear/files/
 # echo "CONFIG_PACKAGE_kmod-xdp-sockets-diag=y" >> ./.config
 # echo "CONFIG_BPF_TOOLCHAIN_NONE=n" >> ./.config
 
+echo "CONFIG_CGROUPS=y" >> ./.config
+echo "CONFIG_CGROUP_CPUACCT=y" >> ./.config
+echo "CONFIG_CPUSETS=y" >> ./.config
+echo "CONFIG_CGROUP_SCHED=y" >> ./.config
+echo "CONFIG_CGROUP_CPU=y" >> ./.config
+echo "CONFIG_CGROUP_DEVICE=y" >> ./.config
+echo "CONFIG_CGROUP_FREEZER=y" >> ./.config
+echo "CONFIG_CGROUP_PIDS=y" >> ./.config
+echo "CONFIG_CGROUP_DEBUG=y" >> ./.config
+echo "CONFIG_IKCONFIG=y" >> ./.config
+echo "CONFIG_IKCONFIG_PROC=y" >> ./.config
+
 function cat_kernel_config() {
   if [ -f $1 ]; then
     cat >> $1 <<EOF
