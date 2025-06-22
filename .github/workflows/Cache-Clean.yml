@@ -1,21 +1,34 @@
-name: Cache-Clean
+name: Release-Cleanup
 
 on:
   # schedule:
-  #   - cron: 0 20 * * 0
+  #   - cron: '0 20 * * 0'
   workflow_dispatch:
 
 permissions: write-all
 
 env:
-  GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
   cleanup:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Projects
-        uses: actions/checkout@main
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - name: Cache Clean
-        run: gh cache delete --all
+      - name: Set up GitHub CLI
+        uses: actions/setup-github-cli@v1
+
+      - name: Delete older releases
+        run: |
+          # 获取除最新 release 之外的所有 release
+          releases=$(gh release list --limit 100 | tail -n +2 | awk '{print $1}')
+          
+          # 逐个删除较旧的 release
+          for release in $releases; do
+            echo "Deleting release: $release"
+            gh release delete "$release" -y
+          done
+          
+          echo "Releases cleaned up successfully!"
