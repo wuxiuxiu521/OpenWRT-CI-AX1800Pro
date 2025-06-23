@@ -57,7 +57,7 @@ UPDATE_PACKAGE "passwall2" "xiaorouji/openwrt-passwall2" "main" "pkg"
 UPDATE_PACKAGE "luci-app-tailscale" "asvow/luci-app-tailscale" "main"
 
 # UPDATE_PACKAGE "alist" "sbwml/luci-app-alist" "main"
-UPDATE_PACKAGE "alist" "sbwml/luci-app-openlist" "main"
+# UPDATE_PACKAGE "alist" "sbwml/luci-app-openlist" "main"
 UPDATE_PACKAGE "ddns-go" "sirpdboy/luci-app-ddns-go" "main"
 UPDATE_PACKAGE "easytier" "EasyTier/luci-app-easytier" "main"
 UPDATE_PACKAGE "gecoosac" "lwb1978/openwrt-gecoosac" "main"
@@ -199,5 +199,5 @@ function update_script_priority() {
     fi
 }
 
-# rm -rf package/alist
-# git clone https://github.com/sbwml/luci-app-openlist package/openlist
+rm -rf package/alist
+git clone https://github.com/sbwml/luci-app-openlist package/openlist
