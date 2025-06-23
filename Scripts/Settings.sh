@@ -84,7 +84,7 @@ echo "CONFIG_PACKAGE_jq=y" >> ./.config
 echo "CONFIG_PACKAGE_btop=y" >> ./.config
 # 多网盘存储
 # echo "CONFIG_PACKAGE_luci-app-alist=y" >> ./.config
-# echo "CONFIG_PACKAGE_luci-app-openlist=y" >> ./.config
+echo "CONFIG_PACKAGE_luci-app-openlist=y" >> ./.config
 # 强大的工具(需要添加源或git clone)
 echo "CONFIG_PACKAGE_luci-app-lucky=y" >> ./.config
 # 网络通信工具
