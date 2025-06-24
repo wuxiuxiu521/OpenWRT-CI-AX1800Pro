@@ -98,23 +98,23 @@ echo "CONFIG_PACKAGE_curl=y" >> ./.config
 echo "CONFIG_PACKAGE_tcping=y" >> ./.config
 # BBR 拥塞控制算法(终端侧) + CAKE 一种现代化的队列管理算法(路由侧)
 echo "CONFIG_PACKAGE_kmod-tcp-bbr=y" >> ./.config
-echo "CONFIG_DEFAULT_tcp_cubic=y" >> ./.config
+echo "CONFIG_DEFAULT_tcp_bbr=y" >> ./.config
 # 磁盘管理
 echo "CONFIG_PACKAGE_luci-app-diskman=y" >> ./.config
 echo "CONFIG_PACKAGE_cfdisk=y" >> ./.config
 # docker(只能集成)
 echo "CONFIG_PACKAGE_luci-app-dockerman=y" >> ./.config
 # qBittorrent
-echo "CONFIG_PACKAGE_luci-app-qbittorrent=y" >> ./.config
+# echo "CONFIG_PACKAGE_luci-app-qbittorrent=y" >> ./.config
 # 强大的工具Lucky大吉(需要添加源或git clone)
 echo "CONFIG_PACKAGE_luci-app-lucky=y" >> ./.config
 # Caddy
-echo "CONFIG_PACKAGE_luci-app-caddy=y" >> ./.config
+# echo "CONFIG_PACKAGE_luci-app-caddy=y" >> ./.config
 # V2rayA
-echo "CONFIG_PACKAGE_luci-app-v2raya=y" >> ./.config
-echo "CONFIG_PACKAGE_v2ray-core=y" >> ./.config
-echo "CONFIG_PACKAGE_v2ray-geoip=y" >> ./.config
-echo "CONFIG_PACKAGE_v2ray-geosite=y" >> ./.config
+# echo "CONFIG_PACKAGE_luci-app-v2raya=y" >> ./.config
+# echo "CONFIG_PACKAGE_v2ray-core=y" >> ./.config
+# echo "CONFIG_PACKAGE_v2ray-geoip=y" >> ./.config
+# echo "CONFIG_PACKAGE_v2ray-geosite=y" >> ./.config
 # Natter2 报错
 # echo "CONFIG_PACKAGE_luci-app-natter2=y" >> ./.config
 # 文件管理器
@@ -128,20 +128,20 @@ echo "CONFIG_PACKAGE_nginx-mod-luci=y" >> ./.config
 # Nginx的图形化界面
 echo "CONFIG_PACKAGE_luci-app-nginx=y" >> ./.config
 # HAProxy 比Nginx更强大的反向代理服务器
-echo "CONFIG_PACKAGE_luci-app-haproxy-tcp=y" >> ./.config
+# echo "CONFIG_PACKAGE_luci-app-haproxy-tcp=y" >> ./.config
 # Adguardhome去广告
 echo "CONFIG_PACKAGE_luci-app-adguardhome=y" >> ./.config
 # cloudflre速度筛选器
 # echo "CONFIG_PACKAGE_luci-app-cloudflarespeedtest=y" >> ./.config
 # OpenClash
-echo "CONFIG_PACKAGE_luci-app-openclash=y" >> ./.config
+# echo "CONFIG_PACKAGE_luci-app-openclash=y" >> ./.config
 # nfs-kernel-server共享
-echo "CONFIG_PACKAGE_nfs-kernel-server=y" >> ./.config
+# echo "CONFIG_PACKAGE_nfs-kernel-server=y" >> ./.config
 # Kiddin9 luci-app-nfs
-echo "CONFIG_PACKAGE_luci-app-nfs=y" >> ./.config
+# echo "CONFIG_PACKAGE_luci-app-nfs=y" >> ./.config
 # zoneinfo-asia tzdata（时区数据库）的一部分，只包含亚洲相关的时区数据 zoneinfo-all全部时区（体积较大，不推荐在嵌入设备）
 echo "CONFIG_PACKAGE_zoneinfo-all=y" >> ./.config
 # Caddy
-echo "CONFIG_PACKAGE_luci-app-caddy=y" >> ./.config
+# echo "CONFIG_PACKAGE_luci-app-caddy=y" >> ./.config
 # Openssl
-echo "CONFIG_PACKAGE_openssl-util=y" >> ./.config
+# echo "CONFIG_PACKAGE_openssl-util=y" >> ./.config
