@@ -79,6 +79,10 @@ echo "CONFIG_PACKAGE_luci-app-tailscale=n" >> ./.config
 echo "CONFIG_PACKAGE_luci-app-advancedplus=n" >> ./.config
 echo "CONFIG_PACKAGE_luci-theme-kucat=n" >> ./.config
 
+# Docker --cpuset-cpus="0-1"
+echo "CONFIG_CGROUPS=y" >> ./.config
+echo "CONFIG_CPUSETS=y" >> ./.config
+
 # 可以让FinalShell查看文件列表并且ssh连上不会自动断开
 echo "CONFIG_PACKAGE_openssh-sftp-server=y" >> ./.config
 # 解析、查询、操作和格式化 JSON 数据
