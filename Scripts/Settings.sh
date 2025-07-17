@@ -151,3 +151,5 @@ echo "CONFIG_PACKAGE_zoneinfo-all=y" >> ./.config
 # echo "CONFIG_PACKAGE_openssl-util=y" >> ./.config
 # dig命令
 echo "CONFIG_PACKAGE_bind-dig=y" >> ./.config
+# ss 网络抓包工具
+echo "CONFIG_PACKAGE_ss=y" >> ./.config
