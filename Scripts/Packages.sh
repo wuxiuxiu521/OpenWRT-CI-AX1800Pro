@@ -145,10 +145,13 @@ git_sparse_clone main https://github.com/kenzok8/small-package daed-next luci-ap
 
 git_sparse_clone main https://github.com/kiddin9/kwrt-packages natter2 luci-app-natter2 luci-app-cloudflarespeedtest luci-app-caddy openwrt-caddy
 
+git clone --depth 1 --single-branch https://github.com/breeze303/openwrt-podman package/podman
+./scripts/feeds install -a
+
 wget "https://alist.lovelyy.eu.org/d/CloudFlareR2/immortalwrt/nginx/ngnx.conf?sign=FN_uiyymuja-Aj1z4I4Pevn3arIZXBdslq8Zjd_akdo=:0" -O ../feeds/packages/net/nginx-util/files/nginx.config
 # echo 检测一下nginx的配置文件
 # cat ../feeds/packages/net/nginx-util/files/nginx.config
 
-sed -i 's/^large_client_header_buffers .*/large_client_header_buffers 8 32k;/' ../feeds/packages/net/nginx-util/files/uci.conf.template
+# sed -i 's/^large_client_header_buffers .*/large_client_header_buffers 8 32k;/' ../feeds/packages/net/nginx-util/files/uci.conf.template
 检测一下nginx包头是否由2个K改成8个32K
 cat ../feeds/packages/net/nginx-util/files/uci.conf.template
