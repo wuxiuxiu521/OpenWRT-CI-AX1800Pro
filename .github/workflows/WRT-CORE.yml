@@ -99,21 +99,42 @@ jobs:
 
           echo "OPENWRT_PATH=$PWD" >> $GITHUB_ENV
 
-      - name: Install latest Clang/LLVM(安装最新的 LLVM/Clang)
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y lsb-release wget software-properties-common gnupg
-          wget -qO - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
-          echo "deb http://apt.llvm.org/$(lsb_release -sc)/ llvm-toolchain-$(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/llvm.list
-          sudo apt-get update
-          sudo apt-get install -y clang llvm
+      # - name: Install latest Clang/LLVM(安装最新的 LLVM/Clang)
+      #   run: |
+      #     sudo apt-get update
+      #     sudo apt-get install -y lsb-release wget software-properties-common gnupg
+      #     wget -qO - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
+      #     echo "deb http://apt.llvm.org/$(lsb_release -sc)/ llvm-toolchain-$(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/llvm.list
+      #     sudo apt-get update
+      #     sudo apt-get install -y clang llvm
 
-      - name: Combine Disks(合并磁盘)
-        uses: easimon/maximize-build-space@master
-        with:
-          swap-size-mb: 2048
-          temp-reserve-mb: 100
-          root-reserve-mb: 2048
+      #  - name: Install latest stable Clang (Clang 18)
+      #   run: |
+      #     # 1. 下载并运行官方的 LLVM 安装脚本，指定版本 18
+      #     # 这个脚本会自动处理好 GPG 密钥和 apt 软件源，避免依赖冲突
+      #     wget https://apt.llvm.org/llvm.sh
+      #     chmod +x llvm.sh
+      #     sudo ./llvm.sh 18
+ 
+      #     # 2. 安装指定的 Clang 和 LLD 工具
+      #     # 直接安装 clang-18 和 lld-18，而不是模糊的 clang 包，保证版本正确
+      #     sudo apt-get install -y clang-18 lld-18
+ 
+      #     # 3. 设置环境变量，让后续步骤默认使用新安装的 Clang
+      #     # 这是关键一步，确保 cmake/make/cc 等命令能找到正确的编译器
+      #     echo "CC=clang-18" >> $GITHUB_ENV
+      #     echo "CXX=clang++-18" >> $GITHUB_ENV
+ 
+      #     # 4. (可选) 验证安装是否成功
+      #     echo "Verifying Clang version:"
+      #     clang --version
+  
+        - name: Combine Disks(合并磁盘)
+          uses: easimon/maximize-build-space@master
+          with:
+            swap-size-mb: 2048
+            temp-reserve-mb: 100
+            root-reserve-mb: 2048
 
       - name: Checkout Projects(拉取云编译仓库(本仓库)脚本)
         uses: actions/checkout@main
