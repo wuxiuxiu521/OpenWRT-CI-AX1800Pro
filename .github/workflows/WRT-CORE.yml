@@ -99,6 +99,12 @@ jobs:
 
           echo "OPENWRT_PATH=$PWD" >> $GITHUB_ENV
 
+      - name: 设置 Clang
+        uses: egor-tensin/setup-clang@v1
+        with:
+          version: latest # 这将安装可用的最新版本
+          platform: x64   # 指定 'x86' 以安装 32 位版本
+
       - name: Combine Disks(合并磁盘)
         uses: easimon/maximize-build-space@master
         with:
