@@ -103,7 +103,7 @@ echo "CONFIG_PACKAGE_tcping=y" >> ./.config
 # # 更改默认的拥塞控制算法为cubic
 # echo "CONFIG_DEFAULT_tcp_cubic=y" >> ./.config
 # 磁盘管理
-echo "CONFIG_PACKAGE_luci-app-diskman=y" >> ./.config
+# echo "CONFIG_PACKAGE_luci-app-diskman=y" >> ./.config
 echo "CONFIG_PACKAGE_cfdisk=y" >> ./.config
 # docker(只能集成)
 echo "CONFIG_PACKAGE_luci-app-dockerman=y" >> ./.config
