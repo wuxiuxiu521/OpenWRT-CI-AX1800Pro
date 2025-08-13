@@ -257,6 +257,8 @@ jobs:
 
             find ./bin/targets/ -type f -exec mv -f {} ./upload/ \;
 
+            export LDFLAGS="-fuse-ld=lld"
+
             make clean -j$(nproc)
           fi
 
