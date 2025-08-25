@@ -106,9 +106,9 @@ echo "CONFIG_PACKAGE_tcping=y" >> ./.config
 # echo "CONFIG_PACKAGE_luci-app-diskman=y" >> ./.config
 echo "CONFIG_PACKAGE_cfdisk=y" >> ./.config
 # docker(只能集成)
-echo "CONFIG_PACKAGE_luci-app-dockerman=y" >> ./.config
+# echo "CONFIG_PACKAGE_luci-app-dockerman=y" >> ./.config
 # Podman
-# echo "CONFIG_PACKAGE_luci-app-podman=y" >> ./.config
+echo "CONFIG_PACKAGE_luci-app-podman=y" >> ./.config
 # qBittorrent
 # echo "CONFIG_PACKAGE_luci-app-qbittorrent=y" >> ./.config
 # 强大的工具Lucky大吉(需要添加源或git clone)
