@@ -89,6 +89,7 @@ jobs:
           sudo -E apt -yqq autoclean
           sudo -E apt -yqq clean
           sudo -E apt -yqq install dos2unix python3-netifaces libfuse-dev
+          sudo -E apt -yqq install clang
           sudo bash -c 'bash <(curl -sL https://build-scripts.immortalwrt.org/init_build_environment.sh)'
           sudo -E systemctl daemon-reload
           sudo -E timedatectl set-timezone "Asia/Shanghai"
@@ -99,11 +100,11 @@ jobs:
 
           echo "OPENWRT_PATH=$PWD" >> $GITHUB_ENV
 
-      - name: 设置 Clang
-        uses: egor-tensin/setup-clang@v1
-        with:
-          version: latest # 这将安装可用的最新版本
-          platform: x64   # 指定 'x86' 以安装 32 位版本
+      # - name: 设置 Clang
+      #   uses: egor-tensin/setup-clang@v1
+      #   with:
+      #     version: latest # 这将安装可用的最新版本
+      #     platform: x64   # 指定 'x86' 以安装 32 位版本
 
       - name: Combine Disks(合并磁盘)
         uses: easimon/maximize-build-space@master
