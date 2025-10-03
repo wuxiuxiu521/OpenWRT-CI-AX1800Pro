@@ -114,7 +114,7 @@ echo "CONFIG_PACKAGE_luci-app-podman=y" >> ./.config
 # 强大的工具Lucky大吉(需要添加源或git clone)
 echo "CONFIG_PACKAGE_luci-app-lucky=y" >> ./.config
 # Caddy
-# echo "CONFIG_PACKAGE_luci-app-caddy=y" >> ./.config
+echo "CONFIG_PACKAGE_luci-app-caddy=y" >> ./.config
 # V2rayA
 # echo "CONFIG_PACKAGE_luci-app-v2raya=y" >> ./.config
 # echo "CONFIG_PACKAGE_v2ray-core=y" >> ./.config
