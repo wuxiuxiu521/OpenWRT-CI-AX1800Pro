@@ -154,3 +154,5 @@ echo "CONFIG_PACKAGE_zoneinfo-all=y" >> ./.config
 echo "CONFIG_PACKAGE_bind-dig=y" >> ./.config
 # ss 网络抓包工具
 echo "CONFIG_PACKAGE_ss=y" >> ./.config
+# luci-app-turboacc
+echo "CONFIG_PACKAGE_luci-app-turboacc=y" >> ./.config
