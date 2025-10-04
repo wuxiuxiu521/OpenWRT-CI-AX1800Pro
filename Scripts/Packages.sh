@@ -157,3 +157,9 @@ wget "https://gitee.com/white-wolf-vvvk/DK8sDDosFirewall/raw/main/openwrtnginx.c
 # sed -i 's/^large_client_header_buffers .*/large_client_header_buffers 8 32k;/' ../feeds/packages/net/nginx-util/files/uci.conf.template
 检测一下nginx包头是否由2个K改成8个32K
 cat ../feeds/packages/net/nginx-util/files/uci.conf.template
+
+# 带sfe:
+curl -sSL https://raw.githubusercontent.com/chenmozhijin/turboacc/luci/add_turboacc.sh -o add_turboacc.sh && bash add_turboacc.sh
+
+# 不带sfe:
+# curl -sSL https://raw.githubusercontent.com/chenmozhijin/turboacc/luci/add_turboacc.sh -o add_turboacc.sh && bash add_turboacc.sh --no-sfe
