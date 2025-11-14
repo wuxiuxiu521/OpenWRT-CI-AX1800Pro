@@ -156,3 +156,5 @@ echo "CONFIG_PACKAGE_bind-dig=y" >> ./.config
 echo "CONFIG_PACKAGE_ss=y" >> ./.config
 # luci-app-turboacc
 echo "CONFIG_PACKAGE_luci-app-turboacc=y" >> ./.config
+# 让data时间精确到纳秒毫秒计算
+echo "CONFIG_PACKAGE_coreutils-date=y" >> ./.config
