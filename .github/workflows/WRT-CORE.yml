@@ -107,6 +107,9 @@ jobs:
           temp-reserve-mb: 100
           root-reserve-mb: 4096
 
+      - name: Checkout Projects(拉取云编译仓库(本仓库)脚本)
+        uses: actions/checkout@main
+
       - name: Initialization Values(初始化变量)
         run: |
           echo "WRT_DATE=$(TZ=UTC-8 date +"%y.%m.%d-%H.%M.%S")" >> $GITHUB_ENV
