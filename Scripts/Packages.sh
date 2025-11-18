@@ -149,6 +149,9 @@ git_sparse_clone main https://github.com/kenzok8/small-package daed-next luci-ap
 
 git_sparse_clone main https://github.com/kiddin9/kwrt-packages natter2 luci-app-natter2 luci-app-cloudflarespeedtest luci-app-caddy openwrt-caddy
 
+# docker
+git_sparse_clone main https://github.com/kiddin9/kwrt-packages luci-app-dockerman luci-app-docker docker-lan-bridge dockerd
+
 git clone --depth 1 --single-branch https://github.com/breeze303/openwrt-podman package/podman
 ./scripts/feeds install -a
 
