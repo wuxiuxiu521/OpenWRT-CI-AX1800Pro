@@ -35,7 +35,7 @@ Config——自定义配置
 
 # ~~使用 BBR暴力提速~
 
-## ~~使用podman替代docker~
+## ~~使用podman替代docker~~
 
 # Tips ! 如果你想在本地进行编译的话 准备以下步骤(针对AX1800Pro)
 
