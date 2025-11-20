@@ -103,6 +103,7 @@ echo "CONFIG_PACKAGE_tcping=y" >> ./.config
 # BBR 拥塞控制算法(终端侧) + CAKE 一种现代化的队列管理算法(路由侧)
 echo "CONFIG_PACKAGE_kmod-tcp-bbr=y" >> ./.config
 # echo "CONFIG_DEFAULT_tcp_bbr=y" >> ./.config
+echo "CONFIG_DEFAULT_tcp_cubic=y" >> ./.config
 # 更改默认的拥塞控制算法为cubic
 echo "CONFIG_DEFAULT_tcp_cubic=y" >> ./.config
 # 磁盘管理
