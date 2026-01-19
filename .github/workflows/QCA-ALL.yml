@@ -5,12 +5,9 @@ name: QCA-ALL
 on:
   #自动编译：当Auto-Clean运行完成后
   workflow_run:
-    # workflows: ["Auto-Clean"]
+    workflows: ["Auto-Clean"]
     # types:
     #   - completed
-    # 自动清理：每天早上6点
-    # schedule:
-    #   - cron: 0 22 * * *
     schedule:
       - cron: '0 3 * * 1' # 每周一构建一次 (例如，每周一凌晨3点)
   #手动编译

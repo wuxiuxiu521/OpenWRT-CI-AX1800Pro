@@ -139,6 +139,7 @@ git clone https://github.com/sirpdboy/luci-app-lucky.git package/lucky
 # rm -rf ../feeds/packages/net/{shadowsocks-rust,shadowsocksr-libev,xray*,v2ray*,dae*,sing-box,geoview}
 rm -rf ../feeds/luci/applications/luci-app-{dae*}
 rm -rf ../feeds/packages/net/{dae*}
+
 # QiuSimons luci-app-daed
 git clone https://github.com/QiuSimons/luci-app-daed package/dae
 mkdir -p Package/libcron && wget -O Package/libcron/Makefile https://raw.githubusercontent.com/immortalwrt/packages/refs/heads/master/libs/libcron/Makefile
@@ -164,3 +165,6 @@ wget "https://r2.lovelyy.eu.org/raw/immortalwrt/nginx/ngnx.conf" -O ../feeds/pac
 # sed -i 's/^large_client_header_buffers .*/large_client_header_buffers 8 32k;/' ../feeds/packages/net/nginx-util/files/uci.conf.template
 检测一下nginx包头是否由2个K改成8个32K
 cat ../feeds/packages/net/nginx-util/files/uci.conf.template
+
+# 查看在线端
+git clone https://github.com/zzsj0928/luci-app-pushbot package/luci-app-pushbot
