@@ -68,3 +68,98 @@ if [[ "${WRT_TARGET^^}" == *"QUALCOMMAX"* ]]; then
 	#其他调整
 	echo "CONFIG_PACKAGE_kmod-usb-serial-qualcomm=y" >> ./.config
 fi
+
+# #修复dropbear
+sed -i "s/Interface/DirectInterface/" ./package/network/services/dropbear/files/dropbear.config
+
+# 想要剔除的
+# echo "CONFIG_PACKAGE_htop=n" >> ./.config
+# echo "CONFIG_PACKAGE_iperf3=n" >> ./.config
+echo "CONFIG_PACKAGE_luci-app-wolplus=n" >> ./.config
+echo "CONFIG_PACKAGE_luci-app-tailscale=n" >> ./.config
+echo "CONFIG_PACKAGE_luci-app-advancedplus=n" >> ./.config
+echo "CONFIG_PACKAGE_luci-theme-kucat=n" >> ./.config
+
+# Docker --cpuset-cpus="0-1"
+echo "CONFIG_CGROUPS=y" >> ./.config
+echo "CONFIG_CPUSETS=y" >> ./.config
+
+# bash命令兼容工具
+echo "CONFIG_PACKAGE_bash=y" >> ./.config
+# 可以让FinalShell查看文件列表并且ssh连上不会自动断开
+echo "CONFIG_PACKAGE_openssh-sftp-server=y" >> ./.config
+# 解析、查询、操作和格式化 JSON 数据
+echo "CONFIG_PACKAGE_jq=y" >> ./.config
+# base64 修改码云上的内容 需要用到
+echo "CONFIG_PACKAGE_coreutils-base64=y" >> ./.config
+echo "CONFIG_PACKAGE_coreutils=y" >> ./.config
+# 简单明了的系统资源占用查看工具
+echo "CONFIG_PACKAGE_btop=y" >> ./.config
+# 多网盘存储
+# echo "CONFIG_PACKAGE_luci-app-alist=y" >> ./.config
+echo "CONFIG_PACKAGE_luci-app-openlist2=y" >> ./.config
+# 强大的工具(需要添加源或git clone)
+echo "CONFIG_PACKAGE_luci-app-lucky=y" >> ./.config
+# 网络通信工具
+echo "CONFIG_PACKAGE_curl=y" >> ./.config
+echo "CONFIG_PACKAGE_tcping=y" >> ./.config
+# BBR 拥塞控制算法(终端侧) + CAKE 一种现代化的队列管理算法(路由侧)
+echo "CONFIG_PACKAGE_kmod-tcp-bbr=y" >> ./.config
+# echo "CONFIG_DEFAULT_tcp_bbr=y" >> ./.config
+echo "CONFIG_DEFAULT_tcp_cubic=y" >> ./.config
+# 更改默认的拥塞控制算法为cubic
+echo "CONFIG_DEFAULT_tcp_cubic=y" >> ./.config
+# 磁盘管理
+echo "CONFIG_PACKAGE_luci-app-diskman=y" >> ./.config
+echo "CONFIG_PACKAGE_cfdisk=y" >> ./.config
+# docker(只能集成)
+echo "CONFIG_PACKAGE_luci-app-dockerman=y" >> ./.config
+# Podman
+# echo "CONFIG_PACKAGE_luci-app-podman=y" >> ./.config
+# qBittorrent
+# echo "CONFIG_PACKAGE_luci-app-qbittorrent=y" >> ./.config
+# 强大的工具Lucky大吉(需要添加源或git clone)
+echo "CONFIG_PACKAGE_luci-app-lucky=y" >> ./.config
+# Caddy
+# echo "CONFIG_PACKAGE_luci-app-caddy=y" >> ./.config
+# V2rayA
+# echo "CONFIG_PACKAGE_luci-app-v2raya=y" >> ./.config
+# echo "CONFIG_PACKAGE_v2ray-core=y" >> ./.config
+# echo "CONFIG_PACKAGE_v2ray-geoip=y" >> ./.config
+# echo "CONFIG_PACKAGE_v2ray-geosite=y" >> ./.config
+# Natter2 报错
+# echo "CONFIG_PACKAGE_luci-app-natter2=y" >> ./.config
+# 文件管理器
+echo "CONFIG_PACKAGE_luci-app-filemanager=y" >> ./.config
+# 基于Golang的多协议转发工具
+echo "CONFIG_PACKAGE_luci-app-gost=y" >> ./.config
+# Git
+echo "CONFIG_PACKAGE_git-http=y" >> ./.config
+# Nginx替换Uhttpd
+echo "CONFIG_PACKAGE_nginx-mod-luci=y" >> ./.config
+# Nginx的图形化界面
+echo "CONFIG_PACKAGE_luci-app-nginx=y" >> ./.config
+# HAProxy 比Nginx更强大的反向代理服务器
+# echo "CONFIG_PACKAGE_luci-app-haproxy-tcp=y" >> ./.config
+# Adguardhome去广告
+echo "CONFIG_PACKAGE_luci-app-adguardhome=y" >> ./.config
+# cloudflre速度筛选器
+# echo "CONFIG_PACKAGE_luci-app-cloudflarespeedtest=y" >> ./.config
+# OpenClash
+# echo "CONFIG_PACKAGE_luci-app-openclash=y" >> ./.config
+# nfs-kernel-server共享
+# echo "CONFIG_PACKAGE_nfs-kernel-server=y" >> ./.config
+# Kiddin9 luci-app-nfs
+# echo "CONFIG_PACKAGE_luci-app-nfs=y" >> ./.config
+# zoneinfo-asia tzdata（时区数据库）的一部分，只包含亚洲相关的时区数据 zoneinfo-all全部时区（体积较大，不推荐在嵌入设备）
+echo "CONFIG_PACKAGE_zoneinfo-all=y" >> ./.config
+# Caddy
+# echo "CONFIG_PACKAGE_luci-app-caddy=y" >> ./.config
+# Openssl
+# echo "CONFIG_PACKAGE_openssl-util=y" >> ./.config
+# dig命令
+echo "CONFIG_PACKAGE_bind-dig=y" >> ./.config
+# ss 网络抓包工具
+echo "CONFIG_PACKAGE_ss=y" >> ./.config
+# coreutils-date让你的时间计步器精确到纳秒
+echo "CONFIG_PACKAGE_coreutils-date=y" >> ./.config

@@ -5,9 +5,14 @@ name: QCA-ALL
 on:
   #自动编译：当Auto-Clean运行完成后
   workflow_run:
-    workflows: ["Auto-Clean"]
-    types:
-      - completed
+    # workflows: ["Auto-Clean"]
+    # types:
+    #   - completed
+    # 自动清理：每天早上6点
+    # schedule:
+    #   - cron: 0 22 * * *
+    schedule:
+      - cron: '0 3 * * 1' # 每周一构建一次 (例如，每周一凌晨3点)
   #手动编译
   workflow_dispatch:
     inputs:
@@ -32,7 +37,8 @@ jobs:
       fail-fast: false
       #max-parallel: 3
       matrix:
-        CONFIG: [IPQ60XX-WIFI-YES, IPQ60XX-WIFI-NO, IPQ807X-WIFI-YES, IPQ807X-WIFI-NO]
+        # CONFIG: [IPQ60XX-WIFI-YES, IPQ60XX-WIFI-NO, IPQ807X-WIFI-YES, IPQ807X-WIFI-NO]
+        CONFIG: [IPQ60XX-WIFI-YES]
         SOURCE: [VIKINGYFY/immortalwrt]
         BRANCH: [main]
 
