@@ -1,0 +1,141 @@
+# Hook式同步工作流 - 独立的同步任务
+name: Sync-Hook
+
+on:
+  schedule:
+    # 每天凌晨2点检查上游更新
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+    inputs:
+      force_sync:
+        description: '强制同步'
+        required: false
+        default: 'false'
+        type: choice
+        options:
+          - 'true'
+          - 'false'
+
+env:
+  GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
+jobs:
+  check-upstream:
+    name: 检查上游更新
+    runs-on: ubuntu-latest
+    outputs:
+      needs_sync: ${{ steps.check.outputs.needs_sync }}
+      sync_type: ${{ steps.check.outputs.sync_type }}
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@main
+        with:
+          fetch-depth: 0
+
+      - name: Check Upstream Updates
+        id: check
+        run: |
+          # 检查主源码更新
+          WRT_REPO="https://github.com/immortalwrt/immortalwrt.git"
+          WRT_BRANCH="master"
+          
+          # 获取远程最新提交
+          REMOTE_COMMIT=$(git ls-remote "$WRT_REPO" "refs/heads/$WRT_BRANCH" | cut -f1)
+          
+          # 检查本地缓存
+          mkdir -p .sync_cache
+          CACHE_FILE=".sync_cache/openwrt_master.commit"
+          
+          if [ -f "$CACHE_FILE" ]; then
+            LOCAL_COMMIT=$(cat "$CACHE_FILE")
+          else
+            LOCAL_COMMIT=""
+          fi
+          
+          # 比较提交
+          if [ "$REMOTE_COMMIT" != "$LOCAL_COMMIT" ]; then
+            echo "needs_sync=true" >> $GITHUB_OUTPUT
+            echo "sync_type=full" >> $GITHUB_OUTPUT
+            echo "$REMOTE_COMMIT" > "$CACHE_FILE"
+            echo "检测到上游更新，需要同步"
+          else
+            echo "needs_sync=false" >> $GITHUB_OUTPUT
+            echo "sync_type=none" >> $GITHUB_OUTPUT
+            echo "上游无更新，跳过同步"
+          fi
+
+  sync-packages:
+    name: 同步软件包
+    needs: check-upstream
+    if: needs.check-upstream.outputs.needs_sync == 'true' || github.event.inputs.force_sync == 'true'
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@main
+
+      - name: Setup Environment
+        run: |
+          sudo -E apt -yqq update
+          sudo -E apt -yqq install git
+
+      - name: Sync Custom Packages
+        run: |
+          chmod +x ./Scripts/SyncHook.sh
+          ./Scripts/SyncHook.sh check
+
+      - name: Cache Sync State
+        uses: actions/cache@main
+        with:
+          key: sync-state-${{ github.run_id }}
+          restore-keys: |
+            sync-state-
+          path: |
+            .sync_cache/
+            .sync_state/
+
+  update-readme:
+    name: 更新状态
+    needs: [check-upstream, sync-packages]
+    if: always()
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@main
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update Sync Status
+        run: |
+          # 生成同步状态报告
+          SYNC_TIME=$(date -u +"%Y-%m-%d %H:%M:%S UTC")
+          SYNC_RESULT="${{ needs.sync-packages.result }}"
+          
+          # 更新README中的同步状态
+          if [ -f "README.md" ]; then
+            # 移除旧的状态标记
+            sed -i '/<!-- SYNC_STATUS_START -->/,/<!-- SYNC_STATUS_END -->/d' README.md
+            
+            # 添加新的状态标记
+            cat >> README.md << EOF
+            
+            <!-- SYNC_STATUS_START -->
+            ## 同步状态
+            
+            **最后同步时间**: $SYNC_TIME  
+            **同步结果**: $SYNC_RESULT  
+            **上游源码**: immortalwrt/immortalwrt (master)  
+            
+            <!-- SYNC_STATUS_END -->
+            EOF
+          fi
+
+      - name: Commit Changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add README.md .sync_cache/ .sync_state/
+          git commit -m "chore: 更新同步状态 - ${{ github.run_id }}" || echo "无变更需要提交"
+          git push
