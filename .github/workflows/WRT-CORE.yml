@@ -210,15 +210,8 @@ jobs:
         run: |
           cd ./wrt/
 
-          # 使用智能同步机制
-          if [ -f "$GITHUB_WORKSPACE/Scripts/SmartSync.sh" ]; then
-            chmod +x $GITHUB_WORKSPACE/Scripts/SmartSync.sh
-            $GITHUB_WORKSPACE/Scripts/SmartSync.sh
-          else
-            # 回退到传统方式
-            ./scripts/feeds update -a
-            ./scripts/feeds install -a
-          fi
+          ./scripts/feeds update -a
+          ./scripts/feeds install -a
 
       - name: Custom Packages(自定义软件包)
         run: |
