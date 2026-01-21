@@ -81,7 +81,41 @@ if [[ $WRT_TARGET != *"X86"* ]]; then
     # - -fipa-pta ：过程间指针分析，优化指针使用
     # - -fallow-store-data-races ：允许存储操作重排序，可能提高单线程性能
     # - -funsafe-loop-optimizations ：激进的循环优化，可能改变程序行为
-    echo "CONFIG_TARGET_OPTIMIZATION="-Ofast -pipe -flto -funroll-all-loops -fpeel-loops -ftree-vectorize -fgcse-after-reload -fipa-pta -fallow-store-data-races -funsafe-loop-optimizations -march=armv8-a+crypto+crc -mcpu=cortex-a53+crypto+crc -mtune=cortex-a53"" >> ./.config
+    # echo "CONFIG_TARGET_OPTIMIZATION="-Ofast -pipe -flto -funroll-all-loops -fpeel-loops -ftree-vectorize -fgcse-after-reload -fipa-pta -fallow-store-data-races -funsafe-loop-optimizations -march=armv8-a+crypto+crc -mcpu=cortex-a53+crypto+crc -mtune=cortex-a53"" >> ./.config
+
+	# 1. **向量优化**
+	# 	- `-mprefer-vector-width=128` - 优先使用128位向量宽度，充分利用Cortex-A53的NEON单元
+	# 2. **链接与符号优化**
+	# 	- `-fno-semantic-interposition` - 禁止语义插入，减少动态链接开销
+	# 	- `-fno-plt` - 禁止使用PLT（过程链接表），提高函数调用速度
+	# 3. **浮点优化**
+	# 	- `-ffp-contract=fast` - 快速浮点收缩，允许更多浮点表达式合并
+	# 	- `-ffinite-math-only` - 假设所有浮点运算结果都是有限的
+	# 	- `-fno-signed-zeros` - 忽略有符号零，允许更多优化
+	# 	- `-fno-trapping-math` - 假设浮点运算不会产生陷阱
+	# 	- `-fassociative-math` - 允许浮点运算重新关联
+	# 	- `-freciprocal-math` - 允许使用倒数近似值
+	# 	- `-fno-rounding-math` - 忽略舍入语义
+	# 	- `-fno-math-errno` - 禁用数学错误号，减少错误检查
+	# 4. **对齐优化**
+	# 	- `-falign-functions=32` - 函数对齐到32字节
+	# 	- `-falign-labels=32` - 标签对齐到32字节
+	# 	- `-falign-loops=32` - 循环对齐到32字节
+	# 	- `-falign-jumps=32` - 跳转对齐到32字节
+	# 5. **高级优化**
+	# 	- `-fdevirtualize-at-ltrans` - 在链接时转换阶段进行去虚拟化
+	# 	- `-fipa-cp-clone` - 过程间复制传播克隆
+	# 	- `-floop-interchange` - 循环交换，优化内存访问模式
+	# 	- `-floop-unroll-and-jam` - 循环展开和合并
+	# 	- `-floop-nest-optimize` - 循环嵌套优化
+	# 	- `-fgraphite-identity` - Graphite 身份优化
+	# 	- `-fopenmp-simd` - 启用 OpenMP SIMD 支持
+	# 6. **性能与安全性权衡**
+	# 	- `-mbranch-protection=none` - 禁用分支保护（提高性能但降低安全性）
+	# 	- `-fomit-frame-pointer` - 省略帧指针，释放一个通用寄存器
+	# 	- `-fno-unwind-tables` - 禁用 unwind 表
+	# 	- `-fno-asynchronous-unwind-tables` - 禁用异步 unwind 表
+	echo "CONFIG_TARGET_OPTIMIZATION="-Ofast -pipe -flto -funroll-all-loops -fpeel-loops -ftree-vectorize -fgcse-after-reload -fipa-pta -fallow-store-data-races -funsafe-loop-optimizations -march=armv8-a+crypto+crc -mcpu=cortex-a53+crypto+crc -mtune=cortex-a53 -mprefer-vector-width=128 -fno-semantic-interposition -ffp-contract=fast -falign-functions=32 -falign-labels=32 -falign-loops=32 -falign-jumps=32 -fdevirtualize-at-ltrans -fipa-cp-clone -fno-plt -mbranch-protection=none -fomit-frame-pointer -fno-unwind-tables -fno-asynchronous-unwind-tables -ffinite-math-only -fno-signed-zeros -fno-trapping-math -fassociative-math -freciprocal-math -fno-rounding-math -fno-math-errno -floop-interchange -floop-unroll-and-jam -floop-nest-optimize -fgraphite-identity -fopenmp-simd"" >> ./.config
 fi
 
 # #修复dropbear
@@ -181,3 +215,5 @@ echo "CONFIG_PACKAGE_coreutils-date=y" >> ./.config
 # 查看在线端
 # echo "CONFIG_PACKAGE_luci-app-serverchand=y" >> ./.config
 echo "CONFIG_PACKAGE_luci-app-pushbot=y" >> ./.config
+# 主题
+echo "CONFIG_PACKAGE_luci-app-argon-config=y" >> ./.config
