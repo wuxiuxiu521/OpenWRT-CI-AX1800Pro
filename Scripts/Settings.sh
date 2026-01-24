@@ -217,3 +217,5 @@ echo "CONFIG_PACKAGE_coreutils-date=y" >> ./.config
 echo "CONFIG_PACKAGE_luci-app-pushbot=y" >> ./.config
 # 主题
 echo "CONFIG_PACKAGE_luci-app-argon-config=y" >> ./.config
+# PassWall
+echo "CONFIG_PACKAGE_luci-app-passwall=y" >> ./.config
