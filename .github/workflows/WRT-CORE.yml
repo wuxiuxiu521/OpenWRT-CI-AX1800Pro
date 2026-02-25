@@ -227,8 +227,8 @@ jobs:
             cat $GITHUB_WORKSPACE/Config/$WRT_CONFIG.txt >> .config
           else
             # cat $GITHUB_WORKSPACE/Config/$WRT_CONFIG.txt $GITHUB_WORKSPACE/Config/GENERAL.txt >> .config
+
             curl -L https://raw.githubusercontent.com/VIKINGYFY/OpenWRT-CI/main/Config/GENERAL.txt -o /tmp/GENERAL.txt && \
-            curl -L https://raw.githubusercontent.com/VIKINGYFY/OpenWRT-CI/main/Config/$WRT_CONFIG.txt -o /tmp/$WRT_CONFIG.txt && \
             # cat /tmp/$WRT_CONFIG.txt /tmp/GENERAL.txt > /workspace/.config
             cat $GITHUB_WORKSPACE/Config/$WRT_CONFIG.txt /tmp/$WRT_CONFIG.txt /tmp/GENERAL.txt >> .config
           fi
