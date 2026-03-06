@@ -155,7 +155,7 @@ git_sparse_clone main https://github.com/kiddin9/kwrt-packages natter2 luci-app-
 git_sparse_clone main https://github.com/kiddin9/kwrt-packages luci-app-dockerman luci-app-docker docker-lan-bridge dockerd
 
 # git clone --depth 1 --single-branch https://github.com/breeze303/openwrt-podman package/podman
-git clone https://github.com/Zerogiven-OpenWRT-Packages/luci-app-podman.git package/luci-app-podman
+git clone --depth 1 --single-branch https://github.com/Zerogiven-OpenWRT-Packages/luci-app-podman
 ./scripts/feeds install -a
 
 # wget "https://alist.lovelyy.eu.org/d/CloudFlareR2/immortalwrt/nginx/ngnx.conf?sign=FN_uiyymuja-Aj1z4I4Pevn3arIZXBdslq8Zjd_akdo=:0" -O ../feeds/packages/net/nginx-util/files/nginx.config
