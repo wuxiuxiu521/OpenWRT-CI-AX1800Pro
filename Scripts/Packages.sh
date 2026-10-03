@@ -130,9 +130,120 @@ function git_sparse_clone() {
 	cd .. && rm -rf $repodir
 }
 
+# # 拉取Lucky最新版的源码
+# git clone https://github.com/sirpdboy/luci-app-lucky.git package/lucky
+# # git clone https://github.com/gdy666/luci-app-lucky package/lucky
 # 拉取Lucky最新版的源码
-git clone https://github.com/sirpdboy/luci-app-lucky.git package/lucky
-# git clone https://github.com/gdy666/luci-app-lucky package/lucky
+UPDATE_LUCKY() {
+	local LUCKY_REPO="https://github.com/gdy666/luci-app-lucky.git"
+	local LUCKY_RELEASE_ROOT="https://release.66666.host"
+	local PACKAGE_DIR
+	local TMP_DIR
+	local RELEASE_INDEX
+	local CANDIDATE_TAG
+	local CANDIDATE_BASE
+	local CANDIDATE_URL
+	local LUCKY_BETA_TAG
+	local LUCKY_BINARY_VERSION
+	local LUCKY_PACKAGE_VERSION
+	local LUCKY_MAKEFILE
+
+	PACKAGE_DIR=$(PACKAGE_WORK_DIR)
+	LUCKY_MAKEFILE="$PACKAGE_DIR/lucky/Makefile"
+
+	if ! command -v jq >/dev/null 2>&1; then
+		echo "jq is required to resolve the latest Lucky beta" >&2
+		return 1
+	fi
+
+	if ! RELEASE_INDEX=$(curl --retry 3 --retry-all-errors --connect-timeout 15 --max-time 60 \
+		-fsSL -H "Accept: application/json" "$LUCKY_RELEASE_ROOT/"); then
+		echo "Failed to fetch Lucky releases from $LUCKY_RELEASE_ROOT" >&2
+		return 1
+	fi
+
+	while IFS= read -r CANDIDATE_TAG; do
+		if [[ "$CANDIDATE_TAG" =~ ^v([0-9]+\.[0-9]+\.[0-9]+)beta[0-9]+$ ]]; then
+			CANDIDATE_BASE="${BASH_REMATCH[1]}"
+		else
+			continue
+		fi
+
+		CANDIDATE_URL="$LUCKY_RELEASE_ROOT/$CANDIDATE_TAG/${CANDIDATE_BASE}_lucky_docker/lucky_${CANDIDATE_BASE}_Linux_arm64_lucky_docker.tar.gz"
+		if curl --retry 3 --retry-all-errors --connect-timeout 15 --max-time 60 -fsIL "$CANDIDATE_URL" >/dev/null; then
+			LUCKY_BETA_TAG="$CANDIDATE_TAG"
+			LUCKY_BINARY_VERSION="$CANDIDATE_BASE"
+			break
+		fi
+	done < <(
+		printf '%s' "$RELEASE_INDEX" |
+			jq -r '.[] | select((.is_dir == true) and (.name | test("^v[0-9]+\\.[0-9]+\\.[0-9]+beta[0-9]+$"))) | .name' |
+			sort -Vr
+	)
+
+	if [ -z "$LUCKY_BETA_TAG" ]; then
+		echo "No usable Lucky beta Docker release was found" >&2
+		return 1
+	fi
+
+	LUCKY_PACKAGE_VERSION="${LUCKY_BETA_TAG#v}"
+	# apk-tools requires prerelease suffixes such as beta to use an underscore.
+	LUCKY_PACKAGE_VERSION="${LUCKY_PACKAGE_VERSION/beta/_beta}"
+	echo "Latest Lucky beta: $LUCKY_PACKAGE_VERSION"
+
+	echo "Pull latest lucky from $LUCKY_REPO"
+	rm -rf "$PACKAGE_DIR/lucky" "$PACKAGE_DIR/luci-app-lucky"
+	find ../feeds/luci ../feeds/packages ./feeds/luci ./feeds/packages \
+		-maxdepth 4 -type d \( -name "lucky" -o -name "luci-app-lucky" \) \
+		-prune -exec rm -rf {} + 2>/dev/null || true
+
+	TMP_DIR=$(mktemp -d)
+	if ! git clone --depth=1 --filter=blob:none --no-checkout "$LUCKY_REPO" "$TMP_DIR"; then
+		rm -rf "$TMP_DIR"
+		return 1
+	fi
+
+	if ! (
+		cd "$TMP_DIR" || exit 1
+		git sparse-checkout init --cone
+		git sparse-checkout set luci-app-lucky lucky
+		git checkout --quiet
+	); then
+		rm -rf "$TMP_DIR"
+		return 1
+	fi
+
+	cp -rf "$TMP_DIR/luci-app-lucky" "$PACKAGE_DIR/luci-app-lucky"
+	cp -rf "$TMP_DIR/lucky" "$PACKAGE_DIR/lucky"
+	rm -rf "$TMP_DIR"
+
+	if [ ! -f "$LUCKY_MAKEFILE" ]; then
+		echo "Lucky Makefile not found at $LUCKY_MAKEFILE" >&2
+		return 1
+	fi
+
+	sed -i \
+		-e "s/^PKG_VERSION:=.*/PKG_VERSION:=$LUCKY_PACKAGE_VERSION/" \
+		-e '/^PKG_RELEASE:=/a LUCKY_DOCKER_ARCHS:=arm64 armv7 i386 x86_64' \
+		-e '/^PKG_RELEASE:=/a LUCKY_RELEASE_VARIANT=$(if $(filter $(LUCKY_ARCH),$(LUCKY_DOCKER_ARCHS)),lucky_docker,lucky)' \
+		-e '/^PKG_RELEASE:=/a LUCKY_RELEASE_SUFFIX=$(if $(filter $(LUCKY_ARCH),$(LUCKY_DOCKER_ARCHS)),_lucky_docker)' \
+		-e "s|https://github.com/gdy666/lucky/releases/download/[^ ]*|$LUCKY_RELEASE_ROOT/$LUCKY_BETA_TAG/${LUCKY_BINARY_VERSION}_\$(LUCKY_RELEASE_VARIANT)/lucky_${LUCKY_BINARY_VERSION}_Linux_\$(LUCKY_ARCH)\$(LUCKY_RELEASE_SUFFIX).tar.gz|" \
+		"$LUCKY_MAKEFILE"
+
+	if ! grep -Fq "PKG_VERSION:=$LUCKY_PACKAGE_VERSION" "$LUCKY_MAKEFILE" ||
+		! grep -Fq 'LUCKY_DOCKER_ARCHS:=arm64 armv7 i386 x86_64' "$LUCKY_MAKEFILE" ||
+		! grep -Fq "$LUCKY_RELEASE_ROOT/$LUCKY_BETA_TAG/${LUCKY_BINARY_VERSION}_\$(LUCKY_RELEASE_VARIANT)/lucky_${LUCKY_BINARY_VERSION}_Linux_\$(LUCKY_ARCH)\$(LUCKY_RELEASE_SUFFIX).tar.gz" "$LUCKY_MAKEFILE"; then
+		echo "Failed to update Lucky Makefile for $LUCKY_PACKAGE_VERSION" >&2
+		return 1
+	fi
+
+	if [ -f "$PACKAGE_DIR/lucky/files/luckyuci" ]; then
+		sed -i "s/option enabled '1'/option enabled '0'/g" "$PACKAGE_DIR/lucky/files/luckyuci"
+		sed -i "s/option logger '1'/option logger '0'/g" "$PACKAGE_DIR/lucky/files/luckyuci"
+	fi
+}
+
+UPDATE_LUCKY || exit 1
 
 #删除官方的默认插件
 # rm -rf ../feeds/luci/applications/luci-app-{passwall*,mosdns,dockerman,dae*,bypass*}
