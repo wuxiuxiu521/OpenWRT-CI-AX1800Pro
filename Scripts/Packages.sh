@@ -323,98 +323,7 @@ UPDATE_LANSPEED() {
 	rm -rf "$TMP_DIR"
 }
 
-# 拉取Lucky最新版的源码，并选择体积更小的正式核心
-LUCKY_VERSION_GREATER() {
-	local NEW_TAG=$1
-	local OLD_TAG=$2
-	local NEW_VERSION
-	local OLD_VERSION
-	local NEW_BASE
-	local OLD_BASE
-	local NEW_BETA=0
-	local OLD_BETA=0
-	local NEW_PARTS
-	local OLD_PARTS
-	local INDEX
-
-	NEW_VERSION="${NEW_TAG#v}"
-	OLD_VERSION="${OLD_TAG#v}"
-	NEW_BASE="${NEW_VERSION%beta*}"
-	OLD_BASE="${OLD_VERSION%beta*}"
-	if [[ "$NEW_VERSION" == *beta* ]]; then
-		NEW_BETA="${NEW_VERSION##*beta}"
-		: "${NEW_BETA:=0}"
-	fi
-	if [[ "$OLD_VERSION" == *beta* ]]; then
-		OLD_BETA="${OLD_VERSION##*beta}"
-		: "${OLD_BETA:=0}"
-	fi
-
-	IFS='.' read -r -a NEW_PARTS <<<"$NEW_BASE"
-	IFS='.' read -r -a OLD_PARTS <<<"$OLD_BASE"
-	if ((${#NEW_PARTS[@]} != 3 || ${#OLD_PARTS[@]} != 3)); then
-		return 1
-	fi
-
-	# vA.B.C must be compared as three numeric fields, never as text.
-	for INDEX in 0 1 2; do
-		if ((10#${NEW_PARTS[$INDEX]:-0} > 10#${OLD_PARTS[$INDEX]:-0})); then
-			return 0
-		fi
-		if ((10#${NEW_PARTS[$INDEX]:-0} < 10#${OLD_PARTS[$INDEX]:-0})); then
-			return 1
-		fi
-	done
-
-	# Only use the beta serial to break a tie between identical A.B.C values.
-	((10#${NEW_BETA} > 10#${OLD_BETA}))
-}
-
-LUCKY_CONTENT_LENGTH() {
-	local URL=$1
-	local HEADERS
-
-	if ! HEADERS=$(curl --retry 3 --retry-all-errors --connect-timeout 15 --max-time 60 -fsIL "$URL"); then
-		return 1
-	fi
-
-	printf '%s\n' "$HEADERS" | awk 'tolower($1) == "content-length:" {
-		gsub(/\r/, "", $2)
-		VALUE=$2
-	} END {
-		if (VALUE != "") print VALUE
-	}'
-}
-
-LUCKY_SELECT_VARIANT() {
-	local TAG=$1
-	local VERSION=$2
-	local NORMAL_URL
-	local DOCKER_URL
-	local NORMAL_SIZE
-	local DOCKER_SIZE
-
-	NORMAL_URL="$LUCKY_RELEASE_ROOT/$TAG/${VERSION}_lucky/lucky_${VERSION}_Linux_arm64.tar.gz"
-	DOCKER_URL="$LUCKY_RELEASE_ROOT/$TAG/${VERSION}_lucky_docker/lucky_${VERSION}_Linux_arm64_lucky_docker.tar.gz"
-	NORMAL_SIZE=$(LUCKY_CONTENT_LENGTH "$NORMAL_URL") || NORMAL_SIZE=""
-	DOCKER_SIZE=$(LUCKY_CONTENT_LENGTH "$DOCKER_URL") || DOCKER_SIZE=""
-
-	if [[ -n "$NORMAL_SIZE" && -n "$DOCKER_SIZE" ]]; then
-		if ((NORMAL_SIZE <= DOCKER_SIZE)); then
-			printf '%s %s\n' "lucky" "$NORMAL_SIZE"
-		else
-			printf '%s %s\n' "lucky_docker" "$DOCKER_SIZE"
-		fi
-	elif [[ -n "$NORMAL_SIZE" ]]; then
-		printf '%s %s\n' "lucky" "$NORMAL_SIZE"
-	elif [[ -n "$DOCKER_SIZE" ]]; then
-		printf '%s %s\n' "lucky_docker" "$DOCKER_SIZE"
-	else
-		echo "No usable Lucky arm64 binary was found for $TAG" >&2
-		return 1
-	fi
-}
-
+# 拉取Lucky最新版源码，固定使用lucky_docker版本
 UPDATE_LUCKY() {
 	local LUCKY_REPO="https://github.com/gdy666/luci-app-lucky.git"
 	local LUCKY_RELEASE_ROOT="https://release.66666.host"
@@ -422,12 +331,14 @@ UPDATE_LUCKY() {
 	local TMP_DIR
 	local RELEASE_INDEX
 	local CANDIDATE_TAG
+	local CANDIDATE_PARTS
+	local BEST_VERSION_PARTS=(0 0 0 0)
+	local CANDIDATE_IS_NEWER
+	local INDEX
 	local LUCKY_BETA_TAG
 	local LUCKY_BINARY_VERSION
 	local LUCKY_PACKAGE_VERSION
-	local LUCKY_VARIANT
-	local LUCKY_VARIANT_SIZE
-	local LUCKY_RELEASE_SUFFIX
+	local LUCKY_DOCKER_URL
 	local LUCKY_MAKEFILE
 
 	PACKAGE_DIR=$(PACKAGE_WORK_DIR)
@@ -445,11 +356,28 @@ UPDATE_LUCKY() {
 	fi
 
 	while IFS= read -r CANDIDATE_TAG; do
-		# Accept both beta and betaN; the current release is v3.1.2beta.
-		if [[ "$CANDIDATE_TAG" =~ ^v([0-9]+)\.([0-9]+)\.([0-9]+)beta[0-9]*$ ]] &&
-			{ [[ -z "$LUCKY_BETA_TAG" ]] || LUCKY_VERSION_GREATER "$CANDIDATE_TAG" "$LUCKY_BETA_TAG"; }; then
-			LUCKY_BETA_TAG="$CANDIDATE_TAG"
-			LUCKY_BINARY_VERSION="${BASH_REMATCH[1]}.${BASH_REMATCH[2]}.${BASH_REMATCH[3]}"
+		if [[ "$CANDIDATE_TAG" =~ ^v([0-9]+)\.([0-9]+)\.([0-9]+)beta([0-9]*)$ ]]; then
+			CANDIDATE_PARTS=("${BASH_REMATCH[1]}" "${BASH_REMATCH[2]}" "${BASH_REMATCH[3]}" "${BASH_REMATCH[4]:-0}")
+			CANDIDATE_IS_NEWER=false
+
+			if [[ -z "$LUCKY_BETA_TAG" ]]; then
+				CANDIDATE_IS_NEWER=true
+			else
+				for INDEX in 0 1 2 3; do
+					if ((10#${CANDIDATE_PARTS[$INDEX]} > 10#${BEST_VERSION_PARTS[$INDEX]})); then
+						CANDIDATE_IS_NEWER=true
+						break
+					fi
+					if ((10#${CANDIDATE_PARTS[$INDEX]} < 10#${BEST_VERSION_PARTS[$INDEX]})); then
+						break
+					fi
+				done
+			fi
+
+			if [[ "$CANDIDATE_IS_NEWER" == true ]]; then
+				LUCKY_BETA_TAG="$CANDIDATE_TAG"
+				BEST_VERSION_PARTS=("${CANDIDATE_PARTS[@]}")
+			fi
 		fi
 	done < <(
 		printf '%s' "$RELEASE_INDEX" |
@@ -461,19 +389,17 @@ UPDATE_LUCKY() {
 		return 1
 	fi
 
-	if ! read -r LUCKY_VARIANT LUCKY_VARIANT_SIZE < <(LUCKY_SELECT_VARIANT "$LUCKY_BETA_TAG" "$LUCKY_BINARY_VERSION"); then
+	LUCKY_BINARY_VERSION="${BEST_VERSION_PARTS[0]}.${BEST_VERSION_PARTS[1]}.${BEST_VERSION_PARTS[2]}"
+	LUCKY_DOCKER_URL="$LUCKY_RELEASE_ROOT/$LUCKY_BETA_TAG/${LUCKY_BINARY_VERSION}_lucky_docker/lucky_${LUCKY_BINARY_VERSION}_Linux_arm64_lucky_docker.tar.gz"
+	if ! curl --retry 3 --retry-all-errors --connect-timeout 15 --max-time 60 -fsIL "$LUCKY_DOCKER_URL" >/dev/null; then
+		echo "Lucky Docker release not found: $LUCKY_DOCKER_URL" >&2
 		return 1
-	fi
-	if [[ "$LUCKY_VARIANT" == "lucky_docker" ]]; then
-		LUCKY_RELEASE_SUFFIX="_lucky_docker"
-	else
-		LUCKY_RELEASE_SUFFIX=""
 	fi
 
 	LUCKY_PACKAGE_VERSION="${LUCKY_BETA_TAG#v}"
-	# apk-tools requires prerelease suffixes such as beta to use an underscore.
+	# apk-tools要求beta这类预发布后缀使用下划线。
 	LUCKY_PACKAGE_VERSION="${LUCKY_PACKAGE_VERSION/beta/_beta}"
-	echo "Latest Lucky beta: $LUCKY_PACKAGE_VERSION ($LUCKY_VARIANT, ${LUCKY_VARIANT_SIZE} bytes)"
+	echo "Latest Lucky beta: $LUCKY_PACKAGE_VERSION (lucky_docker)"
 
 	echo "Pull latest lucky from $LUCKY_REPO"
 	rm -rf "$PACKAGE_DIR/lucky" "$PACKAGE_DIR/luci-app-lucky"
@@ -508,13 +434,13 @@ UPDATE_LUCKY() {
 
 	sed -i \
 		-e "s|^PKG_VERSION:=.*|PKG_VERSION:=$LUCKY_PACKAGE_VERSION|" \
-		-e "s|^PKG_SOURCE:=.*|PKG_SOURCE:=lucky_${LUCKY_BINARY_VERSION}_Linux_\$(LUCKY_ARCH)${LUCKY_RELEASE_SUFFIX}.tar.gz|" \
-		-e "s|^PKG_SOURCE_URL:=.*|PKG_SOURCE_URL:=$LUCKY_RELEASE_ROOT/$LUCKY_BETA_TAG/${LUCKY_BINARY_VERSION}_${LUCKY_VARIANT}|" \
+		-e "s|^PKG_SOURCE:=.*|PKG_SOURCE:=lucky_${LUCKY_BINARY_VERSION}_Linux_\$(LUCKY_ARCH)_lucky_docker.tar.gz|" \
+		-e "s|^PKG_SOURCE_URL:=.*|PKG_SOURCE_URL:=$LUCKY_RELEASE_ROOT/$LUCKY_BETA_TAG/${LUCKY_BINARY_VERSION}_lucky_docker|" \
 		"$LUCKY_MAKEFILE"
 
 	if ! grep -Fq "PKG_VERSION:=$LUCKY_PACKAGE_VERSION" "$LUCKY_MAKEFILE" ||
-		! grep -Fq "PKG_SOURCE:=lucky_${LUCKY_BINARY_VERSION}_Linux_\$(LUCKY_ARCH)${LUCKY_RELEASE_SUFFIX}.tar.gz" "$LUCKY_MAKEFILE" ||
-		! grep -Fq "PKG_SOURCE_URL:=$LUCKY_RELEASE_ROOT/$LUCKY_BETA_TAG/${LUCKY_BINARY_VERSION}_${LUCKY_VARIANT}" "$LUCKY_MAKEFILE"; then
+		! grep -Fq "PKG_SOURCE:=lucky_${LUCKY_BINARY_VERSION}_Linux_\$(LUCKY_ARCH)_lucky_docker.tar.gz" "$LUCKY_MAKEFILE" ||
+		! grep -Fq "PKG_SOURCE_URL:=$LUCKY_RELEASE_ROOT/$LUCKY_BETA_TAG/${LUCKY_BINARY_VERSION}_lucky_docker" "$LUCKY_MAKEFILE"; then
 		echo "Failed to update Lucky Makefile for $LUCKY_PACKAGE_VERSION" >&2
 		return 1
 	fi
