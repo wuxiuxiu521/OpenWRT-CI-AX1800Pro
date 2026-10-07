@@ -370,17 +370,83 @@ LUCKY_VERSION_GREATER() {
   fi
 }
 
+# Map the selected OpenWrt target onto the prebuilt Lucky archive arch.
+# Lucky publishes lucky_<ver>_Linux_<arch>_lucky_docker.tar.gz per release for
+# x86_64 / arm64 / armv7 / i386; pick whichever matches this build.  WRT_TARGET
+# and WRT_CONFIG come from WRT-CORE.yml, the config fragment lives at
+# $GITHUB_WORKSPACE/Config/$WRT_CONFIG.txt, and the source tree is already
+# cloned when Packages.sh runs, so target/linux/<target>/Makefile can be read.
+LUCKY_RESOLVE_ARCH() {
+  local wrt_config_file="${GITHUB_WORKSPACE:-.}/Config/${WRT_CONFIG:-}.txt"
+  local target="${WRT_TARGET:-}"
+  local subtarget=""
+  local arch=""
+
+  if [ -z "$target" ] && [ -f "$wrt_config_file" ]; then
+    target=$(LC_ALL=C.UTF-8 grep -m1 -oP '^CONFIG_TARGET_\K\w+(?==y)' "$wrt_config_file")
+  fi
+  if [ -z "$target" ]; then
+    echo "[packages] cannot resolve Lucky arch: WRT_TARGET is empty" >&2
+    return 1
+  fi
+
+  if [ -f "$wrt_config_file" ]; then
+    subtarget=$(LC_ALL=C.UTF-8 grep -m1 -oP "^CONFIG_TARGET_${target}_\\K[A-Za-z0-9]+(?==y)" "$wrt_config_file")
+  fi
+
+  # x86 keeps ARCH:=i386 at target level; the real bitness is the subtarget.
+  if [ "$target" = "x86" ]; then
+    if [ "$subtarget" = "64" ] || [ -z "$subtarget" ]; then
+      echo x86_64
+    else
+      echo i386
+    fi
+    return 0
+  fi
+
+  # 32-bit ARM subtargets that can sit below an otherwise aarch64 target.
+  case "$subtarget" in
+    armv7|ipq40xx|ipq806x|mt7622|mt7623|mt7629)
+      echo armv7
+      return 0
+      ;;
+  esac
+
+  arch=$(LC_ALL=C.UTF-8 grep -m1 -oP '^ARCH[[:space:]]*:?=[[:space:]]*\K\S+' \
+    "$OPENWRT_ROOT/target/linux/$target/Makefile" 2>/dev/null || true)
+  case "$arch" in
+    aarch64|arm64) echo arm64; return 0 ;;
+    arm)           echo armv7; return 0 ;;
+    x86_64|amd64)  echo x86_64; return 0 ;;
+    i386|i686|x86) echo i386;  return 0 ;;
+  esac
+
+  # Fallback for the targets this repository builds if metadata is missing.
+  case "$target" in
+    rockchip|mediatek|qualcommax|qualcommbe|armsr|layerscape|bcm4908)
+      echo arm64
+      return 0
+      ;;
+  esac
+
+  echo "[packages] cannot map target '$target' (subtarget '${subtarget:-none}', ARCH '${arch:-unknown}') to a Lucky archive arch" >&2
+  return 1
+}
+
 UPDATE_LUCKY() {
   local lucky_repo="https://github.com/gdy666/luci-app-lucky.git"
   local lucky_release_root="https://release.66666.host"
-  local package_dir="./package"
+  local package_dir
   local tmp_dir release_index candidate_tag
   local release_dir_index release_file_index
   local lucky_beta_tag="" lucky_package_version=""
   local lucky_docker_dir="" lucky_docker_file="" lucky_binary_version=""
   local lucky_docker_url=""
   local lucky_makefile=""
+  local lucky_arch
 
+  package_dir=$(PACKAGE_WORK_DIR)
+  lucky_arch=$(LUCKY_RESOLVE_ARCH) || return 1
   lucky_makefile="$package_dir/lucky/Makefile"
   command -v jq >/dev/null 2>&1 || {
     echo "[packages] jq is required to resolve the latest Lucky release" >&2
@@ -432,15 +498,15 @@ UPDATE_LUCKY() {
     echo "[packages] failed to list Lucky directory: $lucky_docker_dir" >&2
     return 1
   fi
-  lucky_docker_file=$(printf '%s' "$release_file_index" | jq -r '
+  lucky_docker_file=$(printf '%s' "$release_file_index" | jq -r --arg arch "$lucky_arch" '
     [.[] | select(
       .is_dir == false and
-      (.name | test("^lucky_[0-9]+\\.[0-9]+\\.[0-9]+_Linux_x86_64_lucky_docker\\.tar\\.gz$"))
+      (.name | test("^lucky_[0-9]+\\.[0-9]+\\.[0-9]+_Linux_" + $arch + "_lucky_docker\\.tar\\.gz$"))
     ) | .name] | unique |
     if length == 1 then .[0] else empty end
   ')
-  [[ "$lucky_docker_file" =~ ^lucky_([0-9]+\.[0-9]+\.[0-9]+)_Linux_x86_64_lucky_docker\.tar\.gz$ ]] || {
-    echo "[packages] no unique Lucky x86_64 lucky_docker archive in $lucky_docker_dir" >&2
+  [[ "$lucky_docker_file" =~ ^lucky_([0-9]+\.[0-9]+\.[0-9]+)_Linux_${lucky_arch}_lucky_docker\.tar\.gz$ ]] || {
+    echo "[packages] no unique Lucky $lucky_arch lucky_docker archive in $lucky_docker_dir" >&2
     return 1
   }
   lucky_binary_version="${BASH_REMATCH[1]}"
@@ -448,16 +514,16 @@ UPDATE_LUCKY() {
 
   curl --retry 3 --retry-all-errors --connect-timeout 15 --max-time 60 \
     -fsIL "$lucky_docker_url" >/dev/null || {
-    echo "[packages] Lucky x86_64 lucky_docker release not found: $lucky_docker_url" >&2
+    echo "[packages] Lucky $lucky_arch lucky_docker release not found: $lucky_docker_url" >&2
     return 1
   }
 
   lucky_package_version="${lucky_beta_tag#v}"
   lucky_package_version="${lucky_package_version/beta/_beta}"
-  echo "[packages] latest Lucky release: $lucky_package_version ($lucky_docker_url)"
+  echo "[packages] latest Lucky release: $lucky_package_version [$lucky_arch] ($lucky_docker_url)"
 
   rm -rf "$package_dir/lucky" "$package_dir/luci-app-lucky"
-  find ./feeds/luci ./feeds/packages -maxdepth 4 -type d \
+  find "$OPENWRT_ROOT/feeds/luci" "$OPENWRT_ROOT/feeds/packages" -maxdepth 4 -type d \
     \( -name lucky -o -name luci-app-lucky \) \
     -prune -exec rm -rf {} + 2>/dev/null || true
 
